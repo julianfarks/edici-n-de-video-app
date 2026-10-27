@@ -77,15 +77,18 @@ class SubtitlesInstrumentedTest {
         }
         val fa = frame(a)
         val fb = frame(b)
-        var sum = 0.0
+        // Percentage of pixels in the bottom third that changed strongly. Text is high contrast;
+        // H.264 noise between two encodes of the same picture is small, so it barely registers.
+        var strong = 0
         var n = 0
-        for (y in fa.height * 2 / 3 until fa.height step 3) for (x in 0 until fa.width step 3) {
+        for (y in fa.height * 2 / 3 until fa.height step 2) for (x in 0 until fa.width step 2) {
             val ca = fa.getPixel(x, y)
             val cb = fb.getPixel(x, y)
-            sum += (abs(Color.red(ca) - Color.red(cb)) + abs(Color.green(ca) - Color.green(cb)) + abs(Color.blue(ca) - Color.blue(cb))) / 3.0
+            val d = (abs(Color.red(ca) - Color.red(cb)) + abs(Color.green(ca) - Color.green(cb)) + abs(Color.blue(ca) - Color.blue(cb))) / 3.0
+            if (d > 60.0) strong++
             n++
         }
-        return sum / n
+        return 100.0 * strong / n
     }
 
     @Test
@@ -145,7 +148,7 @@ class SubtitlesInstrumentedTest {
         val dSub = bottomDiff(withSubs, without, mid)
         val dGap = bottomDiff(withSubs, without, gap)
         println("DIFF at cue=$dSub in the silence=$dGap")
-        assertTrue("subtitles not burnt in at ${mid}us: diff $dSub", dSub > 4.0)
-        assertTrue("something drawn where there is no cue: diff $dGap", dGap < dSub / 2)
+        assertTrue("subtitles not burnt in at ${mid}us: ${dSub}% of pixels changed", dSub > 0.4)
+        assertTrue("something drawn where there is no cue: ${dGap}% vs ${dSub}%", dGap < dSub / 3)
     }
 }
