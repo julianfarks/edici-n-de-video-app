@@ -13,12 +13,18 @@ autosave/recovery, export pipeline, settings, English and Spanish.
 ### Verified
 - Pure logic (timeline operations, undo/redo, project codec and migration, keyframes/easing,
   export maths, file-name sanitising, snapping) by JVM unit tests in CI.
-- The app compiles and the APK is produced by GitHub Actions (see the workflow runs).
+- The app compiles and the APK is produced by GitHub Actions (45 JVM unit tests pass).
+- Real export on an Android 13 emulator (CI, `instrumented.yml`): a still with a filter and a text
+  layer, and a video split in two with the second half at 2x speed, both exported through the
+  Transformer pipeline to MP4; the result's duration, resolution, audio track and a decodable
+  frame were checked. Missing-source and empty-project exports fail with the right error.
 
 ### Not verified
-- Behaviour on a real device or emulator: gestures, GPU effects, preview/export parity,
-  audio sync, export of long or 4K projects. An instrumented export test exists
-  (`app/src/androidTest`) but has not been run in CI yet.
+- The interface itself (Compose screens, timeline gestures, pinch zoom, trim handles) has not been
+  exercised by any automated UI test or by the author on a device.
+- Live preview (CompositionPlayer) and preview/export visual parity.
+- Individual effects/transitions/filters were exported only through the code path, not inspected
+  frame by frame. Export of long, 4K or 60 fps projects and audio-lane mixing are untested.
 - Performance on low-end devices.
 
 ### Known limitations
@@ -32,5 +38,5 @@ autosave/recovery, export pipeline, settings, English and Spanish.
 - Export is H.264/AAC only; 4K/60 depends on the device encoder.
 
 ### Next
-Run the instrumented test on an emulator in CI, profile the timeline on low-end devices, speed
+Add UI tests (Compose) and frame-level export checks, profile the timeline on low-end devices, speed
 curves, picture-in-picture video layer, captions.
