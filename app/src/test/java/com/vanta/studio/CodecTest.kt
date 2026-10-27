@@ -73,3 +73,23 @@ class CodecTest {
         assertEquals(null, ProjectCodec.peekName("garbage"))
     }
 }
+
+class CodecNewFieldsTest {
+    @org.junit.Test
+    fun newProjectFieldsSurviveRoundTripAndOldFilesStillLoad() {
+        val p = TestData.project(TestData.video("a")).copy(
+            fx = listOf(com.vanta.studio.domain.model.FxEvent("f", com.vanta.studio.domain.model.FxType.GLITCH, 1, 500_000)),
+            markers = listOf(3L, 1L),
+            subtitles = com.vanta.studio.domain.model.SubtitleTrack(
+                cues = listOf(com.vanta.studio.domain.model.Cue("c", 0, 1_000_000, "hola", listOf(com.vanta.studio.domain.model.SubWord("hola", 0, 900_000)))),
+            ),
+        )
+        val back = ProjectCodec.decode(ProjectCodec.encode(p))
+        assertEquals(p.fx, back.fx)
+        assertEquals(listOf(1L, 3L), back.markers) // sanitised: sorted
+        assertEquals(p.subtitles, back.subtitles)
+        // a version-2 file without any of the new keys
+        val v2 = ProjectCodec.encode(TestData.project(TestData.video("a"))).replace(""formatVersion":3", ""formatVersion":2")
+        assertEquals("p1", ProjectCodec.decode(v2).id)
+    }
+}

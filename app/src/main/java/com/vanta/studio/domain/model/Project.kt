@@ -25,9 +25,18 @@ data class Project(
     val overlays: List<OverlayLayer> = emptyList(),
     /** Fade applied to the end of the last clip (fade to black / white...). */
     val outro: TransitionRef? = null,
+    /** Light/flash events drawn over the whole composition. */
+    val fx: List<FxEvent> = emptyList(),
+    /** Rhythm analysis of one timeline item; beats are shown as markers on the timeline. */
+    val beat: BeatSource? = null,
+    /** Manual timeline markers (sync points the user placed by hand). */
+    val markers: List<Long> = emptyList(),
+    val subtitles: SubtitleTrack? = null,
+    /** Id of the editing template that was applied, if any. */
+    val templateId: String? = null,
 ) {
     companion object {
-        const val CURRENT_FORMAT_VERSION = 2
+        const val CURRENT_FORMAT_VERSION = 3
     }
 }
 

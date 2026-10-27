@@ -58,6 +58,7 @@ object ProjectCodec {
         while (v < Project.CURRENT_FORMAT_VERSION) {
             obj = when (v) {
                 1 -> migrate1to2(obj)
+                // 2 -> 3 only adds optional fields (fx, beat, markers, subtitles, templateId).
                 else -> obj
             }
             v++
@@ -90,6 +91,12 @@ object ProjectCodec {
             .map { it.copy(lane = it.lane.coerceIn(0, AudioClip.MAX_LANES - 1)) },
         texts = p.texts.filter { it.durationUs > 0 },
         overlays = p.overlays.filter { it.durationUs > 0 },
+        fx = p.fx.filter { it.durationUs > 0 && it.startUs >= 0 }
+            .map { it.copy(intensity = it.intensity.coerceIn(0f, 2f), peak = it.peak.coerceIn(0f, 0.9f)) },
+        markers = p.markers.filter { it >= 0 }.distinct().sorted(),
+        subtitles = p.subtitles?.let { t ->
+            t.copy(cues = t.cues.filter { it.endUs > it.startUs && it.startUs >= 0 }.sortedBy { it.startUs })
+        },
     )
 
     /** Reads only what the project list needs, tolerating partially broken files. */
