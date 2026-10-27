@@ -9,6 +9,7 @@ import com.vanta.studio.domain.fx.FxAutoSync
 import com.vanta.studio.domain.fx.FxOps
 import com.vanta.studio.domain.model.BeatSource
 import com.vanta.studio.domain.model.FxType
+import com.vanta.studio.domain.subtitles.SubtitleOps
 import com.vanta.studio.data.MediaImporter
 import com.vanta.studio.engine.asr.CloudEngine
 import com.vanta.studio.engine.asr.SpeechEngine
@@ -38,6 +39,10 @@ data class AiState(
     /** Number of flashes the last auto-sync added, shown as feedback. */
     val lastAutoCount: Int? = null,
     val cloudConfigured: Boolean = false,
+    /** Minimum strength for a transient to count as a strong hit (the sensitivity control). */
+    val hitThreshold: Float = 0.5f,
+    /** Set when a subtitle run has just finished, so the UI can move to the editor. */
+    val lastSubtitleCount: Int? = null,
 )
 
 /**
@@ -56,6 +61,15 @@ class AiController(
     private var job: Job? = null
 
     val busy: Boolean get() = _state.value.job != null
+
+    fun setHitThreshold(v: Float) = _state.update { it.copy(hitThreshold = v.coerceIn(0.05f, 0.95f)) }
+
+    fun deleteCue(id: String) {
+        vm.mutate { p -> p.copy(subtitles = p.subtitles?.let { SubtitleOps.delete(it, id) }) }
+        vm.select(Selection.None)
+    }
+
+    fun consumeSubtitleResult() = _state.update { it.copy(lastSubtitleCount = null) }
 
     fun dismissError() = _state.update { it.copy(error = null) }
 
@@ -191,6 +205,7 @@ class AiController(
                 fail(R.string.ai_err_no_speech, null)
             } else {
                 vm.mutate { it.copy(subtitles = track) }
+                _state.update { it.copy(lastSubtitleCount = track.cues.size) }
             }
         }
     }

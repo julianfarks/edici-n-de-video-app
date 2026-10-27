@@ -117,7 +117,7 @@ private fun PresetTile(preset: TextPreset, sample: String, label: String, onClic
 
 private enum class StyleTab { FONT, COLOR, STYLE, SPACING }
 
-private fun fontLabel(f: FontChoice): String =
+internal fun fontLabel(f: FontChoice): String =
     f.name.lowercase().split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }
 
 @Composable
@@ -263,7 +263,7 @@ private fun SwitchRow(label: String, checked: Boolean, onToggle: () -> Unit) {
 // ============================================================================== animation
 
 @Composable
-private fun animName(a: LayerAnim) = stringResource(
+internal fun animName(a: LayerAnim) = stringResource(
     when (a) {
         LayerAnim.NONE -> R.string.anim_none
         LayerAnim.FADE -> R.string.anim_fade

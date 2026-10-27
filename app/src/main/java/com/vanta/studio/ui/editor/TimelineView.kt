@@ -74,6 +74,11 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.compose.material.icons.rounded.FlashOn
+import androidx.compose.material.icons.rounded.Subtitles
+import com.vanta.studio.domain.audio.BeatMapping
+import com.vanta.studio.domain.fx.FxLibrary
+import com.vanta.studio.domain.fx.FxCategory
 import com.vanta.studio.data.Thumbnails
 import com.vanta.studio.data.Waveforms
 import com.vanta.studio.domain.model.AudioClip
@@ -114,6 +119,10 @@ class TimelineCallbacks(
     val onTrimLayer: (id: String, startUs: Long?, endUs: Long?) -> Unit,
     val onMoveAudio: (id: String, startUs: Long) -> Unit,
     val onTrimAudio: (id: String, startUs: Long?, endUs: Long?) -> Unit,
+    val onMoveFx: (id: String, startUs: Long) -> Unit,
+    val onTrimFx: (id: String, startUs: Long?, endUs: Long?) -> Unit,
+    val onMoveCue: (id: String, startUs: Long) -> Unit,
+    val onTrimCue: (id: String, startUs: Long?, endUs: Long?) -> Unit,
     val onGestureEnd: () -> Unit,
     val onTransitionTap: (clipId: String) -> Unit,
     val onAddMedia: () -> Unit,
@@ -144,6 +153,7 @@ fun TimelineView(
     positionUs: Long,
     missing: Set<String>,
     snapEnabled: Boolean,
+    hitThreshold: Float,
     thumbs: Thumbnails,
     waveforms: Waveforms,
     callbacks: TimelineCallbacks,
@@ -209,6 +219,7 @@ fun TimelineView(
                     project.overlays.map { Triple(it.id, it.startUs, it.endUs) },
             )
         }
+        val fxLanes = remember(project.fx) { assignLanes(project.fx.map { Triple(it.id, it.startUs, it.endUs) }) }
         val layerLaneCount = (laneItems.maxOfOrNull { it.lane } ?: -1) + 1
         val audioLanes = project.audio.map { it.lane }.distinct().sorted()
 
@@ -329,6 +340,78 @@ fun TimelineView(
                                     callbacks = cb,
                                     pxToUs = ::pxToUs,
                                     usToPx = ::usToPx,
+                                )
+                            }
+                        }
+                    }
+
+                    // ---------------- rhythm strip (pulses, hits, manual markers)
+                    if (project.beat != null || project.markers.isNotEmpty()) {
+                        BeatStrip(
+                            project = project,
+                            hitThreshold = hitThreshold,
+                            scroll = scroll,
+                            halfPx = halfPx,
+                            viewportPx = viewportPx,
+                            usToPx = ::usToPx,
+                            modifier = Modifier.width(contentDp + vw).height(BEAT_H),
+                        )
+                    }
+
+                    // ---------------- light / effect events
+                    if (fxLanes.isNotEmpty()) {
+                        Box(
+                            Modifier
+                                .width(contentDp + vw)
+                                .height((LANE_H + LANE_GAP) * (fxLanes.maxOf { it.lane } + 1) + 2.dp),
+                        ) {
+                            fxLanes.forEach { li ->
+                                val e = project.fx.first { it.id == li.id }
+                                val def = FxLibrary.def(e.type)
+                                SpanBlock(
+                                    startUs = e.startUs,
+                                    endUs = e.endUs,
+                                    row = li.lane,
+                                    label = androidx.compose.ui.res.stringResource(fxNameRes(e.type)),
+                                    icon = Icons.Rounded.FlashOn,
+                                    color = fxColor(def.category, e.enabled),
+                                    syncFraction = e.peak,
+                                    selected = selection == Selection.OfFx(e.id),
+                                    selectionOf = { Selection.OfFx(e.id) },
+                                    onMove = { cb.onMoveFx(e.id, it) },
+                                    onTrim = { s2, e2 -> cb.onTrimFx(e.id, s2, e2) },
+                                    halfPx = halfPx, fps = fps, scroll = scroll, viewportPx = viewportPx,
+                                    snapEnabled = snapEnabled,
+                                    candidates = { Snapping.candidates(project, positionUs, e.id) },
+                                    setEdgeVelocity = { edgeVelocity = it },
+                                    callbacks = cb, pxToUs = ::pxToUs, usToPx = ::usToPx,
+                                )
+                            }
+                        }
+                    }
+
+                    // ---------------- subtitles
+                    val cues = project.subtitles?.cues.orEmpty()
+                    if (cues.isNotEmpty()) {
+                        Box(Modifier.width(contentDp + vw).height(LANE_H + LANE_GAP + 2.dp)) {
+                            cues.forEach { c ->
+                                SpanBlock(
+                                    startUs = c.startUs,
+                                    endUs = c.endUs,
+                                    row = 0,
+                                    label = c.text,
+                                    icon = Icons.Rounded.Subtitles,
+                                    color = Vanta.TrackText,
+                                    syncFraction = null,
+                                    selected = selection == Selection.OfCue(c.id),
+                                    selectionOf = { Selection.OfCue(c.id) },
+                                    onMove = { cb.onMoveCue(c.id, it) },
+                                    onTrim = { s2, e2 -> cb.onTrimCue(c.id, s2, e2) },
+                                    halfPx = halfPx, fps = fps, scroll = scroll, viewportPx = viewportPx,
+                                    snapEnabled = snapEnabled,
+                                    candidates = { Snapping.candidates(project, positionUs, c.id) },
+                                    setEdgeVelocity = { edgeVelocity = it },
+                                    callbacks = cb, pxToUs = ::pxToUs, usToPx = ::usToPx,
                                 )
                             }
                         }
@@ -786,6 +869,139 @@ private fun sourceTime(clip: Clip, tile: Int, tileW: Float, pps: Float): Long {
     val localUs = ((tile + 0.5f) * tileW / pps * 1_000_000f).toLong()
     val src = clip.localToSourceUs(localUs)
     return (src / 100_000) * 100_000
+}
+
+// ============================================================================== rhythm & effects
+
+private val BEAT_H = 22.dp
+
+private fun fxColor(c: FxCategory, enabled: Boolean): Color {
+    val base = when (c) {
+        FxCategory.FLASH -> Color(0xFFFFE27A)
+        FxCategory.LIGHT -> Color(0xFFFFB86B)
+        FxCategory.LENS -> Color(0xFF9AD7FF)
+        FxCategory.MOTION -> Color(0xFFB9A2FF)
+        FxCategory.COLOR -> Color(0xFFFF8FC2)
+        FxCategory.GLITCH -> Color(0xFF7DF0C1)
+    }
+    return if (enabled) base else base.copy(alpha = 0.35f)
+}
+
+/**
+ * Ticks for the analysed rhythm: tall = strong hit, small = weaker transient, accent dots = the
+ * pulse grid, diamonds = markers placed by hand. Only the visible window is drawn.
+ */
+@Composable
+private fun BeatStrip(
+    project: Project,
+    hitThreshold: Float,
+    scroll: ScrollState,
+    halfPx: Float,
+    viewportPx: Float,
+    usToPx: (Long) -> Float,
+    modifier: Modifier,
+) {
+    val onsets = remember(project.beat, project.clips, project.audio) { BeatMapping.onsets(project, 0f) }
+    val pulses = remember(project.beat, project.clips, project.audio) { BeatMapping.pulses(project) }
+    val markers = project.markers
+    Canvas(modifier) {
+        val x0 = scroll.value - halfPx - 8f
+        val x1 = scroll.value + viewportPx
+        val h = size.height
+        fun px(us: Long) = halfPx + usToPx(us)
+        // transients: height follows strength; below the threshold they are drawn faint
+        for (b in onsets) {
+            val x = px(b.timeUs)
+            if (x < x0 || x > x1) continue
+            val strong = b.strength >= hitThreshold
+            val len = h * (0.25f + 0.6f * b.strength)
+            drawLine(
+                if (strong) Vanta.AccentBright else Vanta.TextFaint.copy(alpha = 0.55f),
+                Offset(x, h - len), Offset(x, h), strokeWidth = if (strong) 3f else 1.5f,
+            )
+        }
+        for (b in pulses) {
+            val x = px(b.timeUs)
+            if (x < x0 || x > x1) continue
+            drawCircle(Color(0xFFFFE27A), radius = 3f, center = Offset(x, 4f))
+        }
+        for (m in markers) {
+            val x = px(m)
+            if (x < x0 || x > x1) continue
+            val d = 6f
+            val path = androidx.compose.ui.graphics.Path().apply {
+                moveTo(x, h / 2 - d); lineTo(x + d, h / 2); lineTo(x, h / 2 + d); lineTo(x - d, h / 2); close()
+            }
+            drawPath(path, Vanta.Playhead)
+        }
+    }
+}
+
+/** A draggable, trimmable block on a lane: effects and subtitle cues. */
+@Composable
+private fun SpanBlock(
+    startUs: Long,
+    endUs: Long,
+    row: Int,
+    label: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    color: Color,
+    syncFraction: Float?,
+    selected: Boolean,
+    selectionOf: () -> Selection,
+    onMove: (Long) -> Unit,
+    onTrim: (Long?, Long?) -> Unit,
+    halfPx: Float,
+    fps: Int,
+    scroll: ScrollState,
+    viewportPx: Float,
+    snapEnabled: Boolean,
+    candidates: () -> List<Long>,
+    setEdgeVelocity: (Float) -> Unit,
+    callbacks: TimelineCallbacks,
+    pxToUs: (Float) -> Long,
+    usToPx: (Long) -> Float,
+) {
+    val density = LocalDensity.current
+    val widthPx = max(usToPx(endUs - startUs), 10f)
+    val xDp = with(density) { (halfPx + usToPx(startUs)).toDp() }
+    val widthDp = with(density) { widthPx.toDp() }
+    val startState by rememberUpdatedState(startUs)
+    val endState by rememberUpdatedState(endUs)
+    val candidatesState by rememberUpdatedState(candidates)
+    val base = remember { LongArray(2) }
+    TimedBlock(
+        modifier = Modifier.offset(x = xDp, y = (LANE_H + LANE_GAP) * row + 2.dp).width(widthDp).height(LANE_H),
+        selected = selected,
+        color = color,
+        onTap = { callbacks.onSelect(selectionOf()) },
+        label = {
+            Icon(icon, null, tint = Color.Black.copy(alpha = 0.7f), modifier = Modifier.size(13.dp))
+            Text(label, style = MaterialTheme.typography.labelSmall, color = Color.Black.copy(alpha = 0.85f), maxLines = 1, overflow = TextOverflow.Clip, modifier = Modifier.padding(start = 3.dp))
+        },
+        onMove = { dxPx -> moveSnapped(base[0], base[1] - base[0], dxPx, pxToUs, snapEnabled, candidatesState(), fps) { onMove(it) } },
+        onTrimStart = { dxPx -> onTrim(snapEdge(base[0] + pxToUs(dxPx), pxToUs, snapEnabled, candidatesState(), fps), null) },
+        onTrimEnd = { dxPx -> onTrim(null, snapEdge(base[1] + pxToUs(dxPx), pxToUs, snapEnabled, candidatesState(), fps)) },
+        onStartDrag = {
+            base[0] = startState
+            base[1] = endState
+            callbacks.onSelect(selectionOf())
+        },
+        onEnd = { setEdgeVelocity(0f); callbacks.onGestureEnd() },
+        scroll = scroll,
+        viewportPx = viewportPx,
+        setEdgeVelocity = setEdgeVelocity,
+        blockLeftContentPx = { halfPx + usToPx(startState) },
+        background = {
+            // The beat-aligned moment of an effect, drawn as a thin white line.
+            if (syncFraction != null) {
+                Canvas(Modifier.fillMaxSize()) {
+                    val x = size.width * syncFraction
+                    drawLine(Color.White.copy(alpha = 0.9f), Offset(x, 0f), Offset(x, size.height), strokeWidth = 2f)
+                }
+            }
+        },
+    )
 }
 
 // ============================================================================== layers

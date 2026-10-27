@@ -50,6 +50,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.vanta.studio.domain.fx.FxOps
+import com.vanta.studio.domain.subtitles.SubtitleOps
+import com.vanta.studio.domain.model.SubtitleTrack
 import com.vanta.studio.domain.model.FxEvent
 import com.vanta.studio.domain.model.FxType
 import kotlin.math.abs
@@ -80,6 +82,7 @@ sealed interface Selection {
 enum class Panel {
     TEXT_PRESETS, TEXT_STYLE, ANIMATION, LAYERS, FILTERS, ADJUST, EFFECTS, TRANSITION,
     SPEED, VOLUME, TRANSFORM, CROP, TRIM, FORMAT, OVERLAY_COLOR, AUDIO_FADE,
+    AI_STUDIO, BEAT_FX, FX_EDIT, SUBTITLES,
 }
 
 enum class SaveStatus { SAVED, SAVING, DIRTY }
@@ -279,7 +282,7 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
         _state.update { it.copy(selection = s, panel = if (s == Selection.None) null else it.panel.takeIf { p -> p in persistentPanels }) }
     }
 
-    private val persistentPanels = setOf(Panel.FILTERS, Panel.EFFECTS, Panel.ADJUST, Panel.TRANSITION, Panel.TRANSFORM, Panel.LAYERS, Panel.TEXT_PRESETS)
+    private val persistentPanels = setOf(Panel.FILTERS, Panel.EFFECTS, Panel.ADJUST, Panel.TRANSITION, Panel.TRANSFORM, Panel.LAYERS, Panel.TEXT_PRESETS, Panel.AI_STUDIO, Panel.BEAT_FX, Panel.FX_EDIT, Panel.SUBTITLES)
 
     fun openPanel(p: Panel?) = _state.update { it.copy(panel = p) }
 
@@ -873,6 +876,48 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
         val newId = MediaImporter.newId()
         edit { FxOps.duplicate(it, id, newId) }
         select(Selection.OfFx(newId))
+    }
+
+    fun moveFxLive(id: String, startUs: Long) = mutateLive { FxOps.update(it, id) { e -> e.copy(startUs = startUs) } }
+
+    /** Trims an effect from either edge while dragging (times are timeline times). */
+    fun trimFxLive(id: String, startUs: Long?, endUs: Long?) = mutateLive { p ->
+        FxOps.update(p, id) { e ->
+            val s = startUs ?: e.startUs
+            val en = endUs ?: e.endUs
+            // Keep the beat-aligned moment where it was while the edges move.
+            val sync = e.syncUs
+            val dur = (en - s).coerceAtLeast(FxOps.MIN_DURATION_US)
+            e.copy(startUs = s, durationUs = dur, peak = ((sync - s).toFloat() / dur).coerceIn(0.02f, 0.9f))
+        }
+    }
+
+    fun moveCueLive(id: String, startUs: Long) = mutateLive { p ->
+        val t = p.subtitles ?: return@mutateLive p
+        p.copy(subtitles = SubtitleOps.update(t, id) { c -> SubtitleOps.retime(c, startUs, startUs + (c.endUs - c.startUs)) })
+    }
+
+    fun trimCueLive(id: String, startUs: Long?, endUs: Long?) = mutateLive { p ->
+        val t = p.subtitles ?: return@mutateLive p
+        p.copy(subtitles = SubtitleOps.update(t, id) { c -> SubtitleOps.retime(c, startUs ?: c.startUs, endUs ?: c.endUs) })
+    }
+
+    /** Plays the preview starting at [us] (clamped to the project). */
+    fun previewFrom(us: Long) {
+        seekTo(us.coerceAtLeast(0), true)
+        if (!engine.isPlaying.value) engine.togglePlay()
+    }
+
+    /** One undoable change to the subtitle track (no-op when there is none). */
+    fun editSubtitles(f: (SubtitleTrack) -> SubtitleTrack) = edit { p -> p.subtitles?.let { p.copy(subtitles = f(it)) } ?: p }
+
+    /** Continuous change to the subtitle track; finish with [endGesture]. */
+    fun liveSubtitles(f: (SubtitleTrack) -> SubtitleTrack) = mutateLive { p -> p.subtitles?.let { p.copy(subtitles = f(it)) } ?: p }
+
+    /** Replaces/creates the subtitle track from imported cues, keeping the current style. */
+    fun importCues(cues: List<com.vanta.studio.domain.model.Cue>) = edit { p ->
+        val base = p.subtitles ?: SubtitleTrack(engine = "srt")
+        p.copy(subtitles = base.copy(cues = cues.sortedBy { it.startUs }, enabled = true))
     }
 
     fun toggleMarkerAtPlayhead() = edit { FxOps.toggleMarker(it, positionUs) }

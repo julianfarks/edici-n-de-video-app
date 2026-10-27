@@ -354,6 +354,14 @@ object Snapping {
         p.texts.filter { it.id != excludeId }.forEach { out += it.startUs; out += it.endUs }
         p.overlays.filter { it.id != excludeId }.forEach { out += it.startUs; out += it.endUs }
         p.audio.filter { it.id != excludeId }.forEach { out += it.startUs; out += it.endUs }
+        // Beats, manual markers, other effects' sync points and subtitle edges, so things line up with the music.
+        out += p.markers
+        p.fx.filter { it.id != excludeId }.forEach { out += it.startUs; out += it.endUs; out += it.syncUs }
+        p.subtitles?.cues?.filter { it.id != excludeId }?.forEach { out += it.startUs; out += it.endUs }
+        if (p.beat != null) {
+            out += com.vanta.studio.domain.audio.BeatMapping.pulses(p).map { it.timeUs }
+            out += com.vanta.studio.domain.audio.BeatMapping.onsets(p, 0.5f).map { it.timeUs }
+        }
         return out
     }
 }

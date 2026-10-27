@@ -52,7 +52,9 @@ import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.FlashOn
 import androidx.compose.material.icons.rounded.Flip
+import androidx.compose.material.icons.rounded.Subtitles
 import androidx.compose.material.icons.rounded.FilterVintage
 import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.FolderOpen
@@ -122,6 +124,7 @@ private val TIMELINE_HEIGHT = 196.dp
 @Composable
 fun EditorRoute(vm: EditorViewModel, container: AppContainer, onBack: () -> Unit, onExport: () -> Unit) {
     val state by vm.state.collectAsStateWithLifecycle()
+    val aiState by vm.ai.state.collectAsStateWithLifecycle()
     CompositionLocalProvider(LocalEditorVm provides vm) {
         when {
             !state.loaded -> Box(Modifier.fillMaxSize().background(Vanta.Bg), contentAlignment = Alignment.Center) {
@@ -277,6 +280,7 @@ private fun EditorScreen(vm: EditorViewModel, state: EditorState, container: App
                     snapEnabled = settings.snapping,
                     thumbs = container.thumbnails,
                     waveforms = container.waveforms,
+                    hitThreshold = aiState.hitThreshold,
                     callbacks = remember(vm) {
                         TimelineCallbacks(
                             onUserScroll = { us ->
@@ -292,6 +296,10 @@ private fun EditorScreen(vm: EditorViewModel, state: EditorState, container: App
                             onTrimLayer = vm::trimLayerLive,
                             onMoveAudio = vm::moveAudioLive,
                             onTrimAudio = vm::trimAudioLive,
+                            onMoveFx = vm::moveFxLive,
+                            onTrimFx = vm::trimFxLive,
+                            onMoveCue = vm::moveCueLive,
+                            onTrimCue = vm::trimCueLive,
                             onGestureEnd = vm::endGesture,
                             onTransitionTap = { id ->
                                 vm.select(Selection.OfClip(id))
@@ -580,6 +588,10 @@ private fun BottomArea(
                     Panel.FORMAT -> FormatPanel(vm, state, close)
                     Panel.OVERLAY_COLOR -> OverlayColorPanel(vm, state, close)
                     Panel.AUDIO_FADE -> AudioPanel(vm, state, close)
+                    Panel.AI_STUDIO -> AiStudioPanel(vm, container, state, close)
+                    Panel.BEAT_FX -> BeatFxPanel(vm, state, close)
+                    Panel.FX_EDIT -> FxEditPanel(vm, state, close)
+                    Panel.SUBTITLES -> SubtitlesPanel(vm, container, state, close)
                 }
             }
         }
@@ -605,6 +617,9 @@ private fun ToolBar(vm: EditorViewModel, state: EditorState, onAdd: () -> Unit, 
             ToolDef(Icons.Rounded.Tune, R.string.tool_adjust, hasClips) { vm.openPanel(Panel.ADJUST) },
             ToolDef(Icons.Rounded.AutoAwesome, R.string.tool_transitions, hasClips) { vm.openPanel(Panel.TRANSITION) },
             ToolDef(Icons.Rounded.AspectRatio, R.string.tool_format) { vm.openPanel(Panel.FORMAT) },
+            ToolDef(Icons.Rounded.AutoAwesome, R.string.tool_ai, hasClips) { vm.openPanel(Panel.AI_STUDIO) },
+            ToolDef(Icons.Rounded.FlashOn, R.string.tool_beat, hasClips) { vm.openPanel(Panel.BEAT_FX) },
+            ToolDef(Icons.Rounded.Subtitles, R.string.tool_subtitles, hasClips) { vm.openPanel(Panel.SUBTITLES) },
         )
         is Selection.OfClip -> buildList {
             add(ToolDef(Icons.Rounded.ContentCut, R.string.tool_split) { vm.splitAtPlayhead() })
@@ -645,6 +660,15 @@ private fun ToolBar(vm: EditorViewModel, state: EditorState, onAdd: () -> Unit, 
             ToolDef(Icons.Rounded.ArrowDownward, R.string.tool_backward) { vm.layerOrderUp(false) },
             ToolDef(Icons.Rounded.ContentCopy, R.string.tool_duplicate) { vm.duplicateSelected() },
             ToolDef(Icons.Rounded.Delete, R.string.tool_delete) { onDelete() },
+        )
+        is Selection.OfFx -> listOf(
+            ToolDef(Icons.Rounded.Tune, R.string.tool_edit_fx) { vm.openPanel(Panel.FX_EDIT) },
+            ToolDef(Icons.Rounded.ContentCopy, R.string.tool_duplicate) { vm.duplicateFx(sel.id) },
+            ToolDef(Icons.Rounded.Delete, R.string.tool_delete) { vm.deleteFx(sel.id) },
+        )
+        is Selection.OfCue -> listOf(
+            ToolDef(Icons.Rounded.Edit, R.string.tool_edit_cue) { vm.openPanel(Panel.SUBTITLES) },
+            ToolDef(Icons.Rounded.Delete, R.string.tool_delete) { vm.ai.deleteCue(sel.id) },
         )
         is Selection.OfAudio -> {
             val audio = project.audio.firstOrNull { it.id == sel.id }
