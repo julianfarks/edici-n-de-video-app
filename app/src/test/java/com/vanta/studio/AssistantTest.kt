@@ -166,10 +166,14 @@ class AssistantTest {
              "unclear":["quitar el fondo"]}
             ```"""
         val r = llm.parse(reply)
-        assertEquals(listOf(Ops.SPLIT, Ops.SPEED), r.ops.map { it.op })
+        // unknown ops and negative times are rejected at parse time and reported, never run
+        assertEquals(listOf(Ops.SPLIT, Ops.SPEED, Ops.SPEED), r.ops.map { it.op })
         assertEquals(2.0, r.ops[1].value!!, 0.0)
         assertTrue(r.unclear.contains("quitar el fondo"))
-        assertEquals(3, r.unclear.size) // the three rejected operations are reported, not run
+        assertEquals(3, r.unclear.size)
+        // an out-of-range speed passes parsing but the executor refuses it
+        val run = AssistantExec.apply(project(), r.ops, 0, idGen())
+        assertTrue(run.skipped.any { it.first.value == 9999.0 && it.second == Reason.INVALID })
     }
 
     @Test(expected = org.json.JSONException::class)
