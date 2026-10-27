@@ -18,8 +18,8 @@ android {
         applicationId = "com.vanta.studio"
         minSdk = 29
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.2.1-alpha"
+        versionCode = 4
+        versionName = "0.3.0-alpha"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }

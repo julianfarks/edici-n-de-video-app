@@ -3,7 +3,7 @@
 A video editor for Android, written in Kotlin with Jetpack Compose and Media3.
 Dark, minimal interface with its own identity (graphite and violet). Spanish and English.
 
-> **Status: 0.2.1-alpha.** Everything described here is implemented in code. The project is
+> **Status: 0.3.0-alpha.** Everything described here is implemented in code. The project is
 > compiled and unit-tested by GitHub Actions on every push, and a real export is exercised on an
 > emulator in CI, but the **interface has not yet been tried on a physical device by the author**. Read [CHANGELOG.md](CHANGELOG.md) for the honest list of
 > what is verified and what is not.

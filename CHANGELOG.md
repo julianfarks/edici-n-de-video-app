@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.3.0-alpha
+
+### Added
+- **Improve this video** and **Best moments** (AI Studio): real measurements of pictures and audio, suggestions
+  you accept or ignore, before/after comparison, one undo step. Details and limits in [docs/AI.md](docs/AI.md).
+
+### Verified (and how)
+- **Unit tests, all pass**: exposure / contrast / colour-cast / audio-level rules on synthetic pictures and signals
+  (a healthy picture gets no suggestion; clipping is advice only; applying touches only the target clip and stays in
+  slider range), highlight ranking (lands on the active stretch, explains why, no overlaps, a flat clip yields none,
+  complement covers the rest).
+- **Android 13 emulator, 13 of 13 pass**, on generated media decoded for real:
+  - dark, quiet clip → measured mean brightness 0.24 and −55 dB audio → suggested brightening, contrast and volume;
+    the **exported** file with the suggestions applied is brighter (luminance 61 → 90);
+  - 60 s quiet static clip with one loud, moving burst at 20–26 s → the stretch 22–25 s was picked
+    (loud + movement + sound) and the cut shortened the clip from 60 s to 6 s, all pieces still ordinary clips.
+
+### Not verified / limits
+- The new panels were not tried by hand on a phone. Real footage (handheld, mixed lighting, music) is harder than the test clips;
+  the thresholds are heuristics and will need tuning.
+- Best moments cannot tell an exciting moment from a merely loud or busy one.
+
 ## 0.2.1-alpha
 
 Fixes the black preview ("Error de vista previa: -9223372036854775807").
