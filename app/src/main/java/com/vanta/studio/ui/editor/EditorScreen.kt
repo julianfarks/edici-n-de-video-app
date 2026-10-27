@@ -633,6 +633,8 @@ private fun BottomArea(
                     Panel.SILENCE -> SilencePanel(vm, state, close)
                     Panel.AUTO_EDIT -> AutoEditPanel(vm, state, close)
                     Panel.ASSISTANT -> AssistantPanel(vm, state, close)
+                    Panel.ENHANCE -> EnhancePanel(vm, state, close)
+                    Panel.HIGHLIGHTS -> HighlightsPanel(vm, state, close)
                 }
             }
         }

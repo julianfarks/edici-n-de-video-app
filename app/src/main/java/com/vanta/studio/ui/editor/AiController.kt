@@ -8,6 +8,13 @@ import com.vanta.studio.domain.fx.AutoSyncOptions
 import com.vanta.studio.domain.fx.FxAutoSync
 import com.vanta.studio.domain.fx.FxOps
 import com.vanta.studio.domain.assistant.AssistantExec
+import com.vanta.studio.domain.enhance.Enhance
+import com.vanta.studio.domain.enhance.Highlight
+import com.vanta.studio.domain.enhance.Highlights
+import com.vanta.studio.domain.enhance.Recommendation
+import com.vanta.studio.engine.audio.AnalysisException
+import com.vanta.studio.engine.audio.EnhanceReport
+import com.vanta.studio.engine.audio.HighlightData
 import com.vanta.studio.domain.assistant.ExecResult
 import com.vanta.studio.domain.assistant.Interpretation
 import com.vanta.studio.domain.assistant.SpanishInterpreter
@@ -40,7 +47,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /** Something the AI hub can run. */
-enum class AiJobKind { BEAT, SUBTITLES, MODEL, SILENCE, ASSISTANT }
+enum class AiJobKind { BEAT, SUBTITLES, MODEL, SILENCE, ASSISTANT, ENHANCE, HIGHLIGHTS }
 
 data class AiJobState(val kind: AiJobKind, val progress: Float)
 
@@ -64,6 +71,28 @@ data class AiState(
     /** Instruction being reviewed or just applied in the text assistant. */
     val assistant: AssistantSession? = null,
     val llmConfigured: Boolean = false,
+    val enhance: EnhanceSession? = null,
+    val highlights: HighlightSession? = null,
+)
+
+/** Measurements of one clip, the suggestions drawn from them and which ones the user accepted. */
+data class EnhanceSession(
+    val clipId: String,
+    val report: EnhanceReport,
+    val recs: List<Recommendation>,
+    val chosen: Set<Int>,
+    /** The project before any suggestion was applied; set once applied so before/after can be compared. */
+    val base: Project? = null,
+    val showingAfter: Boolean = false,
+)
+
+data class HighlightSession(
+    val data: HighlightData,
+    val targetSec: Int,
+    val picks: List<Highlight>,
+    val chosen: Set<Int>,
+    val base: Project? = null,
+    val removedUs: Long = 0,
 )
 
 /**
@@ -141,6 +170,8 @@ class AiController(
                     },
                     e.message,
                 )
+            } catch (e: AnalysisException) {
+                fail(R.string.ai_err_analysis, e.message)
             } catch (e: AudioDecodeException) {
                 fail(R.string.ai_err_no_audio, e.message)
             } catch (e: OutOfMemoryError) {
@@ -384,6 +415,120 @@ class AiController(
         if (base != null && s.result?.applied?.isNotEmpty() == true) vm.mutate { base.copy(modifiedAt = it.modifiedAt) }
         _state.update { it.copy(assistant = null) }
     }
+
+    // ------------------------------------------------------------------ improve this video
+
+    /** The selected clip, or the one under the playhead. */
+    private fun targetClip(requireVideo: Boolean): String? {
+        val p = vm.project ?: return null
+        (vm.state.value.selection as? Selection.OfClip)?.id?.takeIf { id -> p.clips.any { it.id == id && (!requireVideo || !it.isStill) } }?.let { return it }
+        var start = 0L
+        val t = vm.positionUs
+        for (cl in p.clips) {
+            if (t < start + cl.durationUs && (!requireVideo || !cl.isStill)) return cl.id
+            start += cl.durationUs
+        }
+        return p.clips.firstOrNull { !requireVideo || !it.isStill }?.id
+    }
+
+    fun analyzeEnhance() {
+        val id = targetClip(false) ?: return fail(R.string.ai_err_no_clip, null)
+        cancelEnhanceView()
+        run(AiJobKind.ENHANCE) { progress ->
+            val project = vm.project ?: return@run
+            val report = c.analysis.enhance(project, id, progress)
+            val clip = project.clips.first { it.id == id }
+            val recs = Enhance.recommend(report.frame, report.audio, clip, project.canvas.aspect)
+            _state.update { it.copy(enhance = EnhanceSession(id, report, recs, recs.indices.filter { i -> recs[i].actionable }.toSet())) }
+        }
+    }
+
+    fun toggleRec(i: Int) = _state.update { s ->
+        s.enhance?.let { e -> s.copy(enhance = e.copy(chosen = if (i in e.chosen) e.chosen - i else e.chosen + i)) } ?: s
+    }
+
+    private fun enhanced(e: EnhanceSession, base: Project) =
+        Enhance.apply(base, e.clipId, e.recs.filterIndexed { i, r -> i in e.chosen && r.actionable })
+
+    fun applyEnhance() {
+        val e = _state.value.enhance ?: return
+        val base = e.base ?: vm.project ?: return
+        vm.mutate { enhanced(e, base).copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(enhance = e.copy(base = base, showingAfter = true)) }
+    }
+
+    /** Shows the clip as it was before the suggestions (without losing them) or with them again. */
+    fun enhanceCompare(after: Boolean) {
+        val e = _state.value.enhance ?: return
+        val base = e.base ?: return
+        vm.mutate { (if (after) enhanced(e, base) else base).copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(enhance = e.copy(showingAfter = after)) }
+    }
+
+    fun closeEnhance() = _state.update { it.copy(enhance = null) }
+
+    /** Leaves the project as it was before the suggestions were applied. */
+    fun cancelEnhanceView() {
+        val e = _state.value.enhance ?: return
+        val base = e.base
+        if (base != null && e.showingAfter) vm.mutate { base.copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(enhance = null) }
+    }
+
+    // ------------------------------------------------------------------ best moments
+
+    fun analyzeHighlights() {
+        val id = targetClip(true) ?: return fail(R.string.ai_err_no_video, null)
+        cancelHighlightsView()
+        run(AiJobKind.HIGHLIGHTS) { progress ->
+            val project = vm.project ?: return@run
+            val data = c.analysis.highlights(project, id, progress)
+            val target = 30
+            val picks = Highlights.pick(data.features, target * 1_000_000L)
+            if (picks.isEmpty()) fail(R.string.moments_none, null)
+            _state.update { it.copy(highlights = HighlightSession(data, target, picks, picks.indices.toSet())) }
+        }
+    }
+
+    fun setHighlightTarget(sec: Int) = _state.update { s ->
+        s.highlights?.takeIf { it.base == null }?.let { h ->
+            val picks = Highlights.pick(h.data.features, sec * 1_000_000L)
+            s.copy(highlights = h.copy(targetSec = sec, picks = picks, chosen = picks.indices.toSet()))
+        } ?: s
+    }
+
+    fun toggleHighlight(i: Int) = _state.update { s ->
+        s.highlights?.takeIf { it.base == null }?.let { h -> s.copy(highlights = h.copy(chosen = if (i in h.chosen) h.chosen - i else h.chosen + i)) } ?: s
+    }
+
+    /** Keeps only the chosen stretches of the clip, as ordinary clips on the timeline (one undo step). */
+    fun applyHighlights() {
+        val h = _state.value.highlights ?: return
+        val base = vm.project ?: return
+        val d = h.data
+        val clip = base.clips.firstOrNull { it.id == d.clipId } ?: return fail(R.string.moments_stale, null)
+        if (clip.trimStartUs != d.trimStartUs || clip.trimEndUs != d.trimEndUs || clip.speed != d.speed) return fail(R.string.moments_stale, null)
+        val keep = h.picks.filterIndexed { i, _ -> i in h.chosen }
+        if (keep.isEmpty()) return
+        val start = com.vanta.studio.domain.subtitles.SubtitleMapping.clipStartUs(base, d.clipId) ?: return
+        val spans = Highlights.complement(keep, d.totalUs)
+            .map { (a, b) -> (start + (a / clip.speed.toDouble()).toLong()) to (start + (b / clip.speed.toDouble()).toLong()) }
+            .filter { it.second - it.first > 30_000 }
+        val result = Ripple.removeSpans(base, spans) { MediaImporter.newId() }
+        vm.mutate { result.copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(highlights = h.copy(base = base, removedUs = Ripple.removedUs(base, result))) }
+    }
+
+    fun restoreHighlights() {
+        val h = _state.value.highlights ?: return
+        val base = h.base ?: return
+        vm.mutate { base.copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(highlights = h.copy(base = null, removedUs = 0)) }
+    }
+
+    fun closeHighlights() = _state.update { it.copy(highlights = null) }
+
+    fun cancelHighlightsView() = _state.update { it.copy(highlights = null) }
 
     private fun clipAtPlayhead(): String? {
         val p = vm.project ?: return null

@@ -82,7 +82,7 @@ sealed interface Selection {
 enum class Panel {
     TEXT_PRESETS, TEXT_STYLE, ANIMATION, LAYERS, FILTERS, ADJUST, EFFECTS, TRANSITION,
     SPEED, VOLUME, TRANSFORM, CROP, TRIM, FORMAT, OVERLAY_COLOR, AUDIO_FADE,
-    AI_STUDIO, BEAT_FX, FX_EDIT, SUBTITLES, SILENCE, AUTO_EDIT, ASSISTANT,
+    AI_STUDIO, BEAT_FX, FX_EDIT, SUBTITLES, SILENCE, AUTO_EDIT, ASSISTANT, ENHANCE, HIGHLIGHTS,
 }
 
 enum class SaveStatus { SAVED, SAVING, DIRTY }
@@ -286,7 +286,7 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
         _state.update { it.copy(selection = s, panel = if (s == Selection.None) null else it.panel.takeIf { p -> p in persistentPanels }) }
     }
 
-    private val persistentPanels = setOf(Panel.FILTERS, Panel.EFFECTS, Panel.ADJUST, Panel.TRANSITION, Panel.TRANSFORM, Panel.LAYERS, Panel.TEXT_PRESETS, Panel.AI_STUDIO, Panel.BEAT_FX, Panel.FX_EDIT, Panel.SUBTITLES, Panel.SILENCE, Panel.AUTO_EDIT, Panel.ASSISTANT)
+    private val persistentPanels = setOf(Panel.FILTERS, Panel.EFFECTS, Panel.ADJUST, Panel.TRANSITION, Panel.TRANSFORM, Panel.LAYERS, Panel.TEXT_PRESETS, Panel.AI_STUDIO, Panel.BEAT_FX, Panel.FX_EDIT, Panel.SUBTITLES, Panel.SILENCE, Panel.AUTO_EDIT, Panel.ASSISTANT, Panel.ENHANCE, Panel.HIGHLIGHTS)
 
     fun openPanel(p: Panel?) = _state.update { it.copy(panel = p) }
 

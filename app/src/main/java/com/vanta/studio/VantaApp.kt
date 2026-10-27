@@ -36,6 +36,7 @@ class AppContainer(app: Application) {
     val secrets = SecretStore(app)
     val subtitles = SubtitleService(audioDecoder)
     val silence = SilenceService(audioDecoder)
+    val analysis = com.vanta.studio.engine.audio.MediaAnalysisService(app, audioDecoder)
 }
 
 class VantaApp : Application() {
