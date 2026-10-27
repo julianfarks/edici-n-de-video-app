@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.SubtitleTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:31.545Z" hostname="runnervmtai0g" time="0.02">
+  <properties/>
+  <testcase name="builderOutputIsOrderedAndNonOverlapping" classname="com.vanta.studio.SubtitleTest" time="0.002"/>
+  <testcase name="bounceAndScaleSyncPulseOnEachWord" classname="com.vanta.studio.SubtitleTest" time="0.004"/>
+  <testcase name="mergeJoinsTextAndWords" classname="com.vanta.studio.SubtitleTest" time="0.002"/>
+  <testcase name="builderBreaksOnLongPauses" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="karaokeColoursSungWords" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="srtTimestampFormat" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="replaceAllCountsMatches" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="problemsFlagOverlapsAndTinyCues" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="retimeRescalesWordTimings" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="stateAtOutsideCuesIsNull" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="cuesWithoutWordTimingsAreNeverHighlighted" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="searchIgnoresCaseAndAccents" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="srtRoundTrip" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="changingWordCountMarksTimingsAsEstimated" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="builderRespectsWordLimitAndCreatorStyle" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="splitWithoutWordsCutsAtASpace" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="spellingFixKeepsMeasuredTimings" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="srtParserToleratesBomCrlfAndGarbage" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="progressiveRevealsWordsAsTheyAreSpoken" classname="com.vanta.studio.SubtitleTest" time="0.0"/>
+  <testcase name="activeWordFollowsMeasuredTimestamps" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <testcase name="splitUsesWordBoundaries" classname="com.vanta.studio.SubtitleTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

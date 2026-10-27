@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.BeatAnalyzerTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:30.895Z" hostname="runnervmtai0g" time="0.469">
+  <properties/>
+  <testcase name="findsTempoChange" classname="com.vanta.studio.BeatAnalyzerTest" time="0.19"/>
+  <testcase name="cancellationReturnsEmptyResult" classname="com.vanta.studio.BeatAnalyzerTest" time="0.01"/>
+  <testcase name="onsetsLandOnTheKicks" classname="com.vanta.studio.BeatAnalyzerTest" time="0.04"/>
+  <testcase name="shortOrSilentInputIsHandled" classname="com.vanta.studio.BeatAnalyzerTest" time="0.009"/>
+  <testcase name="findsPauses" classname="com.vanta.studio.BeatAnalyzerTest" time="0.033"/>
+  <testcase name="findsSectionBoundary" classname="com.vanta.studio.BeatAnalyzerTest" time="0.046"/>
+  <testcase name="beatGridFollowsThePulse" classname="com.vanta.studio.BeatAnalyzerTest" time="0.02"/>
+  <testcase name="detectsOtherTempo" classname="com.vanta.studio.BeatAnalyzerTest" time="0.018"/>
+  <testcase name="kicksAreStrongerThanHats" classname="com.vanta.studio.BeatAnalyzerTest" time="0.018"/>
+  <testcase name="noPulseInNoise" classname="com.vanta.studio.BeatAnalyzerTest" time="0.026"/>
+  <testcase name="detectsTempoOfSteadyLoop" classname="com.vanta.studio.BeatAnalyzerTest" time="0.023"/>
+  <testcase name="energyReflectsLoudness" classname="com.vanta.studio.BeatAnalyzerTest" time="0.032"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

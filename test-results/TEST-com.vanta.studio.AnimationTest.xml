@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.AnimationTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:30.590Z" hostname="runnervmtai0g" time="0.04">
+  <properties/>
+  <testcase name="noKeyframesReturnsBase" classname="com.vanta.studio.AnimationTest" time="0.008"/>
+  <testcase name="valuesHoldOutsideRange" classname="com.vanta.studio.AnimationTest" time="0.018"/>
+  <testcase name="easingsAreMonotonicAndBounded" classname="com.vanta.studio.AnimationTest" time="0.004"/>
+  <testcase name="upsertReplacesNearbyKeyAndKeepsOrder" classname="com.vanta.studio.AnimationTest" time="0.003"/>
+  <testcase name="holdEasingKeepsStartValueUntilNextKey" classname="com.vanta.studio.AnimationTest" time="0.0"/>
+  <testcase name="splitKeepsTheAnimationContinuousAtTheCut" classname="com.vanta.studio.AnimationTest" time="0.001"/>
+  <testcase name="linearInterpolationHitsMidpoint" classname="com.vanta.studio.AnimationTest" time="0.0"/>
+  <testcase name="removeDeletesNearestWithinTolerance" classname="com.vanta.studio.AnimationTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.AutoEditTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:30.822Z" hostname="runnervmtai0g" time="0.068">
+  <properties/>
+  <testcase name="safeModeKeepsFlashesBelowThreeAPerSecond" classname="com.vanta.studio.AutoEditTest" time="0.03"/>
+  <testcase name="ownSoundtrackIsCutInPlaceWithoutReordering" classname="com.vanta.studio.AutoEditTest" time="0.004"/>
+  <testcase name="noAnalysisMeansNoPlan" classname="com.vanta.studio.AutoEditTest" time="0.0"/>
+  <testcase name="fasterModesCutMoreOften" classname="com.vanta.studio.AutoEditTest" time="0.015"/>
+  <testcase name="cutsLandOnBeatsAndCoverTheMusic" classname="com.vanta.studio.AutoEditTest" time="0.006"/>
+  <testcase name="anotherVersionDiffersAndStartsFromTheSameOriginal" classname="com.vanta.studio.AutoEditTest" time="0.005"/>
+  <testcase name="applyingGivesEditableClipsOfTheRightLength" classname="com.vanta.studio.AutoEditTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

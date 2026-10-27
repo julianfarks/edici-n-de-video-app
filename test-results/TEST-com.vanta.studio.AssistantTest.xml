@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.AssistantTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:30.639Z" hostname="runnervmtai0g" time="0.174">
+  <properties/>
+  <testcase name="aTemplateAppliesToARealProjectAndChangesOnlyLookAndFormat" classname="com.vanta.studio.AssistantTest" time="0.064"/>
+  <testcase name="deleteARange" classname="com.vanta.studio.AssistantTest" time="0.022"/>
+  <testcase name="cloudReplyIsParsedAndAnythingOutsideTheWhitelistIsDropped" classname="com.vanta.studio.AssistantTest" time="0.014"/>
+  <testcase name="impossibleOrUnknownThingsAreSkippedWithAReason" classname="com.vanta.studio.AssistantTest" time="0.001"/>
+  <testcase name="flashAndZoomOnTheRhythm" classname="com.vanta.studio.AssistantTest" time="0.002"/>
+  <testcase name="toolsAreReportedNotRun" classname="com.vanta.studio.AssistantTest" time="0.0"/>
+  <testcase name="timeAsMinutesAndSeconds" classname="com.vanta.studio.AssistantTest" time="0.015"/>
+  <testcase name="garbageReplyFailsLoudly" classname="com.vanta.studio.AssistantTest" time="0.002"/>
+  <testcase name="verticalAndWarmFilter" classname="com.vanta.studio.AssistantTest" time="0.003"/>
+  <testcase name="whatItDoesNotUnderstandIsReported" classname="com.vanta.studio.AssistantTest" time="0.003"/>
+  <testcase name="speedOfAClip" classname="com.vanta.studio.AssistantTest" time="0.004"/>
+  <testcase name="deleteRangeClosesTheGap" classname="com.vanta.studio.AssistantTest" time="0.002"/>
+  <testcase name="musicEditWithMode" classname="com.vanta.studio.AssistantTest" time="0.0"/>
+  <testcase name="executesDirectEditsAndKeepsTheOriginal" classname="com.vanta.studio.AssistantTest" time="0.007"/>
+  <testcase name="everyTemplateIsMadeOfValidKnownOperations" classname="com.vanta.studio.AssistantTest" time="0.022"/>
+  <testcase name="textWithQuotesAndTimes" classname="com.vanta.studio.AssistantTest" time="0.009"/>
+  <testcase name="cutAtASecond" classname="com.vanta.studio.AssistantTest" time="0.001"/>
+  <testcase name="silencesAndKaraokeSubtitles" classname="com.vanta.studio.AssistantTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

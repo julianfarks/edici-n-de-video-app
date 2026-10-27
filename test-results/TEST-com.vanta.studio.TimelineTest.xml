@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.TimelineTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:31.567Z" hostname="runnervmtai0g" time="0.004">
+  <properties/>
+  <testcase name="clipAtFindsClipAndLocalTime" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="speedIsClamped" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="splitRespectsSpeed" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="moveReordersClips" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="deleteAndDuplicate" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="frameSnappingRoundsToFrameGrid" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="splitCreatesTwoClipsThatKeepTotalDuration" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="speedChangesDuration" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="splitNearEdgeIsRejected" classname="com.vanta.studio.TimelineTest" time="0.001"/>
+  <testcase name="totalDurationSumsClips" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="splitOnEmptyProjectIsNull" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="trimStartAndEndNeverCrossOrLeaveSource" classname="com.vanta.studio.TimelineTest" time="0.001"/>
+  <testcase name="snappingPicksNearestWithinThreshold" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="stillDurationIsAdjustable" classname="com.vanta.studio.TimelineTest" time="0.001"/>
+  <testcase name="splitThenTrimIsConsistent" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="snapCandidatesIncludeJoinsAndPlayhead" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <testcase name="clipStartsAreCumulative" classname="com.vanta.studio.TimelineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

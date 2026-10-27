@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.HistoryTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:31.493Z" hostname="runnervmtai0g" time="0.001">
+  <properties/>
+  <testcase name="replaceDoesNotCreateAStep" classname="com.vanta.studio.HistoryTest" time="0.0"/>
+  <testcase name="identicalStateIsNotAStep" classname="com.vanta.studio.HistoryTest" time="0.0"/>
+  <testcase name="resetClearsEverything" classname="com.vanta.studio.HistoryTest" time="0.0"/>
+  <testcase name="undoRedoWalkTheStates" classname="com.vanta.studio.HistoryTest" time="0.0"/>
+  <testcase name="emptyUndoRedoReturnNull" classname="com.vanta.studio.HistoryTest" time="0.0"/>
+  <testcase name="capacityIsBounded" classname="com.vanta.studio.HistoryTest" time="0.0"/>
+  <testcase name="newEditClearsRedo" classname="com.vanta.studio.HistoryTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

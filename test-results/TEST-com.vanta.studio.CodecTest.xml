@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.vanta.studio.CodecTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-27T16:26:31.423Z" hostname="runnervmtai0g" time="0.007">
+  <properties/>
+  <testcase name="garbageIsReportedAsCorrupt" classname="com.vanta.studio.CodecTest" time="0.001"/>
+  <testcase name="unknownFieldsAreIgnored" classname="com.vanta.studio.CodecTest" time="0.001"/>
+  <testcase name="roundTripKeepsEverything" classname="com.vanta.studio.CodecTest" time="0.003"/>
+  <testcase name="peekNameReadsNameOnly" classname="com.vanta.studio.CodecTest" time="0.0"/>
+  <testcase name="newerFormatIsRejectedInsteadOfLosingData" classname="com.vanta.studio.CodecTest" time="0.001"/>
+  <testcase name="sanitizeKeepsClipsPlayable" classname="com.vanta.studio.CodecTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

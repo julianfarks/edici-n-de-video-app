@@ -1,0 +1,71 @@
+Downloading https://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%..............100%
+
+Welcome to Gradle 8.14.3!
+
+Here are the highlights of this release:
+ - Java 24 support
+ - GraalVM Native Image toolchain selection
+ - Enhancements to test reporting
+ - Build Authoring improvements
+
+For more details see https://docs.gradle.org/8.14.3/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :app:generateDebugResValues
+> Task :app:checkDebugAarMetadata
+> Task :app:mapDebugSourceSetPaths
+> Task :app:extractDebugSupportedLocales
+> Task :app:generateDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:generateDebugLocaleConfig
+> Task :app:extractDeepLinksDebug
+> Task :app:packageDebugResources
+> Task :app:parseDebugLocalResources
+> Task :app:mergeDebugResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:processDebugManifestForPackage
+> Task :app:javaPreCompileDebug
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :app:processDebugResources
+> Task :app:compileDebugKotlin
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/engine/CompositionFactory.kt:74:39 'constructor(p0: (Mutable)List<EditedMediaItem>): EditedMediaItemSequence' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/engine/CompositionFactory.kt:78:14 'fun experimentalSetForceAudioTrack(p0: Boolean): Composition.Builder' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/engine/CompositionFactory.kt:220:17 'constructor(p0: (Mutable)List<EditedMediaItem>): EditedMediaItemSequence' is deprecated. Deprecated in Java.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/AiPanels.kt:162:34 'val Icons.Rounded.Chat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.Chat.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/EditorScreen.kt:671:39 'val Icons.Rounded.VolumeUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.VolumeUp.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/EditorScreen.kt:678:39 'val Icons.Rounded.RotateRight: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.RotateRight.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/EditorScreen.kt:682:39 'val Icons.Rounded.VolumeOff: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.VolumeOff.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/EditorScreen.kt:719:39 'val Icons.Rounded.VolumeUp: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.VolumeUp.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/EditorScreen.kt:721:39 'val Icons.Rounded.VolumeOff: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.VolumeOff.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/LayerPanels.kt:196:50 'val Icons.Rounded.FormatAlignLeft: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.FormatAlignLeft.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/LayerPanels.kt:198:50 'val Icons.Rounded.FormatAlignRight: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.FormatAlignRight.
+w: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/src/main/java/com/vanta/studio/ui/editor/TimelineView.kt:675:36 'val Icons.Rounded.VolumeOff: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.VolumeOff.
+
+> Task :app:compileDebugJavaWithJavac
+> Task :app:processDebugJavaRes
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+> Task :app:testDebugUnitTest
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1793118259436.json
+
+[Incubating] Problems report is available at: file:///home/runner/work/edici-n-de-video-app/edici-n-de-video-app/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 2m 22s
+26 actionable tasks: 25 executed, 1 from cache
