@@ -111,15 +111,17 @@ class MediaImporter(private val context: Context, private val repo: ProjectRepos
         return copyIntoProject(projectId, uri)
     }
 
-    private fun copyIntoProject(projectId: String, uri: Uri): Uri? = try {
+    private fun copyIntoProject(projectId: String, uri: Uri): Uri? {
+        return try {
         val name = MediaProbe.displayName(context, uri).replace(Regex("[^A-Za-z0-9._-]"), "_").ifBlank { "media" }
         val f = File(repo.mediaDir(projectId), "${newId().take(8)}_$name")
         context.contentResolver.openInputStream(uri)?.use { input ->
             FileOutputStream(f).use { input.copyTo(it, 256 * 1024) }
         } ?: return null
         Uri.fromFile(f)
-    } catch (e: Exception) {
-        null
+        } catch (e: Exception) {
+            null
+        }
     }
 
     companion object {

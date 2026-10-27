@@ -2,7 +2,7 @@ package com.vanta.studio.engine.layers
 
 import android.graphics.Bitmap
 import androidx.media3.effect.BitmapOverlay
-import androidx.media3.effect.OverlaySettings
+import androidx.media3.common.OverlaySettings
 import androidx.media3.effect.StaticOverlaySettings
 import com.vanta.studio.domain.anim.LayerAnimator
 import com.vanta.studio.domain.anim.LayerFrame

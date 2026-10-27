@@ -50,6 +50,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -86,7 +88,6 @@ import com.vanta.studio.ui.components.formatTime
 import com.vanta.studio.ui.theme.TimecodeStyle
 import com.vanta.studio.ui.theme.Vanta
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withFrameNanos
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -157,6 +158,7 @@ fun TimelineView(
     BoxWithConstraints(modifier.background(Vanta.Bg)) {
         val viewportPx = with(density) { maxWidth.toPx() }
         val halfPx = viewportPx / 2f
+        val vw = maxWidth
         val halfDp = maxWidth / 2
 
         fun usToPx(us: Long) = us / 1_000_000f * pps
@@ -237,14 +239,14 @@ fun TimelineView(
             ) {
                 Column(
                     Modifier
-                        .width(contentDp + maxWidth)
+                        .width(contentDp + vw)
                         .fillMaxHeight()
                         .verticalScroll(vScroll),
                 ) {
-                    Ruler(pps, scroll, halfPx, viewportPx, totalUs, Modifier.width(contentDp + maxWidth).height(RULER_H))
+                    Ruler(pps, scroll, halfPx, viewportPx, totalUs, Modifier.width(contentDp + vw).height(RULER_H))
 
                     // ---------------- main video track
-                    Box(Modifier.width(contentDp + maxWidth).height(VIDEO_H + 6.dp).padding(top = 3.dp)) {
+                    Box(Modifier.width(contentDp + vw).height(VIDEO_H + 6.dp).padding(top = 3.dp)) {
                         val starts = Timeline.clipStarts(project)
                         project.clips.forEachIndexed { index, clip ->
                             ClipBlock(
@@ -299,7 +301,7 @@ fun TimelineView(
                     if (layerLaneCount > 0) {
                         Box(
                             Modifier
-                                .width(contentDp + maxWidth)
+                                .width(contentDp + vw)
                                 .height((LANE_H + LANE_GAP) * layerLaneCount + 2.dp),
                         ) {
                             laneItems.forEach { li ->
@@ -336,7 +338,7 @@ fun TimelineView(
                     if (audioLanes.isNotEmpty()) {
                         Box(
                             Modifier
-                                .width(contentDp + maxWidth)
+                                .width(contentDp + vw)
                                 .height((LANE_H + LANE_GAP) * audioLanes.size + 2.dp),
                         ) {
                             project.audio.forEach { a ->
