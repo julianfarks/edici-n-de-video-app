@@ -103,9 +103,9 @@ class PreviewEngine(
         if (!released) player.clearVideoSurfaceView(view)
     }
 
-    /** Plain-surface variant, used by tests that render without a visible window. */
-    fun attachSurface(surface: Surface) {
-        if (!released) player.setVideoSurface(surface)
+    /** Plain-surface variant (CompositionPlayer needs the size too); used by tests that read the pixels back. */
+    fun attachSurface(surface: Surface, width: Int, height: Int) {
+        if (!released) player.setVideoSurface(surface, androidx.media3.common.util.Size(width, height))
     }
 
     /** Rebuilds the preview after a failure, with the latest project. */

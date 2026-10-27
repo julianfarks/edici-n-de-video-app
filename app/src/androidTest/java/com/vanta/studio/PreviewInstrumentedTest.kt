@@ -4,11 +4,9 @@ import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Handler
-import android.os.Looper
-import android.view.PixelCopy
-import android.view.SurfaceView
-import android.view.ViewGroup
-import androidx.test.core.app.ActivityScenario
+import android.graphics.PixelFormat
+import android.media.ImageReader
+import java.util.concurrent.atomic.AtomicInteger
 import androidx.test.platform.app.InstrumentationRegistry
 import com.vanta.studio.domain.model.CanvasSpec
 import com.vanta.studio.domain.model.AspectRatio
@@ -30,13 +28,11 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 import java.io.FileOutputStream
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
 /**
- * Plays real video through the real preview engine into a real SurfaceView and reads the pixels
- * back with PixelCopy, so these tests fail if the monitor stays black or the player errors out
+ * Plays real video through the real preview engine into an ImageReader surface and reads every
+ * drawn frame's pixels back, so these tests fail if the monitor stays black or the player errors out
  * (the original bug: "Error de vista previa: -9223372036854775807" with a black monitor).
  * The long clip is 146 s, like the video in the bug report.
  */
@@ -46,8 +42,36 @@ class PreviewInstrumentedTest {
     private val container get() = (ctx.applicationContext as VantaApp).container
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
-    private var scenario: ActivityScenario<MainActivity>? = null
-    private lateinit var surface: SurfaceView
+    /** Receives every frame the preview draws, so the pixels can be inspected (no window needed). */
+    private class FrameSink(val w: Int, val h: Int) {
+        private val thread = android.os.HandlerThread("frames").also { it.start() }
+        val reader: ImageReader = ImageReader.newInstance(w, h, PixelFormat.RGBA_8888, 4)
+        @Volatile var latest: Bitmap? = null
+        val count = AtomicInteger()
+
+        init {
+            reader.setOnImageAvailableListener({ r ->
+                val img = r.acquireLatestImage() ?: return@setOnImageAvailableListener
+                try {
+                    val p = img.planes[0]
+                    val rowPad = p.rowStride - p.pixelStride * w
+                    val bmp = Bitmap.createBitmap(w + rowPad / p.pixelStride, h, Bitmap.Config.ARGB_8888)
+                    bmp.copyPixelsFromBuffer(p.buffer)
+                    latest = Bitmap.createBitmap(bmp, 0, 0, w, h)
+                    count.incrementAndGet()
+                } finally {
+                    img.close()
+                }
+            }, Handler(thread.looper))
+        }
+
+        fun close() {
+            reader.close()
+            thread.quitSafely()
+        }
+    }
+
+    private lateinit var sink: FrameSink
     private var engine: PreviewEngine? = null
     private val engines = ArrayList<PreviewEngine>()
 
@@ -60,32 +84,20 @@ class PreviewInstrumentedTest {
     }
 
     @Before
-    fun openWindow() {
-        val ready = CountDownLatch(1)
-        scenario = ActivityScenario.launch(MainActivity::class.java)
-        scenario!!.onActivity { a ->
-            surface = SurfaceView(a)
-            surface.setZOrderOnTop(true)
-            surface.holder.addCallback(object : android.view.SurfaceHolder.Callback {
-                override fun surfaceCreated(holder: android.view.SurfaceHolder) = ready.countDown()
-                override fun surfaceChanged(holder: android.view.SurfaceHolder, format: Int, width: Int, height: Int) = Unit
-                override fun surfaceDestroyed(holder: android.view.SurfaceHolder) = Unit
-            })
-            a.addContentView(surface, ViewGroup.LayoutParams(640, 360))
-        }
-        assertTrue("surface never created", ready.await(20, TimeUnit.SECONDS))
+    fun openSink() {
+        sink = FrameSink(640, 360)
     }
 
     @After
-    fun closeWindow() {
+    fun closeSink() {
         inst.runOnMainSync { engines.forEach { runCatching { it.release() } } }
-        scenario?.close()
+        sink.close()
     }
 
     private fun newEngine(): PreviewEngine {
         var e: PreviewEngine? = null
         inst.runOnMainSync {
-            e = PreviewEngine(ctx, scope, container.compositionFactory).also { it.attachSurface(surface); engines += it }
+            e = PreviewEngine(ctx, scope, container.compositionFactory).also { it.attachSurface(sink.reader.surface, 640, 360); engines += it }
         }
         engine = e
         return e!!
@@ -121,19 +133,11 @@ class PreviewInstrumentedTest {
     private fun waitForPicture(e: PreviewEngine) {
         waitFor("first frame") {
             assertNull("preview error: ${e.error.value}", e.error.value)
-            if (e.firstFrame.value) true else null
+            if (e.firstFrame.value && sink.latest != null) true else null
         }
     }
 
-    private fun grab(): Bitmap {
-        val bmp = Bitmap.createBitmap(surface.width, surface.height, Bitmap.Config.ARGB_8888)
-        val latch = CountDownLatch(1)
-        var result = -1
-        PixelCopy.request(surface, bmp, { r -> result = r; latch.countDown() }, Handler(Looper.getMainLooper()))
-        assertTrue("PixelCopy timed out", latch.await(10, TimeUnit.SECONDS))
-        assertEquals("PixelCopy failed", PixelCopy.SUCCESS, result)
-        return bmp
-    }
+    private fun grab(): Bitmap = sink.latest ?: error("no frame has been drawn yet")
 
     private data class Stats(val mean: Double, val std: Double)
 
@@ -163,10 +167,14 @@ class PreviewInstrumentedTest {
 
     /** Waits until the surface shows a picture (not black) and returns it. */
     private fun waitForVisibleFrame(): Bitmap = waitFor("a visible, non-black frame") {
-        val b = grab()
-        val s = stats(b)
-        if (s.mean > 20 && s.std > 15) b else null
+        val b = sink.latest
+        val s = b?.let { stats(it) }
+        if (b != null && s!!.mean > 20 && s.std > 15) b else null
     }
+
+    /** A frame drawn after this call (e.g. after a seek), not the one left from before. */
+    private fun waitForFreshFrame(after: Int): Bitmap =
+        waitFor("a new frame after #$after") { if (sink.count.get() > after) sink.latest else null }
 
     private fun assertNoError(e: PreviewEngine, where: String) = assertNull("preview error at $where: ${e.error.value}", e.error.value)
 
@@ -208,10 +216,12 @@ class PreviewInstrumentedTest {
         // 4. jump to different places, including the last second
         val frames = ArrayList<Bitmap>()
         for (sec in listOf(30L, 100L, 140L)) {
+            val n = sink.count.get()
             inst.runOnMainSync { e.seekTo(sec * 1_000_000, immediate = true) }
             waitFor("position $sec s") { if (abs(e.positionUs.value - sec * 1_000_000) < 300_000) true else null }
-            Thread.sleep(400)
-            frames += waitForVisibleFrame()
+            val f = waitForFreshFrame(n)
+            assertTrue("seek $sec s drew a black frame: ${stats(f)}", stats(f).mean > 20)
+            frames += f
             assertNoError(e, "seek $sec")
         }
         assertTrue("frames at 30 s and 100 s identical", diff(frames[0], frames[1]) > 1.0)
@@ -240,7 +250,7 @@ class PreviewInstrumentedTest {
         }
         Thread.sleep(1500)
         assertTrue("stale seek overwrote the latest: ${e.positionUs.value}", abs(e.positionUs.value - target) < 400_000)
-        waitForVisibleFrame()
+        assertTrue("black after scrubbing", stats(grab()).mean > 20)
         assertNoError(e, "scrubbing")
     }
 
@@ -256,9 +266,10 @@ class PreviewInstrumentedTest {
         waitForPicture(e)
         val horizontal = waitForVisibleFrame()
         // inside the second (vertical) clip
+        val n = sink.count.get()
         inst.runOnMainSync { e.seekTo(5_500_000, immediate = true) }
-        Thread.sleep(800)
-        val vertical = waitForVisibleFrame()
+        val vertical = waitForFreshFrame(n)
+        assertTrue("black frame in the vertical clip", stats(vertical).mean > 20)
         assertNoError(e, "clip switch")
         assertTrue("same picture for both clips", diff(horizontal, vertical) > 2.0)
         // a vertical video inside a 16:9 canvas is fitted, not stretched: bars at the sides, picture in the middle
@@ -318,6 +329,7 @@ class PreviewInstrumentedTest {
         assertTrue(!e.firstFrame.value)
         // fixing the project clears the error and shows the picture
         feed(e, project(goodClip))
+        waitFor("the error to clear") { if (e.error.value == null) true else null }
         waitForPicture(e)
         waitForVisibleFrame()
         assertNull(e.error.value)
