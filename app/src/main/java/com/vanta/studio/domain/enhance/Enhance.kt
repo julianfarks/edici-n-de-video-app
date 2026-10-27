@@ -179,7 +179,7 @@ object Enhance {
         return out
     }
 
-    private fun ColorAdjust.plus(d: ColorAdjust) = ColorAdjust(
+    private operator fun ColorAdjust.plus(d: ColorAdjust) = ColorAdjust(
         brightness = (brightness + d.brightness).coerceIn(-1f, 1f), contrast = (contrast + d.contrast).coerceIn(-1f, 1f),
         saturation = (saturation + d.saturation).coerceIn(-1f, 1f), exposure = (exposure + d.exposure).coerceIn(-1f, 1f),
         temperature = (temperature + d.temperature).coerceIn(-1f, 1f), tint = (tint + d.tint).coerceIn(-1f, 1f),
