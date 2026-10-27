@@ -39,6 +39,14 @@ jobs:
           ffmpeg -y -f lavfi -i "aevalsrc='0.9*sin(2*PI*(45+140*exp(-30*mod(t,0.5)))*mod(t,0.5))*exp(-9*mod(t,0.5))+0.22*(random(1)*2-1)*exp(-70*mod(t+0.25,0.5))':s=44100:d=10" \
             -c:a aac -b:a 128k app/src/androidTest/assets/song.m4a
           ffprobe -v error -show_entries format=duration -of csv=p=0 app/src/androidTest/assets/song.m4a
+      - name: Generate Spanish speech (synthetic) with a pause, muxed into a video
+        run: |
+          sudo apt-get install -y -qq espeak-ng
+          espeak-ng -v es-419 -s 150 -w /tmp/p1.wav "Hola amigos, bienvenidos a mi canal."
+          espeak-ng -v es-419 -s 150 -w /tmp/p2.wav "Hoy vamos a editar un video muy rapido."
+          ffmpeg -y -i /tmp/p1.wav -i /tmp/p2.wav -filter_complex "[0:a]aresample=44100,apad=pad_dur=3.0[a];[1:a]aresample=44100[b];[a][b]concat=n=2:v=0:a=1,apad=whole_dur=9[o]" -map "[o]" /tmp/speech.wav
+          ffmpeg -y -f lavfi -i color=c=0x203040:size=640x360:rate=30:duration=9 -i /tmp/speech.wav -c:v libx264 -pix_fmt yuv420p -c:a aac -shortest app/src/androidTest/assets/speech.mp4
+          ffprobe -v error -show_entries format=duration -of csv=p=0 app/src/androidTest/assets/speech.mp4
       - name: Run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
