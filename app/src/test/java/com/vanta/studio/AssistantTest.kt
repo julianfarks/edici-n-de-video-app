@@ -173,7 +173,7 @@ class AssistantTest {
         assertEquals(3, r.unclear.size)
         // an out-of-range speed passes parsing but the executor refuses it
         val run = AssistantExec.apply(project(), r.ops, 0, idGen())
-        assertTrue(run.skipped.any { it.first.value == 9999.0 && it.second == Reason.INVALID })
+        assertTrue(run.skipped.any { it.first.value == 9999.0 && it.second == Reason.OUT_OF_RANGE })
     }
 
     @Test(expected = org.json.JSONException::class)
