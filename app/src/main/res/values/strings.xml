@@ -564,4 +564,12 @@
     <string name="reason_name">name not recognised</string>
     <string name="reason_invalid">invalid value</string>
     <string name="reason_nothing">nothing to change</string>
+    <string name="tpl_section">Templates (editable, no media)</string>
+    <string name="tpl_tiktok_fast">Fast TikTok</string>
+    <string name="tpl_reel_clean">Clean Reel</string>
+    <string name="tpl_youtube_clean">Clean YouTube</string>
+    <string name="tpl_cinematic">Cinematic</string>
+    <string name="tpl_nostalgia">Nostalgia</string>
+    <string name="tpl_music_clip">Music clip</string>
+    <string name="tpl_interview">Interview / podcast</string>
 </resources>

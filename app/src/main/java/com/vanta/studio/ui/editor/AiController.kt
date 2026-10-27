@@ -11,6 +11,7 @@ import com.vanta.studio.domain.assistant.AssistantExec
 import com.vanta.studio.domain.assistant.ExecResult
 import com.vanta.studio.domain.assistant.Interpretation
 import com.vanta.studio.domain.assistant.SpanishInterpreter
+import com.vanta.studio.domain.assistant.Template
 import com.vanta.studio.engine.assistant.LlmInterpreter
 import com.vanta.studio.engine.assistant.UsageMeter
 import com.vanta.studio.domain.audio.SilenceDetector
@@ -73,6 +74,7 @@ data class AssistantSession(
     val instruction: String,
     val interpretation: Interpretation,
     val viaCloud: Boolean,
+    val templateId: String? = null,
     val base: Project? = null,
     val result: ExecResult? = null,
 )
@@ -342,6 +344,12 @@ class AiController(
         _state.update { it.copy(assistant = AssistantSession(text, SpanishInterpreter.parse(text), viaCloud = false)) }
     }
 
+    /** Proposes a local template: the same review, apply, preview, cancel and undo as any instruction. */
+    fun proposeTemplate(t: Template) {
+        cancelAssistantPreview()
+        _state.update { it.copy(assistant = AssistantSession(t.id, Interpretation(t.ops), viaCloud = false, templateId = t.id)) }
+    }
+
     /** Asks the user's own language-model service. Only call after the user has agreed to what is sent. */
     fun interpretCloud(instruction: String) {
         val text = instruction.trim()
@@ -363,7 +371,7 @@ class AiController(
         val s = _state.value.assistant ?: return
         val base = s.base ?: vm.project ?: return
         val result = AssistantExec.apply(base, s.interpretation.ops, vm.positionUs) { MediaImporter.newId() }
-        if (result.applied.isNotEmpty()) vm.mutate { result.project.copy(modifiedAt = it.modifiedAt) }
+        if (result.applied.isNotEmpty()) vm.mutate { result.project.copy(modifiedAt = it.modifiedAt, templateId = s.templateId ?: result.project.templateId) }
         _state.update { it.copy(assistant = s.copy(base = base, result = result)) }
     }
 

@@ -31,6 +31,7 @@ import com.vanta.studio.domain.assistant.AssistantOp
 import com.vanta.studio.domain.assistant.Ops
 import com.vanta.studio.domain.assistant.Reason
 import com.vanta.studio.domain.assistant.SpanishInterpreter
+import com.vanta.studio.domain.assistant.Templates
 import com.vanta.studio.ui.components.Chip
 import com.vanta.studio.ui.components.ConfirmDialog
 import com.vanta.studio.ui.components.PanelScaffold
@@ -107,6 +108,13 @@ fun AssistantPanel(vm: EditorViewModel, state: EditorState, close: () -> Unit) {
             )
             Row(Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 SpanishInterpreter.EXAMPLES.forEach { ex -> Chip(ex, false, { text = ex }) }
+            }
+            SectionLabel(stringResource(R.string.tpl_section))
+            Row(Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Templates.all.forEach { t ->
+                    val label = ctx.resources.getIdentifier("tpl_" + t.id, "string", ctx.packageName).takeIf { it != 0 }?.let { ctx.getString(it) } ?: t.id
+                    Chip(label, state.project?.templateId == t.id, { vm.ai.proposeTemplate(t) })
+                }
             }
             JobBar(ai, AiJobKind.ASSISTANT) { vm.ai.cancel() }
             Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {

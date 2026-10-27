@@ -180,4 +180,28 @@ class AssistantTest {
     fun garbageReplyFailsLoudly() {
         com.vanta.studio.engine.assistant.LlmInterpreter("https://x.invalid/v1", "m", "k").parse("sure! here you go")
     }
+
+    @Test
+    fun everyTemplateIsMadeOfValidKnownOperations() {
+        assertTrue(com.vanta.studio.domain.assistant.Templates.all.size >= 6)
+        com.vanta.studio.domain.assistant.Templates.all.forEach { t ->
+            assertTrue("${t.id} has no ops", t.ops.isNotEmpty())
+            t.ops.forEach { o ->
+                assertTrue("${t.id}: invalid $o", AssistantExec.validate(o))
+                if (o.op == Ops.FILTER) assertTrue("${t.id}: unknown filter ${o.name}", com.vanta.studio.domain.effects.Grade.filter(o.name!!) != null)
+                if (o.op == Ops.OPEN_TOOL) assertTrue("${t.id}: unknown tool", o.name in Ops.TOOLS)
+            }
+        }
+    }
+
+    @Test
+    fun aTemplateAppliesToARealProjectAndChangesOnlyLookAndFormat() {
+        val p = project()
+        val t = com.vanta.studio.domain.assistant.Templates.byId("cinematic")!!
+        val r = AssistantExec.apply(p, t.ops, 0, idGen())
+        assertEquals(com.vanta.studio.domain.model.AspectRatio.R16_9, r.project.canvas.aspect)
+        assertEquals(p.clips.map { it.id to it.durationUs }, r.project.clips.map { it.id to it.durationUs })
+        assertTrue(r.applied.isNotEmpty())
+        assertTrue(r.skipped.isEmpty())
+    }
 }

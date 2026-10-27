@@ -566,4 +566,12 @@
     <string name="reason_name">nombre no reconocido</string>
     <string name="reason_invalid">valor no válido</string>
     <string name="reason_nothing">no había nada que cambiar</string>
+    <string name="tpl_section">Plantillas (editables, sin medios)</string>
+    <string name="tpl_tiktok_fast">TikTok rápido</string>
+    <string name="tpl_reel_clean">Reel limpio</string>
+    <string name="tpl_youtube_clean">YouTube limpio</string>
+    <string name="tpl_cinematic">Cinemático</string>
+    <string name="tpl_nostalgia">Nostalgia</string>
+    <string name="tpl_music_clip">Clip musical</string>
+    <string name="tpl_interview">Entrevista / podcast</string>
 </resources>
