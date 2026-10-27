@@ -34,6 +34,11 @@ jobs:
           mkdir -p app/src/androidTest/assets
           ffmpeg -y -f lavfi -i testsrc=duration=3:size=640x360:rate=30 -f lavfi -i sine=frequency=440:duration=3 \
             -c:v libx264 -pix_fmt yuv420p -c:a aac -shortest app/src/androidTest/assets/sample.mp4
+      - name: Generate a 120 BPM drum loop (kick + hats) as an AAC song
+        run: |
+          ffmpeg -y -f lavfi -i "aevalsrc='0.9*sin(2*PI*(45+140*exp(-30*mod(t,0.5)))*mod(t,0.5))*exp(-9*mod(t,0.5))+0.22*(random(1)*2-1)*exp(-70*mod(t+0.25,0.5))':s=44100:d=10" \
+            -c:a aac -b:a 128k app/src/androidTest/assets/song.m4a
+          ffprobe -v error -show_entries format=duration -of csv=p=0 app/src/androidTest/assets/song.m4a
       - name: Run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
