@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.2.1-alpha
+
+Fixes the black preview ("Error de vista previa: -9223372036854775807").
+
+### Cause
+The number is Media3's `C.TIME_UNSET`. `CompositionPlayer` adds up each item's presentation
+duration and requires it to be positive; it throws `IllegalStateException("-9223372036854775807")`
+when an item has no source duration. The composition factory set a duration only for still images,
+never for video clips, audio clips or the silent spacers, so **every video preview failed**. Export
+does not need the value, which is why the export tests passed while the preview never worked.
+
+### Changed
+- `CompositionFactory`: every video, audio and silence item of the preview gets its full source
+  duration (never smaller than the part used, never an unset value).
+- `PreviewEngine`: "first frame drawn" signal, `retry()`, a newer seek replaces an older pending one,
+  all positions normalised to the valid range, invalid player positions ignored, stale rebuilds dropped.
+- Editor: "Preparando vista previa…" while the first frame is prepared; a readable error card with the
+  technical detail and a **Reintentar** button instead of a permanent black screen.
+- Contrast: text outside Material surfaces defaulted to black (the project name); the theme now sets
+  the content colour, the project name is explicit, and the faint text colour was raised to ≥ 4.5:1.
+- The timeline hint is closable, disappears by itself after 8 s and, once seen or closed, does not return
+  (it can be re-enabled in Settings).
+
+### Verified (and how)
+- **Unit tests, all pass**: valid source durations for unset/zero/unbounded metadata, and WCAG
+  contrast ratios of the palette on every background it is used on.
+- **Android 13 emulator, 11 of 11 pass**, with a generated 146 s video (like the one in the report) and a
+  vertical one, drawing into a surface whose pixels are read back:
+  - first frame visible (mean brightness 128, not black), no error;
+  - play (position advances, picture changes), pause (position holds, picture stays);
+  - jumps to 30 s / 100 s / 140 s each draw a new, non-black frame;
+  - frame step forward/back; negative and huge positions are clamped; 40 rapid seeks → the last wins;
+  - switching to a vertical clip: picture changes, black bars at the sides (fitted, not stretched), playing across the cut;
+  - save, close, reopen: the media is still there and plays;
+  - a missing source reports an error (not an endless black screen) and recovers when fixed.
+- The earlier real-SurfaceView run of the same code also rendered the first frame with no error.
+
+### Not verified
+- Not yet tried by hand on a physical phone (the report's device). The emulator uses software
+  codecs; a vendor decoder on a specific phone could still fail in its own way, and the new error card
+  would then show the real message.
+- Preview of 4K/HEVC/10-bit camera footage specifically; the test videos are H.264 640x360.
+- The contrast check covers the palette, not every screen by eye.
+
 ## 0.2.0-alpha
 
 AI Studio, rhythm-synchronised light effects, automatic subtitles and a text-instruction assistant.
