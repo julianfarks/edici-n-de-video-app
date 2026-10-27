@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vanta_bg">#FF0B0B10</color>
+    <color name="vanta_accent">#FF8B6CFF</color>
+    <color name="vanta_accent_bright">#FFB9A6FF</color>
+</resources>
