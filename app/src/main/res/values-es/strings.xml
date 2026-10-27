@@ -325,4 +325,14 @@
         <item quantity="many">No se pudieron importar %d archivos</item>
         <item quantity="other">No se pudieron importar %d archivos</item>
     </plurals>
+    <string name="ai_err_no_model">Falta el modelo de voz. Descárgalo primero.</string>
+    <string name="ai_err_no_audio">Este clip no tiene una pista de audio legible.</string>
+    <string name="ai_err_network">Problema de red. Revisa tu conexión e inténtalo de nuevo.</string>
+    <string name="ai_err_auth">El servicio rechazó la clave, o no hay clave configurada.</string>
+    <string name="ai_err_quota">El servicio indicó un límite de uso o cuota.</string>
+    <string name="ai_err_engine">El motor de reconocimiento falló.</string>
+    <string name="ai_err_memory">No hay memoria suficiente para este archivo. Prueba con un clip más corto.</string>
+    <string name="ai_err_generic">Algo salió mal.</string>
+    <string name="ai_err_no_rhythm">No se encontró un ritmo claro en este audio.</string>
+    <string name="ai_err_no_speech">No se reconoció habla.</string>
 </resources>

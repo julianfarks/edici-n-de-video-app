@@ -323,4 +323,14 @@
         <item quantity="one">%d file could not be imported</item>
         <item quantity="other">%d files could not be imported</item>
     </plurals>
+    <string name="ai_err_no_model">Speech model not installed. Download it first.</string>
+    <string name="ai_err_no_audio">This clip has no readable audio track.</string>
+    <string name="ai_err_network">Network problem. Check your connection and try again.</string>
+    <string name="ai_err_auth">The service rejected the key, or no key is set.</string>
+    <string name="ai_err_quota">The service reported a rate or quota limit.</string>
+    <string name="ai_err_engine">The recognition engine failed.</string>
+    <string name="ai_err_memory">Not enough memory for this file. Try a shorter clip.</string>
+    <string name="ai_err_generic">Something went wrong.</string>
+    <string name="ai_err_no_rhythm">No clear rhythm found in this audio.</string>
+    <string name="ai_err_no_speech">No speech was recognised.</string>
 </resources>

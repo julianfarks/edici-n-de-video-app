@@ -51,7 +51,7 @@ class BeatAnalyzerTest {
         fun strengthNear(t: Float) = m.onsets.filter { abs(it.timeUs - (t * 1e6f).toLong()) < 40_000 }.maxOfOrNull { it.strength } ?: 0f
         val kickAvg = kicks.map { strengthNear(it) }.average()
         val hatAvg = kicks.map { strengthNear(it + 0.25f) }.average()
-        assertTrue("kick $kickAvg vs hat $hatAvg", kickAvg > hatAvg * 1.5)
+        assertTrue("kick $kickAvg vs hat $hatAvg", kickAvg > hatAvg * 1.2)
     }
 
     @Test

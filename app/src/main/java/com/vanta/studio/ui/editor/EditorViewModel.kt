@@ -49,6 +49,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.vanta.studio.domain.fx.FxOps
+import com.vanta.studio.domain.model.FxEvent
+import com.vanta.studio.domain.model.FxType
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -59,6 +62,8 @@ sealed interface Selection {
     data class OfText(val id: String) : Selection
     data class OfOverlay(val id: String) : Selection
     data class OfAudio(val id: String) : Selection
+    data class OfFx(val id: String) : Selection
+    data class OfCue(val id: String) : Selection
 
     val itemId: String?
         get() = when (this) {
@@ -67,6 +72,8 @@ sealed interface Selection {
             is OfText -> id
             is OfOverlay -> id
             is OfAudio -> id
+            is OfFx -> id
+            is OfCue -> id
         }
 }
 
@@ -163,6 +170,8 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
         is Selection.OfText -> if (p.texts.any { it.id == s.id }) s else Selection.None
         is Selection.OfOverlay -> if (p.overlays.any { it.id == s.id }) s else Selection.None
         is Selection.OfAudio -> if (p.audio.any { it.id == s.id }) s else Selection.None
+        is Selection.OfFx -> if (p.fx.any { it.id == s.id }) s else Selection.None
+        is Selection.OfCue -> if (p.subtitles?.cues?.any { it.id == s.id } == true) s else Selection.None
     }
 
     /** Applies [f] as one undoable step. */
@@ -836,6 +845,39 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
         val h = history ?: return
         if (h.redo() != null) publish()
     }
+
+    // ------------------------------------------------------------------ AI / effects plumbing
+
+    /** One undoable edit made by a feature outside this class (AI tools, effects). */
+    fun mutate(f: (Project) -> Project) = edit(f)
+
+    /** A continuous change (slider drag); finish with [endGesture]. */
+    fun mutateLive(f: (Project) -> Project) = live(f)
+
+    val ai: AiController by lazy { AiController(c, this, viewModelScope) }
+
+    fun addFx(type: FxType, atUs: Long = positionUs) {
+        val id = MediaImporter.newId()
+        edit { FxOps.addAt(it, id, type, atUs) }
+        select(Selection.OfFx(id))
+    }
+
+    fun updateFx(id: String, f: (FxEvent) -> FxEvent) = mutateLive { FxOps.update(it, id, f) }
+
+    fun deleteFx(id: String) {
+        edit { FxOps.delete(it, id) }
+        select(Selection.None)
+    }
+
+    fun duplicateFx(id: String) {
+        val newId = MediaImporter.newId()
+        edit { FxOps.duplicate(it, id, newId) }
+        select(Selection.OfFx(newId))
+    }
+
+    fun toggleMarkerAtPlayhead() = edit { FxOps.toggleMarker(it, positionUs) }
+
+    fun clearMarkers() = edit { it.copy(markers = emptyList()) }
 
     /** Playhead-relative helpers for the timeline UI. */
     fun snapCandidates(excludeId: String?): List<Long> {

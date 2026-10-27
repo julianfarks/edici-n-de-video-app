@@ -72,7 +72,11 @@ object BeatAnalyzer {
             if (isMax) onsetFrames += t
         }
         val rawOnsets = onsetFrames.map { t ->
-            val strength = ((flux[t] - mean[t]) / scale).coerceIn(0f, 1f)
+            // Relative to the loudest accents of the file, but also capped by how far the peak
+            // stands above its own surroundings: in steady noise every peak is only slightly above
+            // the local mean, so nothing there is allowed to count as a strong hit.
+            val rise = flux[t] - mean[t]
+            val strength = min(rise / scale, rise / max(mean[t], 1e-6f)).coerceIn(0f, 1f)
             Beat(refineOnset(pcm, t, sampleRate), strength)
         }.sortedBy { it.timeUs }
         val onsets = enforceGap(rawOnsets, 80_000L)
