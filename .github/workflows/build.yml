@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -25,9 +25,14 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
       - name: Unit tests
-        run: ./gradlew --no-daemon :app:testDebugUnitTest
+        run: |
+          set -o pipefail
+          mkdir -p ci-logs
+          ./gradlew --no-daemon --console=plain :app:testDebugUnitTest 2>&1 | tee ci-logs/unit-tests.log
       - name: Build debug APK
-        run: ./gradlew --no-daemon :app:assembleDebug
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon --console=plain :app:assembleDebug 2>&1 | tee ci-logs/assemble.log
       - name: Lint (informational)
         continue-on-error: true
         run: ./gradlew --no-daemon :app:lintDebug
@@ -45,3 +50,15 @@ jobs:
             app/build/reports/tests/
             app/build/reports/lint-results-debug.html
           if-no-files-found: ignore
+      - name: Publish build logs to the ci-logs branch
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          mkdir -p ci-logs
+          for r in app/build/test-results/testDebugUnitTest; do [ -d "$r" ] && cp -r "$r" ci-logs/test-results || true; done
+          grep -hE "^e: |^w: .*(deprecat|unchecked)" ci-logs/*.log | head -300 > ci-logs/errors.txt || true
+          echo "run ${{ github.run_id }} sha ${{ github.sha }}" > ci-logs/INFO.txt
+          cd ci-logs
+          git init -q -b ci-logs
+          git config user.name "ci"; git config user.email "ci@users.noreply.github.com"
+          git add -A && git commit -qm "logs for ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-logs
