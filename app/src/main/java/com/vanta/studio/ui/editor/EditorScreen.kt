@@ -594,6 +594,7 @@ private fun BottomArea(
                     Panel.SUBTITLES -> SubtitlesPanel(vm, container, state, close)
                     Panel.SILENCE -> SilencePanel(vm, state, close)
                     Panel.AUTO_EDIT -> AutoEditPanel(vm, state, close)
+                    Panel.ASSISTANT -> AssistantPanel(vm, state, close)
                 }
             }
         }

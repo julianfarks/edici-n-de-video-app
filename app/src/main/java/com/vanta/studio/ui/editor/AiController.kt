@@ -7,6 +7,12 @@ import com.vanta.studio.R
 import com.vanta.studio.domain.fx.AutoSyncOptions
 import com.vanta.studio.domain.fx.FxAutoSync
 import com.vanta.studio.domain.fx.FxOps
+import com.vanta.studio.domain.assistant.AssistantExec
+import com.vanta.studio.domain.assistant.ExecResult
+import com.vanta.studio.domain.assistant.Interpretation
+import com.vanta.studio.domain.assistant.SpanishInterpreter
+import com.vanta.studio.engine.assistant.LlmInterpreter
+import com.vanta.studio.engine.assistant.UsageMeter
 import com.vanta.studio.domain.audio.SilenceDetector
 import com.vanta.studio.domain.edit.AutoEdit
 import com.vanta.studio.domain.edit.AutoEditOptions
@@ -33,7 +39,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /** Something the AI hub can run. */
-enum class AiJobKind { BEAT, SUBTITLES, MODEL, SILENCE }
+enum class AiJobKind { BEAT, SUBTITLES, MODEL, SILENCE, ASSISTANT }
 
 data class AiJobState(val kind: AiJobKind, val progress: Float)
 
@@ -54,6 +60,21 @@ data class AiState(
     val silenceChosen: Set<Int> = emptySet(),
     /** Open auto-edit session: the project as it was before, and the version being shown. */
     val autoEdit: AutoEditSession? = null,
+    /** Instruction being reviewed or just applied in the text assistant. */
+    val assistant: AssistantSession? = null,
+    val llmConfigured: Boolean = false,
+)
+
+/**
+ * A text instruction and what was understood from it. [base] is set once the proposal has been
+ * applied (as a preview), so it can be cancelled back to exactly the previous project.
+ */
+data class AssistantSession(
+    val instruction: String,
+    val interpretation: Interpretation,
+    val viaCloud: Boolean,
+    val base: Project? = null,
+    val result: ExecResult? = null,
 )
 
 /** The untouched project, the current version number and what it contains, while the user compares versions. */
@@ -77,7 +98,7 @@ class AiController(
     private val vm: EditorViewModel,
     private val scope: CoroutineScope,
 ) {
-    private val _state = MutableStateFlow(AiState(cloudConfigured = c.secrets.has(CLOUD_KEY)))
+    private val _state = MutableStateFlow(AiState(cloudConfigured = c.secrets.has(CLOUD_KEY), llmConfigured = c.secrets.has(LLM_KEY)))
     val state: StateFlow<AiState> = _state.asStateFlow()
     private var job: Job? = null
 
@@ -286,6 +307,76 @@ class AiController(
         _state.update { it.copy(autoEdit = null) }
     }
 
+    // ------------------------------------------------------------------ text assistant
+
+    val meter: UsageMeter by lazy { UsageMeter(c.context) }
+
+    private fun prefs() = c.context.getSharedPreferences("vanta_ai", android.content.Context.MODE_PRIVATE)
+
+    fun llmSettings(): Pair<String, String> =
+        (prefs().getString("llm_url", DEFAULT_URL) ?: DEFAULT_URL) to (prefs().getString("llm_model", DEFAULT_LLM_MODEL) ?: DEFAULT_LLM_MODEL)
+
+    fun saveLlmSettings(url: String, model: String, key: String, monthlyLimit: Int) {
+        prefs().edit().putString("llm_url", url.trim()).putString("llm_model", model.trim()).apply()
+        meter.limit = monthlyLimit
+        if (key.isNotBlank()) {
+            c.secrets.put(LLM_KEY, key)
+            _state.update { it.copy(llmConfigured = true) }
+        }
+    }
+
+    fun forgetLlmKey() {
+        c.secrets.put(LLM_KEY, "")
+        _state.update { it.copy(llmConfigured = false) }
+    }
+
+    /** What would be sent to the service, shown in the consent dialog. */
+    fun llmPreview(instruction: String): String =
+        vm.project?.let { LlmInterpreter.summary(it, vm.positionUs) + "\n" + instruction } ?: instruction
+
+    /** Understands the instruction offline, with fixed rules. Nothing leaves the device. */
+    fun interpretLocal(instruction: String) {
+        val text = instruction.trim()
+        if (text.isEmpty()) return
+        cancelAssistantPreview()
+        _state.update { it.copy(assistant = AssistantSession(text, SpanishInterpreter.parse(text), viaCloud = false)) }
+    }
+
+    /** Asks the user's own language-model service. Only call after the user has agreed to what is sent. */
+    fun interpretCloud(instruction: String) {
+        val text = instruction.trim()
+        val project = vm.project ?: return
+        if (text.isEmpty()) return
+        val key = c.secrets.get(LLM_KEY)?.takeIf { it.isNotBlank() } ?: return fail(R.string.ai_err_auth, null)
+        if (!meter.canCall) return fail(R.string.assist_limit_reached, null)
+        cancelAssistantPreview()
+        val (url, model) = llmSettings()
+        run(AiJobKind.ASSISTANT) {
+            val interpretation = LlmInterpreter(url, model, key).interpret(text, project, vm.positionUs)
+            meter.record()
+            _state.update { it.copy(assistant = AssistantSession(text, interpretation, viaCloud = true)) }
+        }
+    }
+
+    /** Applies the proposal to the project as one undoable step, keeping the previous project to cancel back to. */
+    fun applyAssistant() {
+        val s = _state.value.assistant ?: return
+        val base = s.base ?: vm.project ?: return
+        val result = AssistantExec.apply(base, s.interpretation.ops, vm.positionUs) { MediaImporter.newId() }
+        if (result.applied.isNotEmpty()) vm.mutate { result.project.copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(assistant = s.copy(base = base, result = result)) }
+    }
+
+    fun acceptAssistant() = _state.update { it.copy(assistant = null) }
+
+    /** Puts the project back as it was before the instruction was applied. */
+    fun cancelAssistantPreview() {
+        val s = _state.value.assistant ?: return
+        val base = s.base
+        if (base != null && s.result?.applied?.isNotEmpty() == true) vm.mutate { base.copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(assistant = null) }
+    }
+
     private fun clipAtPlayhead(): String? {
         val p = vm.project ?: return null
         var start = 0L
@@ -299,6 +390,8 @@ class AiController(
 
     companion object {
         const val CLOUD_KEY = "cloud_asr_key"
+        const val LLM_KEY = "llm_assistant_key"
+        const val DEFAULT_LLM_MODEL = "gpt-4o-mini"
         const val DEFAULT_URL = "https://api.openai.com/v1"
         const val DEFAULT_MODEL = "whisper-1"
     }

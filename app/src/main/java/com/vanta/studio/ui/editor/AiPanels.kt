@@ -159,7 +159,7 @@ fun AiStudioPanel(vm: EditorViewModel, container: AppContainer, state: EditorSta
         AiToolInfo(Icons.Rounded.MusicNote, R.string.ai_t_beat_edit, R.string.ai_d_beat_edit, ToolStatus.AVAILABLE) { vm.openPanel(Panel.AUTO_EDIT) },
         AiToolInfo(Icons.Rounded.Highlight, R.string.ai_t_moments, R.string.ai_d_moments, ToolStatus.NOT_IMPLEMENTED, null),
         AiToolInfo(Icons.Rounded.ContentCut, R.string.ai_t_silence, R.string.ai_d_silence, ToolStatus.AVAILABLE) { vm.openPanel(Panel.SILENCE) },
-        AiToolInfo(Icons.Rounded.Chat, R.string.ai_t_assistant, R.string.ai_d_assistant, ToolStatus.NOT_IMPLEMENTED, null),
+        AiToolInfo(Icons.Rounded.Chat, R.string.ai_t_assistant, R.string.ai_d_assistant, ToolStatus.AVAILABLE) { vm.openPanel(Panel.ASSISTANT) },
         AiToolInfo(Icons.Rounded.Translate, R.string.ai_t_translate, R.string.ai_d_translate, ToolStatus.NOT_IMPLEMENTED, null),
         AiToolInfo(Icons.Rounded.RecordVoiceOver, R.string.ai_t_tts, R.string.ai_d_tts, ToolStatus.NOT_IMPLEMENTED, null),
         AiToolInfo(Icons.Rounded.CenterFocusStrong, R.string.ai_t_tracking, R.string.ai_d_tracking, ToolStatus.NOT_IMPLEMENTED, null),
