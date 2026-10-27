@@ -1,7 +1,7 @@
 name: Release
 
 # Publishes an installable APK as a GitHub Release.
-#   - push a tag like v0.1.0-alpha, or push to the `release` branch (publishes v0.1.0-alpha), or
+#   - push a tag like v0.1.0-alpha, or push to the `release` branch (publishes v0.2.0-alpha), or
 #   - run manually from the Actions tab and give the tag.
 # Signing: if the repository secrets below exist the APK is signed with that key, otherwise it is
 # signed with the debug key (fine for testing, not for the Play Store). No key is ever committed.
@@ -14,9 +14,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Release tag (e.g. v0.1.0-alpha)
+        description: Release tag (e.g. v0.2.0-alpha)
         required: true
-        default: v0.1.0-alpha
+        default: v0.2.0-alpha
 
 permissions:
   contents: write
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      TAG: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v0.1.0-alpha' }}
+      TAG: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v0.2.0-alpha' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
