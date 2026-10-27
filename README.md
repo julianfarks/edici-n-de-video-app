@@ -3,7 +3,7 @@
 A video editor for Android, written in Kotlin with Jetpack Compose and Media3.
 Dark, minimal interface with its own identity (graphite and violet). Spanish and English.
 
-> **Status: 0.1.0-alpha.** Everything described here is implemented in code. The project is
+> **Status: 0.2.0-alpha.** Everything described here is implemented in code. The project is
 > compiled and unit-tested by GitHub Actions on every push, and a real export is exercised on an
 > emulator in CI, but the **interface has not yet been tried on a physical device by the author**. Read [CHANGELOG.md](CHANGELOG.md) for the honest list of
 > what is verified and what is not.
@@ -35,10 +35,17 @@ Release builds are signed with the debug key unless the maintainer configures a 
 - **Safety**: atomic autosave with backup, recovery after a crash, missing-media and corrupt-project
   handling, project format migration.
 
+## AI Studio (0.2.0)
+
+Subtitles (offline Spanish first), rhythm analysis, synchronised light effects, automatic edit to
+the music, silence removal, instruction assistant and templates. What is real, what needs your own
+API key or a downloaded model, and what is not built yet: [docs/AI.md](docs/AI.md). No API key is
+ever shipped in the app; keys you enter are stored encrypted on your device, and anything sent to
+an external service is shown to you and needs your confirmation first.
+
 ## Not (yet) included
 
-See the limitations list in [CHANGELOG.md](CHANGELOG.md). Highlights: no speed curves, no automatic
-captions, no cloud assets, no chroma key, no masks, no multi-track video compositing (video is a
+See the limitations list in [CHANGELOG.md](CHANGELOG.md). Highlights: no speed curves, no cloud assets, no chroma key, no masks, no multi-track video compositing (video is a
 single magnetic track; overlays are images, text and shapes).
 
 ## Build
@@ -66,4 +73,5 @@ manually; it builds the APK and attaches it to a GitHub Release together with a 
 
 ## Documentation
 
+- [docs/AI.md](docs/AI.md) — AI tools: real, needs a connection, not implemented.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — modules, data flow, preview/export pipeline and decisions.
