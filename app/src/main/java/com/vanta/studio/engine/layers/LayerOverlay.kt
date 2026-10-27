@@ -25,6 +25,7 @@ class LayerOverlay(
     }
 
     companion object {
+        val HIDDEN_SETTINGS: OverlaySettings get() = HIDDEN
         private val HIDDEN: OverlaySettings = StaticOverlaySettings.Builder().setAlphaScale(0f).build()
 
         /** Maps a layer frame (centre in 0..1, y down, clockwise degrees) to Media3 settings. */

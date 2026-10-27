@@ -30,6 +30,7 @@ import com.vanta.studio.engine.audio.Silence
 import com.vanta.studio.engine.effects.ClipMotionEffect
 import com.vanta.studio.engine.effects.ClipSource
 import com.vanta.studio.engine.effects.ColorGradeEffect
+import com.vanta.studio.engine.effects.LightEventsEffect
 import com.vanta.studio.engine.layers.LayerOverlay
 import com.vanta.studio.engine.layers.LayerRenderer
 import java.io.File
@@ -135,6 +136,9 @@ class CompositionFactory(private val context: Context) {
         videoEffects += ColorGradeEffect(source, clock)
         videoEffects += Presentation.createForWidthAndHeight(mode.width, mode.height, Presentation.LAYOUT_SCALE_TO_FIT)
         videoEffects += ClipMotionEffect(source, clock, transitions)
+        // The effect exists only if the project has light events when the pipeline is built;
+        // adding the first one rebuilds the preview (see PreviewEngine.structuralKey), later edits are live.
+        if (project.fx.isNotEmpty()) videoEffects += LightEventsEffect(live, clock)
         if (mode is Mode.Export) {
             buildOverlays(project, startUs, durationUs, mode, clock)?.let { videoEffects += it }
         }
@@ -178,6 +182,10 @@ class CompositionFactory(private val context: Context) {
         project.overlays.filter { it.startUs < endUs && it.endUs > startUs }.forEach { o ->
             val bmp = LayerRenderer.overlay(context, o, mode.width, mode.height) ?: return@forEach
             layers += o.z to LayerOverlay.forOverlay(o, bmp, clock)
+        }
+        project.subtitles?.takeIf { t -> t.enabled && t.cues.any { it.startUs < endUs && it.endUs > startUs } }?.let { t ->
+            // Subtitles sit above stickers and below nothing: highest z.
+            layers += Int.MAX_VALUE to com.vanta.studio.engine.layers.SubtitleRenderer.Overlay(t, mode.width, mode.height, clock)
         }
         if (layers.isEmpty()) return null
         return OverlayEffect(ImmutableList.copyOf(layers.sortedBy { it.first }.map { it.second }))

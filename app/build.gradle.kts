@@ -22,6 +22,7 @@ android {
         versionName = "0.1.0-alpha"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
+        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }
     }
 
     signingConfigs {
@@ -112,6 +113,10 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.android)
+
+    // Offline speech recognition (Kaldi). JNA must be the Android AAR, not the desktop jar.
+    implementation(libs.vosk.android) { exclude(group = "net.java.dev.jna", module = "jna") }
+    implementation("net.java.dev.jna:jna:${libs.versions.jna.get()}@aar")
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

@@ -16,6 +16,8 @@ import com.vanta.studio.domain.anim.MotionParams
 import com.vanta.studio.domain.anim.TransitionMath
 import com.vanta.studio.domain.anim.toPose
 import com.vanta.studio.domain.effects.Grade
+import com.vanta.studio.domain.fx.LightMath
+import com.vanta.studio.engine.LiveProject
 import com.vanta.studio.domain.effects.GradeParams
 import com.vanta.studio.domain.model.Clip
 import com.vanta.studio.engine.ClipClock
@@ -179,6 +181,79 @@ private class ClipMotionProgram(
             program.setFloatsUniform("uTexel", floatArrayOf(1f / width, 1f / height))
             program.setFloatsUniform("uMix", floatArrayOf(m.opacity, m.darken, m.whiten, m.blur))
             program.setFloatsUniform("uWipe", floatArrayOf(m.wipe, if (m.wipeReveal) 1f else 0f))
+            program.bindAttributesAndUniforms()
+            GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
+        } catch (e: GlUtil.GlException) {
+            throw VideoFrameProcessingException(e, presentationTimeUs)
+        }
+    }
+
+    override fun release() {
+        super.release()
+        try {
+            program.delete()
+        } catch (e: GlUtil.GlException) {
+            throw VideoFrameProcessingException(e)
+        }
+    }
+}
+
+/**
+ * Draws the project's light events (flashes, glows, flares, zoom punches, glitch...) on top of
+ * the finished frame. The events are read live, so moving or retuning one updates the preview
+ * without rebuilding the pipeline, and the very same maths runs in the exporter.
+ */
+class LightEventsEffect(
+    private val live: LiveProject,
+    private val clock: ClipClock,
+) : GlEffect {
+    override fun toGlShaderProgram(context: Context, useHdr: Boolean): GlShaderProgram =
+        LightEventsProgram(useHdr, live, clock)
+}
+
+private class LightEventsProgram(
+    useHdr: Boolean,
+    private val live: LiveProject,
+    private val clock: ClipClock,
+) : BaseGlShaderProgram(useHdr, 1) {
+    private val program: GlProgram
+    private var width = 1
+    private var height = 1
+
+    init {
+        program = try {
+            GlProgram(Shaders.VERTEX_COPY, Shaders.FRAGMENT_LIGHT)
+        } catch (e: GlUtil.GlException) {
+            throw VideoFrameProcessingException(e)
+        }
+        program.setBufferAttribute(
+            "aFramePosition",
+            GlUtil.getNormalizedCoordinateBounds(),
+            GlUtil.HOMOGENEOUS_COORDINATE_VECTOR_SIZE,
+        )
+    }
+
+    override fun configure(inputWidth: Int, inputHeight: Int): Size {
+        width = inputWidth
+        height = inputHeight
+        return Size(inputWidth, inputHeight)
+    }
+
+    override fun drawFrame(inputTexId: Int, presentationTimeUs: Long) {
+        val timeUs = clock.compositionUs(presentationTimeUs)
+        val s = LightMath.evaluate(live.project.fx, timeUs)
+        try {
+            program.use()
+            program.setSamplerTexIdUniform("uTexSampler", inputTexId, 0)
+            program.setFloatsUniform("uTexel", floatArrayOf(1f / width, 1f / height))
+            program.setFloatUniform("uTime", timeUs / 1_000_000f)
+            program.setFloatsUniform("uFlash", floatArrayOf(s.flashR, s.flashG, s.flashB, s.flashAmt))
+            program.setFloatsUniform("uGlowA", floatArrayOf(s.glow, s.bloom, s.radial, s.radialRadius))
+            program.setFloatsUniform("uGlowB", floatArrayOf(s.leak, s.flare, s.flareX, s.flareY))
+            program.setFloatsUniform("uSweep", floatArrayOf(s.sweep, s.sweepPos, s.motionBlur, 0f))
+            program.setFloatsUniform("uLightRgb", floatArrayOf(s.lightR, s.lightG, s.lightB))
+            program.setFloatsUniform("uDist", floatArrayOf(s.chroma, s.glitch, s.invert, s.exposure))
+            program.setFloatsUniform("uMisc", floatArrayOf(s.satPulse, s.zoom, s.shakeX, s.shakeY))
             program.bindAttributesAndUniforms()
             GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
         } catch (e: GlUtil.GlException) {

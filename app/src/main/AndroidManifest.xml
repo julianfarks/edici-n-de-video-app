@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- No storage or camera permissions: media comes through the system pickers and is copied
-         into the app's private storage; exports go through MediaStore. -->
+         into the app's private storage; exports go through MediaStore.
+         INTERNET is used only for downloading speech models and for optional cloud services the
+         user enables and confirms each time. Basic editing never needs it. -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".VantaApp"

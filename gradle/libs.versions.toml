@@ -3,6 +3,8 @@ agp = "8.9.1"
 kotlin = "2.1.20"
 coreKtx = "1.16.0"
 appcompat = "1.7.0"
+vosk = "0.3.47"
+jna = "5.13.0"
 activityCompose = "1.10.1"
 lifecycle = "2.9.0"
 composeBom = "2025.05.00"
@@ -16,6 +18,7 @@ androidxTestRules = "1.6.1"
 androidxJunit = "1.2.1"
 
 [libraries]
+vosk-android = { module = "com.alphacephei:vosk-android", version.ref = "vosk" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }

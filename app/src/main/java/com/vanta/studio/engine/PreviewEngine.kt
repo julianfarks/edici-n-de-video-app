@@ -220,6 +220,7 @@ class PreviewEngine(
             shortSide,
             p.canvas,
             p.outro,
+            p.fx.isNotEmpty(),
             p.clips.map {
                 listOf(
                     it.id, it.uri, it.kind, it.trimStartUs, it.trimEndUs, it.speed,

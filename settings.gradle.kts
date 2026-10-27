@@ -11,6 +11,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Vosk (offline speech recognition) is also mirrored here.
+        maven {
+            url = uri("https://alphacephei.com/maven/")
+            content { includeGroup("com.alphacephei") }
+        }
     }
 }
 
