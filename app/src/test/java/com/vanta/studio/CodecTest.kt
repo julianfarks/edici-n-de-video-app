@@ -89,7 +89,7 @@ class CodecNewFieldsTest {
         assertEquals(listOf(1L, 3L), back.markers) // sanitised: sorted
         assertEquals(p.subtitles, back.subtitles)
         // a version-2 file without any of the new keys
-        val v2 = ProjectCodec.encode(TestData.project(TestData.video("a"))).replace(""formatVersion":3", ""formatVersion":2")
+        val v2 = ProjectCodec.encode(TestData.project(TestData.video("a"))).replace("\"formatVersion\":3", "\"formatVersion\":2")
         assertEquals("p1", ProjectCodec.decode(v2).id)
     }
 }

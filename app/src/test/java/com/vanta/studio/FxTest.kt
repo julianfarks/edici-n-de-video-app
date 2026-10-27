@@ -134,8 +134,8 @@ class FxTest {
         var n = 0
         val events = FxAutoSync.place(p, listOf(FxType.FLASH_WHITE), AutoSyncOptions(hitThreshold = 0.5f)) { "id${n++}" }
         assertEquals(2, events.size)
-        assertEquals(3 * SEC, events[0].syncUs, 2L)
-        assertEquals(5 * SEC, events[1].syncUs, 2L)
+        assertTrue(kotlin.math.abs(events[0].syncUs - 3 * SEC) <= 2L)
+        assertTrue(kotlin.math.abs(events[1].syncUs - 5 * SEC) <= 2L)
         assertTrue(events.all { it.id.startsWith(FxAutoSync.AUTO_PREFIX) })
     }
 

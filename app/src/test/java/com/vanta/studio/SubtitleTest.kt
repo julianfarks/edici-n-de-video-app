@@ -101,7 +101,7 @@ class SubtitleTest {
         assertEquals(5, e.words.size)
         assertTrue(e.estimated)
         assertEquals(c.startUs, e.words.first().startUs)
-        assertEquals(c.endUs, e.words.last().endUs, 2.0)
+        assertTrue(kotlin.math.abs(c.endUs - e.words.last().endUs) <= 2L)
         e.words.zipWithNext().forEach { (a, b) -> assertTrue(a.endUs <= b.startUs + 1) }
     }
 
