@@ -174,6 +174,15 @@ private fun LayersOverlay(
             }
         }
         val sorted = drawn.sortedBy { it.z }
+        // Subtitles use the same renderer and state maths as the exporter.
+        val subState = com.vanta.studio.domain.subtitles.SubtitleRender.stateAt(project.subtitles, positionUs)
+        val subStyle = project.subtitles?.style
+        val subBitmap: ImageBitmap? = if (subState != null && subStyle != null && wPx > 0 && hPx > 0) {
+            val key = com.vanta.studio.engine.layers.SubtitleRenderer.key(subState, subStyle, wPx, hPx)
+            remember(key) { com.vanta.studio.engine.layers.SubtitleRenderer.bitmap(subState, subStyle, wPx, hPx).asImageBitmap() }
+        } else {
+            null
+        }
         val currentSorted by rememberUpdatedState(sorted)
         val currentPos by rememberUpdatedState(positionUs)
         val currentSelection by rememberUpdatedState(selection)
@@ -244,6 +253,16 @@ private fun LayersOverlay(
                     scale(f.scale, f.scale, Offset.Zero)
                 }) {
                     drawImage(bmp, Offset(-bmp.width / 2f, -bmp.height / 2f), alpha = f.alpha)
+                }
+            }
+            if (subState != null && subBitmap != null) {
+                val f = subState.frame
+                withTransform({
+                    translate(f.x * w, f.y * h)
+                    rotate(f.rotation, Offset.Zero)
+                    scale(f.scale, f.scale, Offset.Zero)
+                }) {
+                    drawImage(subBitmap, Offset(-subBitmap.width / 2f, -subBitmap.height / 2f), alpha = f.alpha)
                 }
             }
             drawSelection(project, selection, positionUs, pose, sorted, w, h)

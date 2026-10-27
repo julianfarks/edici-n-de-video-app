@@ -420,6 +420,8 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
             is Selection.OfAudio -> edit { Timeline.deleteAudio(it, sel.id) }
             is Selection.OfText -> edit { Timeline.deleteLayer(it, sel.id) }
             is Selection.OfOverlay -> edit { Timeline.deleteLayer(it, sel.id) }
+            is Selection.OfFx -> edit { FxOps.delete(it, sel.id) }
+            is Selection.OfCue -> edit { p -> p.copy(subtitles = p.subtitles?.let { SubtitleOps.delete(it, sel.id) }) }
         }
         select(Selection.None)
     }
@@ -437,8 +439,11 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
             }
             is Selection.OfText -> edit { Timeline.duplicateLayer(it, sel.id, newId) }
             is Selection.OfOverlay -> edit { Timeline.duplicateLayer(it, sel.id, newId) }
+            is Selection.OfFx -> edit { FxOps.duplicate(it, sel.id, newId) }
+            is Selection.OfCue -> return
         }
         when (_state.value.selection) {
+            is Selection.OfFx -> select(Selection.OfFx(newId))
             is Selection.OfClip -> select(Selection.OfClip(newId))
             is Selection.OfText -> select(Selection.OfText(newId))
             is Selection.OfOverlay -> select(Selection.OfOverlay(newId))
