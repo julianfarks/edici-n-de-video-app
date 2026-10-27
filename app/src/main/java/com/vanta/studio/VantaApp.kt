@@ -9,6 +9,11 @@ import com.vanta.studio.data.Thumbnails
 import com.vanta.studio.data.Waveforms
 import com.vanta.studio.engine.CompositionFactory
 import com.vanta.studio.engine.ExportEngine
+import com.vanta.studio.engine.asr.ModelManager
+import com.vanta.studio.engine.asr.SecretStore
+import com.vanta.studio.engine.asr.SubtitleService
+import com.vanta.studio.engine.audio.AudioDecoder
+import com.vanta.studio.engine.audio.BeatService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import java.io.File
@@ -24,6 +29,11 @@ class AppContainer(app: Application) {
     val settings = SettingsRepository(app)
     val compositionFactory = CompositionFactory(app)
     val exporter = ExportEngine(app, compositionFactory)
+    val audioDecoder = AudioDecoder(app)
+    val beats = BeatService(audioDecoder)
+    val models = ModelManager(app)
+    val secrets = SecretStore(app)
+    val subtitles = SubtitleService(audioDecoder)
 }
 
 class VantaApp : Application() {
