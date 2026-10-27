@@ -130,7 +130,7 @@ fun ActionButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifie
 }
 
 @Composable
-fun SwitchRow(label: String, checked: Boolean, onChange: (Boolean) -> Unit) {
+fun AiSwitchRow(label: String, checked: Boolean, onChange: (Boolean) -> Unit) {
     Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(label, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
         Switch(checked, onChange, colors = SwitchDefaults.colors(checkedTrackColor = Vanta.Accent))
@@ -156,9 +156,9 @@ fun AiStudioPanel(vm: EditorViewModel, container: AppContainer, state: EditorSta
             Icons.Rounded.Subtitles, R.string.ai_t_subtitles, R.string.ai_d_subtitles,
             if (esModelReady) ToolStatus.AVAILABLE else ToolStatus.NEEDS_MODEL,
         ) { vm.openPanel(Panel.SUBTITLES) },
-        AiToolInfo(Icons.Rounded.MusicNote, R.string.ai_t_beat_edit, R.string.ai_d_beat_edit, ToolStatus.NOT_IMPLEMENTED, null),
+        AiToolInfo(Icons.Rounded.MusicNote, R.string.ai_t_beat_edit, R.string.ai_d_beat_edit, ToolStatus.AVAILABLE) { vm.openPanel(Panel.AUTO_EDIT) },
         AiToolInfo(Icons.Rounded.Highlight, R.string.ai_t_moments, R.string.ai_d_moments, ToolStatus.NOT_IMPLEMENTED, null),
-        AiToolInfo(Icons.Rounded.ContentCut, R.string.ai_t_silence, R.string.ai_d_silence, ToolStatus.NOT_IMPLEMENTED, null),
+        AiToolInfo(Icons.Rounded.ContentCut, R.string.ai_t_silence, R.string.ai_d_silence, ToolStatus.AVAILABLE) { vm.openPanel(Panel.SILENCE) },
         AiToolInfo(Icons.Rounded.Chat, R.string.ai_t_assistant, R.string.ai_d_assistant, ToolStatus.NOT_IMPLEMENTED, null),
         AiToolInfo(Icons.Rounded.Translate, R.string.ai_t_translate, R.string.ai_d_translate, ToolStatus.NOT_IMPLEMENTED, null),
         AiToolInfo(Icons.Rounded.RecordVoiceOver, R.string.ai_t_tts, R.string.ai_d_tts, ToolStatus.NOT_IMPLEMENTED, null),
@@ -289,7 +289,7 @@ fun BeatFxPanel(vm: EditorViewModel, state: EditorState, close: () -> Unit) {
             }
             LabeledSlider(stringResource(R.string.beat_every), every, 1f..4f, { every = it.toInt().toFloat() }, steps = 2, valueText = { "1/${it.toInt()}" })
             LabeledSlider(stringResource(R.string.beat_intensity), intensity, 0.1f..1.5f, { intensity = it })
-            SwitchRow(stringResource(R.string.beat_safe), safe) { safe = it }
+            AiSwitchRow(stringResource(R.string.beat_safe), safe) { safe = it }
             if (flicker > 0) {
                 Text(
                     stringResource(R.string.beat_flicker_warning, flicker),
@@ -447,7 +447,7 @@ fun FxEditPanel(vm: EditorViewModel, state: EditorState, close: () -> Unit) {
                     }
                 }
             }
-            SwitchRow(stringResource(R.string.fx_enabled), e.enabled) { on -> vm.mutate { p -> FxOps.update(p, e.id) { it.copy(enabled = on) } } }
+            AiSwitchRow(stringResource(R.string.fx_enabled), e.enabled) { on -> vm.mutate { p -> FxOps.update(p, e.id) { it.copy(enabled = on) } } }
             Row(Modifier.padding(horizontal = 16.dp, vertical = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ActionButton(stringResource(R.string.fx_preview), { vm.previewFrom(e.startUs - 500_000L) })
                 val nearest = nearestBeat(project, e.syncUs)

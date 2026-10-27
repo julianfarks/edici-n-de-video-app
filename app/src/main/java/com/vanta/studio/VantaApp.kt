@@ -14,6 +14,7 @@ import com.vanta.studio.engine.asr.SecretStore
 import com.vanta.studio.engine.asr.SubtitleService
 import com.vanta.studio.engine.audio.AudioDecoder
 import com.vanta.studio.engine.audio.BeatService
+import com.vanta.studio.engine.audio.SilenceService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import java.io.File
@@ -34,6 +35,7 @@ class AppContainer(app: Application) {
     val models = ModelManager(app)
     val secrets = SecretStore(app)
     val subtitles = SubtitleService(audioDecoder)
+    val silence = SilenceService(audioDecoder)
 }
 
 class VantaApp : Application() {

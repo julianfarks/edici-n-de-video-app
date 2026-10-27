@@ -339,16 +339,16 @@ private fun StyleTab(vm: EditorViewModel, s: SubtitleStyle) {
         Row(Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             hiColors.forEach { c -> ColorSwatch(Color(c), s.highlightColor == c, { vm.editSubtitles { it.copy(style = it.style.copy(highlightColor = c)) } }) }
         }
-        SwitchRow(stringResource(R.string.sub_highlight_word), s.highlightWord) { on -> vm.editSubtitles { it.copy(style = it.style.copy(highlightWord = on)) } }
-        SwitchRow(stringResource(R.string.sub_uppercase), s.uppercase) { on -> vm.editSubtitles { it.copy(style = it.style.copy(uppercase = on)) } }
-        SwitchRow(stringResource(R.string.sub_outline), s.strokeColor != null) { on ->
+        AiSwitchRow(stringResource(R.string.sub_highlight_word), s.highlightWord) { on -> vm.editSubtitles { it.copy(style = it.style.copy(highlightWord = on)) } }
+        AiSwitchRow(stringResource(R.string.sub_uppercase), s.uppercase) { on -> vm.editSubtitles { it.copy(style = it.style.copy(uppercase = on)) } }
+        AiSwitchRow(stringResource(R.string.sub_outline), s.strokeColor != null) { on ->
             vm.editSubtitles { it.copy(style = it.style.copy(strokeColor = if (on) 0xFF000000 else null)) }
         }
         if (s.strokeColor != null) {
             LabeledSlider(stringResource(R.string.sub_outline_width), s.strokeWidth, 0.02f..0.3f, { v -> vm.liveSubtitles { it.copy(style = it.style.copy(strokeWidth = v)) } }, vm::endGesture)
         }
-        SwitchRow(stringResource(R.string.sub_shadow), s.shadow) { on -> vm.editSubtitles { it.copy(style = it.style.copy(shadow = on)) } }
-        SwitchRow(stringResource(R.string.sub_background), s.background != null) { on ->
+        AiSwitchRow(stringResource(R.string.sub_shadow), s.shadow) { on -> vm.editSubtitles { it.copy(style = it.style.copy(shadow = on)) } }
+        AiSwitchRow(stringResource(R.string.sub_background), s.background != null) { on ->
             vm.editSubtitles { it.copy(style = it.style.copy(background = if (on) 0x99000000 else null)) }
         }
         SectionLabel(stringResource(R.string.sub_font))

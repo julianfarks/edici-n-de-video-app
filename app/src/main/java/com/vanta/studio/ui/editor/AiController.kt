@@ -7,7 +7,13 @@ import com.vanta.studio.R
 import com.vanta.studio.domain.fx.AutoSyncOptions
 import com.vanta.studio.domain.fx.FxAutoSync
 import com.vanta.studio.domain.fx.FxOps
+import com.vanta.studio.domain.audio.SilenceDetector
+import com.vanta.studio.domain.edit.AutoEdit
+import com.vanta.studio.domain.edit.AutoEditOptions
 import com.vanta.studio.domain.model.BeatSource
+import com.vanta.studio.domain.model.Project
+import com.vanta.studio.domain.timeline.Ripple
+import com.vanta.studio.engine.audio.SilenceProposal
 import com.vanta.studio.domain.model.FxType
 import com.vanta.studio.domain.subtitles.SubtitleOps
 import com.vanta.studio.data.MediaImporter
@@ -27,7 +33,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /** Something the AI hub can run. */
-enum class AiJobKind { BEAT, SUBTITLES, MODEL }
+enum class AiJobKind { BEAT, SUBTITLES, MODEL, SILENCE }
 
 data class AiJobState(val kind: AiJobKind, val progress: Float)
 
@@ -43,6 +49,21 @@ data class AiState(
     val hitThreshold: Float = 0.5f,
     /** Set when a subtitle run has just finished, so the UI can move to the editor. */
     val lastSubtitleCount: Int? = null,
+    /** Pauses proposed by the silence tool, waiting for review. */
+    val silence: SilenceProposal? = null,
+    val silenceChosen: Set<Int> = emptySet(),
+    /** Open auto-edit session: the project as it was before, and the version being shown. */
+    val autoEdit: AutoEditSession? = null,
+)
+
+/** The untouched project, the current version number and what it contains, while the user compares versions. */
+data class AutoEditSession(
+    val base: Project,
+    val options: AutoEditOptions,
+    val cuts: Int,
+    val segments: Int,
+    val fx: Int,
+    val resamples: Boolean,
 )
 
 /**
@@ -208,6 +229,61 @@ class AiController(
                 _state.update { it.copy(lastSubtitleCount = track.cues.size) }
             }
         }
+    }
+
+    // ------------------------------------------------------------------ silence
+
+    private fun targetClipWithAudio(): String? {
+        val p = vm.project ?: return null
+        return (vm.state.value.selection as? Selection.OfClip)?.id?.takeIf { id -> p.clips.any { it.id == id && it.hasAudio } }
+            ?: clipAtPlayhead()
+    }
+
+    fun analyzeSilence(o: SilenceDetector.Options) {
+        val p = vm.project ?: return
+        val id = targetClipWithAudio() ?: return fail(R.string.ai_err_no_audio, null)
+        run(AiJobKind.SILENCE) { progress ->
+            val res = c.silence.analyze(p, id, o, progress)
+            _state.update { it.copy(silence = res, silenceChosen = res.cuts.indices.toSet()) }
+        }
+    }
+
+    fun toggleSilenceCut(i: Int) = _state.update { s ->
+        s.copy(silenceChosen = if (i in s.silenceChosen) s.silenceChosen - i else s.silenceChosen + i)
+    }
+
+    fun clearSilence() = _state.update { it.copy(silence = null, silenceChosen = emptySet()) }
+
+    /** Removes the chosen pauses (ripple across all tracks) as one undoable step. */
+    fun applySilence() {
+        val s = _state.value
+        val prop = s.silence ?: return
+        val spans = prop.cuts.filterIndexed { i, _ -> i in s.silenceChosen }.map { it.startUs to it.endUs }
+        if (spans.isEmpty()) return
+        vm.mutate { Ripple.removeSpans(it, spans) { MediaImporter.newId() } }
+        clearSilence()
+    }
+
+    // ------------------------------------------------------------------ auto edit to the music
+
+    /** Shows a version of the music edit in the project; the original stays recoverable. */
+    fun previewAutoEdit(o: AutoEditOptions) {
+        val base = _state.value.autoEdit?.base ?: vm.project ?: return
+        val plan = AutoEdit.plan(base, o) { MediaImporter.newId() } ?: return fail(R.string.ai_err_no_rhythm, null)
+        val edited = AutoEdit.apply(base, plan, o) { MediaImporter.newId() }
+        vm.mutate { edited.copy(modifiedAt = it.modifiedAt) }
+        _state.update {
+            it.copy(autoEdit = AutoEditSession(base, o, plan.cuts.size, plan.segments.size, plan.fx.size, plan.resamples))
+        }
+    }
+
+    fun acceptAutoEdit() = _state.update { it.copy(autoEdit = null) }
+
+    /** Puts the project back exactly as it was before the music edit. */
+    fun cancelAutoEdit() {
+        val s = _state.value.autoEdit ?: return
+        vm.mutate { s.base.copy(modifiedAt = it.modifiedAt) }
+        _state.update { it.copy(autoEdit = null) }
     }
 
     private fun clipAtPlayhead(): String? {

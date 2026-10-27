@@ -124,7 +124,6 @@ private val TIMELINE_HEIGHT = 196.dp
 @Composable
 fun EditorRoute(vm: EditorViewModel, container: AppContainer, onBack: () -> Unit, onExport: () -> Unit) {
     val state by vm.state.collectAsStateWithLifecycle()
-    val aiState by vm.ai.state.collectAsStateWithLifecycle()
     CompositionLocalProvider(LocalEditorVm provides vm) {
         when {
             !state.loaded -> Box(Modifier.fillMaxSize().background(Vanta.Bg), contentAlignment = Alignment.Center) {
@@ -154,6 +153,7 @@ private fun LoadFailed(onBack: () -> Unit) {
 @Composable
 private fun EditorScreen(vm: EditorViewModel, state: EditorState, container: AppContainer, onBack: () -> Unit, onExport: () -> Unit) {
     val project = state.project ?: return
+    val aiState by vm.ai.state.collectAsStateWithLifecycle()
     val position by vm.engine.positionUs.collectAsStateWithLifecycle()
     val playing by vm.engine.isPlaying.collectAsStateWithLifecycle()
     val building by vm.engine.building.collectAsStateWithLifecycle()
@@ -592,6 +592,8 @@ private fun BottomArea(
                     Panel.BEAT_FX -> BeatFxPanel(vm, state, close)
                     Panel.FX_EDIT -> FxEditPanel(vm, state, close)
                     Panel.SUBTITLES -> SubtitlesPanel(vm, container, state, close)
+                    Panel.SILENCE -> SilencePanel(vm, state, close)
+                    Panel.AUTO_EDIT -> AutoEditPanel(vm, state, close)
                 }
             }
         }
