@@ -1,0 +1,680 @@
+10-27 16:34:16.981  7800  7815 I TestRunner: started: aBrokenSourceShowsAnErrorInsteadOfAnEndlessBlackScreenAndRecovers(com.vanta.studio.PreviewInstrumentedTest)
+10-27 16:34:17.158  7800  7800 I ExoPlayerImpl: Init 2b00538 [AndroidXMedia3/1.8.0] [emu64x, sdk_gphone64_x86_64, Google, 33]
+10-27 16:34:17.161  7800  7800 D CompositionPlayer-0: timeline [eventTime=0.00, mediaPos=0.00, window=0, periodCount=1, windowCount=1, reason=PLAYLIST_CHANGED
+10-27 16:34:17.161  7800  7800 D CompositionPlayer-0:   period [?]
+10-27 16:34:17.161  7800  7800 D CompositionPlayer-0:   window [146.32, seekable=true, dynamic=true]
+10-27 16:34:17.161  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:17.161  7800  7800 D CompositionPlayer-0: mediaItem [eventTime=0.00, mediaPos=0.00, window=0, reason=PLAYLIST_CHANGED]
+10-27 16:34:17.162  7800  7800 D CompositionPlayer-0: state [eventTime=0.00, mediaPos=0.00, window=0, BUFFERING]
+10-27 16:34:17.163  7800  7800 D CompositionPlayer: timeline [eventTime=0.11, mediaPos=0.00, window=0, periodCount=1, windowCount=1, reason=PLAYLIST_CHANGED
+10-27 16:34:17.164  7800  7800 D CompositionPlayer:   period [146.32]
+10-27 16:34:17.164  7800  7800 D CompositionPlayer:   window [146.32, seekable=false, dynamic=false]
+10-27 16:34:17.164  7800  7800 D CompositionPlayer: ]
+10-27 16:34:17.165  7800  7800 D CompositionPlayer: mediaItem [eventTime=0.11, mediaPos=0.00, window=0, reason=PLAYLIST_CHANGED]
+10-27 16:34:17.166  7800  7800 D CompositionPlayer: state [eventTime=0.11, mediaPos=0.00, window=0, BUFFERING]
+10-27 16:34:17.167  7800  7800 D CompositionPlayer-0: positionDiscontinuity [eventTime=0.01, mediaPos=0.00, window=0, reason=SEEK, PositionInfo:old [mediaItem=0, period=0, pos=0], PositionInfo:new [mediaItem=0, period=0, pos=0]]
+10-27 16:34:17.168  7800  7800 D CompositionPlayer: positionDiscontinuity [eventTime=0.11, mediaPos=0.00, window=0, reason=SEEK, PositionInfo:old [mediaItem=0, period=0, pos=0], PositionInfo:new [mediaItem=0, period=0, pos=0]]
+10-27 16:34:17.169  7800  7800 D CompositionPlayer-0: audioSessionId [eventTime=0.01, mediaPos=0.00, window=0, 225]
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0: internalError [eventTime=0.01, mediaPos=0.00, window=0, period=0, loadError
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:   androidx.media3.datasource.FileDataSource$FileDataSourceException: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:203)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.open(FileDataSource.java:113)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.DefaultDataSource.open(DefaultDataSource.java:275)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.StatsDataSource.open(StatsDataSource.java:88)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1109)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at java.lang.Thread.run(Thread.java:1012)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:   Caused by: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:574)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:289)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:152)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:183)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       ... 8 more
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:   Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at libcore.io.Linux.open(Native Method)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7810)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:560)
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0:       ... 11 more
+10-27 16:34:17.174  7800  7800 E CompositionPlayer-0: ]
+10-27 16:34:17.177  7800  7800 D CompositionPlayer-0: timeline [eventTime=0.02, mediaPos=0.00, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+10-27 16:34:17.177  7800  7800 D CompositionPlayer-0:   period [146.32]
+10-27 16:34:17.177  7800  7800 D CompositionPlayer-0:   window [146.32, seekable=true, dynamic=false]
+10-27 16:34:17.177  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:17.178  7800  7800 D CompositionPlayer-0: loading [eventTime=0.02, mediaPos=0.00, window=0, period=0, true]
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0: internalError [eventTime=0.02, mediaPos=0.00, window=0, period=0, loadError
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:   androidx.media3.datasource.FileDataSource$FileDataSourceException: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:203)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.open(FileDataSource.java:113)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.DefaultDataSource.open(DefaultDataSource.java:275)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.StatsDataSource.open(StatsDataSource.java:88)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1109)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at java.lang.Thread.run(Thread.java:1012)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:   Caused by: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:574)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:289)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:152)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:183)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       ... 8 more
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:   Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at libcore.io.Linux.open(Native Method)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7810)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:560)
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0:       ... 11 more
+10-27 16:34:17.179  7800  7800 E CompositionPlayer-0: ]
+10-27 16:34:17.277  7800  7825 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8c4148 : 0(0 size) total buffers - 0(0 size) used buffers - 69/74 (recycle/alloc) - 5/65 (fetch/transfer)
+10-27 16:34:17.277  7800  7825 D BufferPoolAccessor2.0: evictor expired: 2, evicted: 1
+10-27 16:34:17.296   448   799 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 0
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0: internalError [eventTime=1.01, mediaPos=0.00, window=0, period=0, loadError
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:   androidx.media3.datasource.FileDataSource$FileDataSourceException: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:203)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.open(FileDataSource.java:113)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.DefaultDataSource.open(DefaultDataSource.java:275)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.StatsDataSource.open(StatsDataSource.java:88)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1109)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at java.lang.Thread.run(Thread.java:1012)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:   Caused by: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:574)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:289)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:152)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:183)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       ... 8 more
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:   Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at libcore.io.Linux.open(Native Method)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7810)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:560)
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0:       ... 11 more
+10-27 16:34:18.170  7800  7800 E CompositionPlayer-0: ]
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0: internalError [eventTime=3.01, mediaPos=0.00, window=0, period=0, loadError
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:   androidx.media3.datasource.FileDataSource$FileDataSourceException: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:203)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.open(FileDataSource.java:113)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.DefaultDataSource.open(DefaultDataSource.java:275)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.StatsDataSource.open(StatsDataSource.java:88)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1109)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at java.lang.Thread.run(Thread.java:1012)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:   Caused by: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:574)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:289)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:152)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:183)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       ... 8 more
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:   Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at libcore.io.Linux.open(Native Method)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7810)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:560)
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0:       ... 11 more
+10-27 16:34:20.173  7800  7800 E CompositionPlayer-0: ]
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal: Playback error
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:   androidx.media3.exoplayer.ExoPlaybackException: Source error
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:927)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:899)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at android.os.Handler.dispatchMessage(Handler.java:102)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at android.os.Looper.loopOnce(Looper.java:201)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at android.os.Looper.loop(Looper.java:288)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at android.os.HandlerThread.run(HandlerThread.java:67)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:   Caused by: androidx.media3.datasource.FileDataSource$FileDataSourceException: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:203)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.datasource.FileDataSource.open(FileDataSource.java:113)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.datasource.DefaultDataSource.open(DefaultDataSource.java:275)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.datasource.StatsDataSource.open(StatsDataSource.java:88)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1109)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at java.lang.Thread.run(Thread.java:1012)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:   Caused by: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at libcore.io.IoBridge.open(IoBridge.java:574)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:289)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:152)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:183)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       ... 8 more
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:   Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at libcore.io.Linux.open(Native Method)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7810)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       at libcore.io.IoBridge.open(IoBridge.java:560)
+10-27 16:34:20.184  7800 16891 E ExoPlayerImplInternal:       ... 11 more
+10-27 16:34:20.187  7800  7800 D CompositionPlayer-0: timeline [eventTime=3.03, mediaPos=0.00, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+10-27 16:34:20.187  7800  7800 D CompositionPlayer-0:   period [146.32]
+10-27 16:34:20.187  7800  7800 D CompositionPlayer-0:   window [146.32, seekable=true, dynamic=false]
+10-27 16:34:20.187  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0: playerFailed [eventTime=3.03, mediaPos=0.00, window=0, period=0, errorCode=ERROR_CODE_IO_FILE_NOT_FOUND
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:   androidx.media3.exoplayer.ExoPlaybackException: Source error
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:927)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:899)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at android.os.Handler.dispatchMessage(Handler.java:102)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at android.os.Looper.loopOnce(Looper.java:201)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at android.os.Looper.loop(Looper.java:288)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at android.os.HandlerThread.run(HandlerThread.java:67)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:   Caused by: androidx.media3.datasource.FileDataSource$FileDataSourceException: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:203)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.open(FileDataSource.java:113)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.DefaultDataSource.open(DefaultDataSource.java:275)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.StatsDataSource.open(StatsDataSource.java:88)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1109)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at java.lang.Thread.run(Thread.java:1012)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:   Caused by: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:574)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:289)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:152)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:183)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       ... 8 more
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:   Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at libcore.io.Linux.open(Native Method)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7810)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       at libcore.io.IoBridge.open(IoBridge.java:560)
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0:       ... 11 more
+10-27 16:34:20.188  7800  7800 E CompositionPlayer-0: ]
+10-27 16:34:20.192  7800  7800 E CompositionPlayer: playerFailed [eventTime=3.14, mediaPos=0.00, window=0, errorCode=ERROR_CODE_IO_FILE_NOT_FOUND
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:   androidx.media3.common.PlaybackException: error from player 0
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.transformer.CompositionPlayer.maybeUpdatePlaybackError(CompositionPlayer.java:1088)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.transformer.CompositionPlayer.access$1800(CompositionPlayer.java:106)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.transformer.CompositionPlayer$PlayerListener.onPlayerError(CompositionPlayer.java:1271)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImpl.lambda$updatePlaybackInfo$18(ExoPlayerImpl.java:2179)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImpl$$ExternalSyntheticLambda31.invoke(D8$$SyntheticClass:0)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.common.util.ListenerSet$ListenerHolder.invoke(ListenerSet.java:342)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.common.util.ListenerSet.lambda$queueEvent$0(ListenerSet.java:226)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.common.util.ListenerSet$$ExternalSyntheticLambda1.run(D8$$SyntheticClass:0)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.common.util.ListenerSet.flushEvents(ListenerSet.java:248)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImpl.updatePlaybackInfo(ExoPlayerImpl.java:2242)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImpl.handlePlaybackInfo(ExoPlayerImpl.java:2076)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImpl.lambda$new$1$androidx-media3-exoplayer-ExoPlayerImpl(ExoPlayerImpl.java:353)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImpl$$ExternalSyntheticLambda12.run(D8$$SyntheticClass:0)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.Handler.handleCallback(Handler.java:942)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.Handler.dispatchMessage(Handler.java:99)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.Looper.loopOnce(Looper.java:201)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.Looper.loop(Looper.java:288)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.app.ActivityThread.main(ActivityThread.java:7924)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at java.lang.reflect.Method.invoke(Native Method)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:548)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:936)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:   Caused by: androidx.media3.exoplayer.ExoPlaybackException: Source error
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:927)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:899)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.Handler.dispatchMessage(Handler.java:102)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.Looper.loopOnce(Looper.java:201)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.Looper.loop(Looper.java:288)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.os.HandlerThread.run(HandlerThread.java:67)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:   Caused by: androidx.media3.datasource.FileDataSource$FileDataSourceException: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:203)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.datasource.FileDataSource.open(FileDataSource.java:113)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.datasource.DefaultDataSource.open(DefaultDataSource.java:275)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.datasource.StatsDataSource.open(StatsDataSource.java:88)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1109)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.exoplayer.upstream.Loader$LoadTask.run(Loader.java:453)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at java.lang.Thread.run(Thread.java:1012)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:   Caused by: java.io.FileNotFoundException: /data/user/0/com.vanta.studio.debug/cache/does-not-exist.mp4: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at libcore.io.IoBridge.open(IoBridge.java:574)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:289)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at java.io.RandomAccessFile.<init>(RandomAccessFile.java:152)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at androidx.media3.datasource.FileDataSource.openLocalFile(FileDataSource.java:183)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       ... 8 more
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:   Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at libcore.io.Linux.open(Native Method)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7810)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       at libcore.io.IoBridge.open(IoBridge.java:560)
+10-27 16:34:20.192  7800  7800 E CompositionPlayer:       ... 11 more
+10-27 16:34:20.192  7800  7800 E CompositionPlayer: ]
+10-27 16:34:20.192  7800  7800 D CompositionPlayer: state [eventTime=3.14, mediaPos=0.00, window=0, IDLE]
+10-27 16:34:20.193  7800  7800 D CompositionPlayer-0: loading [eventTime=3.03, mediaPos=0.00, window=0, period=0, false]
+10-27 16:34:20.193  7800  7800 D CompositionPlayer-0: state [eventTime=3.03, mediaPos=0.00, window=0, period=0, IDLE]
+10-27 16:34:20.216  7800  7815 I System.out: PREVIEW broken source reports: ERROR_CODE_IO_FILE_NOT_FOUND: error from player 0
+10-27 16:34:20.322  7800  7800 D CompositionPlayer-0: timeline [eventTime=3.16, mediaPos=0.00, window=0, periodCount=1, windowCount=1, reason=PLAYLIST_CHANGED
+10-27 16:34:20.322  7800  7800 D CompositionPlayer-0:   period [?]
+10-27 16:34:20.323  7800  7800 D CompositionPlayer-0:   window [146.32, seekable=true, dynamic=true]
+10-27 16:34:20.323  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.323  7800  7800 D CompositionPlayer-0: timeline [eventTime=0.00, mediaPos=0.00, window=0, periodCount=1, windowCount=1, reason=PLAYLIST_CHANGED
+10-27 16:34:20.323  7800  7800 D CompositionPlayer-0:   period [?]
+10-27 16:34:20.323  7800  7800 D CompositionPlayer-0:   window [146.32, seekable=true, dynamic=true]
+10-27 16:34:20.323  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.324  7800  7800 D CompositionPlayer-0: positionDiscontinuity [eventTime=3.16, mediaPos=0.00, window=0, reason=REMOVE, PositionInfo:old [mediaItem=0, period=0, pos=0], PositionInfo:new [mediaItem=0, period=0, pos=0]]
+10-27 16:34:20.324  7800  7800 D CompositionPlayer-0: positionDiscontinuity [eventTime=0.00, mediaPos=0.00, window=0, reason=REMOVE, PositionInfo:old [mediaItem=0, period=0, pos=0], PositionInfo:new [mediaItem=0, period=0, pos=0]]
+10-27 16:34:20.324  7800  7800 D CompositionPlayer-0: mediaItem [eventTime=3.17, mediaPos=0.00, window=0, reason=PLAYLIST_CHANGED]
+10-27 16:34:20.325  7800  7800 D CompositionPlayer-0: mediaItem [eventTime=0.00, mediaPos=0.00, window=0, reason=PLAYLIST_CHANGED]
+10-27 16:34:20.325  7800  7800 D CompositionPlayer-0: state [eventTime=3.17, mediaPos=0.00, window=0, BUFFERING]
+10-27 16:34:20.326  7800  7800 D CompositionPlayer-0: state [eventTime=0.00, mediaPos=0.00, window=0, BUFFERING]
+10-27 16:34:20.326  7800  7800 D CompositionPlayer-0: positionDiscontinuity [eventTime=3.17, mediaPos=0.00, window=0, reason=SEEK, PositionInfo:old [mediaItem=0, period=0, pos=0], PositionInfo:new [mediaItem=0, period=0, pos=0]]
+10-27 16:34:20.326  7800  7800 D CompositionPlayer-0: positionDiscontinuity [eventTime=0.00, mediaPos=0.00, window=0, reason=SEEK, PositionInfo:old [mediaItem=0, period=0, pos=0], PositionInfo:new [mediaItem=0, period=0, pos=0]]
+10-27 16:34:20.326  7800  7800 D CompositionPlayer: positionDiscontinuity [eventTime=3.27, mediaPos=0.00, window=0, reason=SEEK, PositionInfo:old [mediaItem=0, period=0, pos=0], PositionInfo:new [mediaItem=0, period=0, pos=0]]
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0: timeline [eventTime=3.17, mediaPos=0.00, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0:   period [146.32]
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0:   window [146.32, seekable=true, dynamic=false]
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0: timeline [eventTime=0.01, mediaPos=0.00, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0:   period [146.32]
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0:   window [146.32, seekable=true, dynamic=false]
+10-27 16:34:20.329  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.330  7800  7800 D CompositionPlayer-0: loading [eventTime=3.17, mediaPos=0.00, window=0, period=0, true]
+10-27 16:34:20.330  7800  7800 D CompositionPlayer-0: loading [eventTime=0.01, mediaPos=0.00, window=0, period=0, true]
+10-27 16:34:20.338  7800  7800 D CompositionPlayer-0: audioEnabled [eventTime=3.18, mediaPos=0.00, window=0, period=0]
+10-27 16:34:20.338  7800  7800 D CompositionPlayer-0: audioEnabled [eventTime=0.02, mediaPos=0.00, window=0, period=0]
+10-27 16:34:20.339  7800  7800 D CompositionPlayer-0: videoEnabled [eventTime=3.18, mediaPos=0.00, window=0, period=0]
+10-27 16:34:20.339  7800  7800 D CompositionPlayer-0: videoEnabled [eventTime=0.02, mediaPos=0.00, window=0, period=0]
+10-27 16:34:20.339  7800 16891 I DMCodecAdapterFactory: Creating an asynchronous MediaCodec adapter for track type audio
+10-27 16:34:20.341  7800  7800 D CompositionPlayer-0: tracks [eventTime=3.18, mediaPos=0.00, window=0, period=0
+10-27 16:34:20.341  7800  7800 D CompositionPlayer-0:   group [ id=0:1
+10-27 16:34:20.341  7800  7800 D CompositionPlayer-0:     [X] Track:0, id=0:2, mimeType=audio/mp4a-latm, container=video/mp4, bitrate=64287, codecs=mp4a.40.2, channels=1, sample_rate=44100, language=und, supported=YES
+10-27 16:34:20.341  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.341  7800  7800 D CompositionPlayer-0:   group [ id=1:
+10-27 16:34:20.341  7800  7800 D CompositionPlayer-0:     [ ] Track:0, id=1:, mimeType=audio/raw, channels=2, sample_rate=44100, supported=NO
+10-27 16:34:20.341  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.342  7800  7800 D CompositionPlayer-0:   group [ id=0:0
+10-27 16:34:20.342  7800  7800 D CompositionPlayer-0:     [X] Track:0, id=0:1, mimeType=video/avc, container=video/mp4, bitrate=1139291, codecs=avc1.42C01E, res=640x360, color=NA/NA/NA/8/8, fps=24.000002, language=und, supported=YES
+10-27 16:34:20.342  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.342  7800  7800 D CompositionPlayer-0:   Metadata [
+10-27 16:34:20.342  7800  7800 D CompositionPlayer-0:     Mp4AlternateGroup: 1
+10-27 16:34:20.342  7800  7800 D CompositionPlayer-0:     TSSE: description=null: values=[Lavf60.16.100]
+10-27 16:34:20.343  7800  7800 D CompositionPlayer-0:     Mp4Timestamp: creation time=0, modification time=0, timescale=1000
+10-27 16:34:20.343  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.343  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.343  7800  7800 D CompositionPlayer-0: tracks [eventTime=0.02, mediaPos=0.00, window=0, period=0
+10-27 16:34:20.344  7800  7800 D CompositionPlayer-0:   group [ id=0:1
+10-27 16:34:20.344  7800 16894 D CCodec  : allocate(c2.android.aac.decoder)
+10-27 16:34:20.344  7800  7800 D CompositionPlayer-0:     [X] Track:0, id=0:2, mimeType=audio/mp4a-latm, container=video/mp4, bitrate=64287, codecs=mp4a.40.2, channels=1, sample_rate=44100, language=und, supported=YES
+10-27 16:34:20.344  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.344  7800  7800 D CompositionPlayer-0:   group [ id=1:
+10-27 16:34:20.344  7800  7800 D CompositionPlayer-0:     [ ] Track:0, id=1:, mimeType=audio/raw, channels=2, sample_rate=44100, supported=NO
+10-27 16:34:20.344  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.345  7800  7800 D CompositionPlayer-0:   group [ id=0:0
+10-27 16:34:20.345  7800  7800 D CompositionPlayer-0:     [X] Track:0, id=0:1, mimeType=video/avc, container=video/mp4, bitrate=1139291, codecs=avc1.42C01E, res=640x360, color=NA/NA/NA/8/8, fps=24.000002, language=und, supported=YES
+10-27 16:34:20.345  7800 16894 I CCodec  : setting up 'default' as default (vendor) store
+10-27 16:34:20.346   448   819 V C2Store : in init
+10-27 16:34:20.346   448   819 V C2Store : loading dll
+10-27 16:34:20.347  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.348  7800 16894 I CCodec  : Created component [c2.android.aac.decoder]
+10-27 16:34:20.348  7800  7800 D CompositionPlayer-0:   Metadata [
+10-27 16:34:20.348  7800  7800 D CompositionPlayer-0:     Mp4AlternateGroup: 1
+10-27 16:34:20.348  7800 16894 D CCodecConfig: read media type: audio/mp4a-latm
+10-27 16:34:20.349  7800  7800 D CompositionPlayer-0:     TSSE: description=null: values=[Lavf60.16.100]
+10-27 16:34:20.349  7800  7800 D CompositionPlayer-0:     Mp4Timestamp: creation time=0, modification time=0, timescale=1000
+10-27 16:34:20.349  7800  7800 D CompositionPlayer-0:   ]
+10-27 16:34:20.349  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.351  7800 16894 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.max-count.values
+10-27 16:34:20.351  7800 16894 D ReflectedParamUpdater: extent() != 1 for single value type: output.subscribed-indices.values
+10-27 16:34:20.351  7800 16894 D ReflectedParamUpdater: extent() != 1 for single value type: input.buffers.allocator-ids.values
+10-27 16:34:20.351  7800 16894 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.allocator-ids.values
+10-27 16:34:20.351  7800 16894 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.allocator-ids.values
+10-27 16:34:20.351  7800 16894 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.pool-ids.values
+10-27 16:34:20.351  7800 16894 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.pool-ids.values
+10-27 16:34:20.352  7800  7800 D CompositionPlayer-0: timeline [eventTime=3.19, mediaPos=0.00, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+10-27 16:34:20.353  7800 16894 I CCodecConfig: query failed after returning 20 values (BAD_INDEX)
+10-27 16:34:20.353  7800 16894 D CCodecConfig: c2 config diff is Dict {
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 coded.aac-packaging.value = 0
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 coded.bitrate.value = 64000
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 coded.pl.level = 0
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 coded.pl.profile = 8192
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::i32 coding.drc.album-mode.value = 0
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::float coding.drc.attenuation-factor.value = 1
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::float coding.drc.boost-factor.value = 1
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::i32 coding.drc.compression-mode.value = 3
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::i32 coding.drc.effect-type.value = 3
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::float coding.drc.encoded-level.value = 0.25
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::float coding.drc.reference-level.value = -16
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 input.buffers.max-size.value = 8192
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 input.delay.value = 0
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   string input.media-type.value = "audio/mp4a-latm"
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 output.delay.value = 2
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::float output.drc.output-loudness.value = 0.25
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   string output.media-type.value = "audio/raw"
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 raw.channel-count.value = 1
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 raw.channel-mask.value = 0
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 raw.max-channel-count.value = 8
+10-27 16:34:20.353  7800 16894 D CCodecConfig:   c2::u32 raw.sample-rate.value = 44100
+10-27 16:34:20.353  7800 16894 D CCodecConfig: }
+10-27 16:34:20.355  7800  7800 D CompositionPlayer-0:   period [146.30]
+10-27 16:34:20.355  7800  7800 D CompositionPlayer-0:   window [146.30, seekable=true, dynamic=false]
+10-27 16:34:20.356  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.356  7800 16894 I MediaCodec: MediaCodec will operate in async mode
+10-27 16:34:20.356  7800 16894 D MediaCodec: flushMediametrics
+10-27 16:34:20.356  7800 16894 D CCodec  : [c2.android.aac.decoder] buffers are bound to CCodec for this session
+10-27 16:34:20.357  7800 16894 D CCodecConfig: no c2 equivalents for log-session-id
+10-27 16:34:20.357  7800 16894 D CCodecConfig: no c2 equivalents for flags
+10-27 16:34:20.357  7800 16894 D CCodecConfig: config failed => CORRUPTED
+10-27 16:34:20.357  7800 16894 W Codec2Client: query -- param skipped: index = 1107298332.
+10-27 16:34:20.357  7800 16894 D CCodec  : client requested max input size 312, which is smaller than what component recommended (8192); overriding with component recommendation.
+10-27 16:34:20.357  7800 16894 W CCodec  : This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+10-27 16:34:20.357  7800 16894 D CCodec  : encoding statistics level = 0
+10-27 16:34:20.357  7800 16894 D CCodec  : setup formats input: AMessage(what = 0x00000000) = {
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-album-mode = 0
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-boost-level = 127
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-cut-level = 127
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-effect-type = 3
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-encoded-target-level = -1
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-max-output-channel_count = 8
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-target-ref-level = 64
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t bitrate = 64000
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t channel-count = 1
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t channel-mask = 0
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t level = 0
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t max-input-size = 8192
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t max-output-channel-count = 8
+10-27 16:34:20.357  7800 16894 D CCodec  :   string mime = "audio/mp4a-latm"
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t profile = 2
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t sample-rate = 44100
+10-27 16:34:20.357  7800 16894 D CCodec  : }
+10-27 16:34:20.357  7800 16894 D CCodec  : setup formats output: AMessage(what = 0x00000000) = {
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-album-mode = 0
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-boost-level = 127
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-cut-level = 127
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-effect-type = 3
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-drc-output-loudness = -1
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-encoded-target-level = -1
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-max-output-channel_count = 8
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t aac-target-ref-level = 64
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t channel-count = 1
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t channel-mask = 0
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t max-output-channel-count = 8
+10-27 16:34:20.357  7800 16894 D CCodec  :   string mime = "audio/raw"
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t sample-rate = 44100
+10-27 16:34:20.357  7800 16894 D CCodec  :   int32_t android._config-pcm-encoding = 2
+10-27 16:34:20.357  7800 16894 D CCodec  : }
+10-27 16:34:20.357  7800 16894 I CCodecConfig: query failed after returning 20 values (BAD_INDEX)
+10-27 16:34:20.358  7800 16891 D MediaCodec: keep callback message for reclaim
+10-27 16:34:20.359  7800 16894 W Codec2Client: query -- param skipped: index = 1342179345.
+10-27 16:34:20.359  7800 16894 W Codec2Client: query -- param skipped: index = 2415921170.
+10-27 16:34:20.359  7800 16894 W Codec2Client: query -- param skipped: index = 1610614798.
+10-27 16:34:20.359  7800  7800 D CompositionPlayer-0: timeline [eventTime=0.03, mediaPos=0.00, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+10-27 16:34:20.359  7800 16894 D CCodecBufferChannel: [c2.android.aac.decoder#787] Created input block pool with allocatorID 16 => poolID 47 - OK (0)
+10-27 16:34:20.360  7800  7800 D CompositionPlayer-0:   period [146.30]
+10-27 16:34:20.360  7800  7800 D CompositionPlayer-0:   window [146.30, seekable=true, dynamic=false]
+10-27 16:34:20.360  7800  7800 D CompositionPlayer-0: ]
+10-27 16:34:20.361  7800 16894 I CCodecBufferChannel: [c2.android.aac.decoder#787] Created output block pool with allocatorID 16 => poolID 50 - OK
+10-27 16:34:20.361  7800 16894 D CCodecBufferChannel: [c2.android.aac.decoder#787] Configured output block pool ids 50 => OK
+10-27 16:34:20.361  7800  7826 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8ce578 : 0(0 size) total buffers - 0(0 size) used buffers - 54/60 (recycle/alloc) - 6/55 (fetch/transfer)
+10-27 16:34:20.361  7800  7826 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7c342e8ce578 cached: 0/0M, 0/0% in use; allocs: 60, 90% recycled; transfers: 55, 89% unfetched
+10-27 16:34:20.361  7800  7826 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8c6ae8 : 0(0 size) total buffers - 0(0 size) used buffers - 65/72 (recycle/alloc) - 7/57 (fetch/transfer)
+10-27 16:34:20.361  7800  7826 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7c342e8c6ae8 cached: 0/0M, 0/0% in use; allocs: 72, 90% recycled; transfers: 57, 88% unfetched
+10-27 16:34:20.362   356   356 E SurfaceFlinger: Attempt to set frame rate on an unrecognized IGraphicBufferProducer
+10-27 16:34:20.363   448 16895 D SimpleC2Component: Using output block pool with poolID 50 => got 50 - 0
+10-27 16:34:20.368  7800  7800 D CompositionPlayer-0: downstreamFormat [eventTime=3.21, mediaPos=0.00, window=0, period=0, id=2, mimeType=audio/mp4a-latm, container=video/mp4, bitrate=64287, codecs=mp4a.40.2, channels=1, sample_rate=44100, language=und]
+10-27 16:34:20.368  7800  7800 D CompositionPlayer-0: downstreamFormat [eventTime=0.05, mediaPos=0.00, window=0, period=0, id=2, mimeType=audio/mp4a-latm, container=video/mp4, bitrate=64287, codecs=mp4a.40.2, channels=1, sample_rate=44100, language=und]
+10-27 16:34:20.369  7800  7800 D CompositionPlayer-0: audioDecoderInitialized [eventTime=3.21, mediaPos=0.00, window=0, period=0, c2.android.aac.decoder]
+10-27 16:34:20.369  7800  7800 D CompositionPlayer-0: audioDecoderInitialized [eventTime=0.05, mediaPos=0.00, window=0, period=0, c2.android.aac.decoder]
+10-27 16:34:20.370  7800  7800 D CompositionPlayer-0: audioInputFormat [eventTime=3.21, mediaPos=0.00, window=0, period=0, id=2, mimeType=audio/mp4a-latm, container=video/mp4, bitrate=64287, codecs=mp4a.40.2, channels=1, sample_rate=44100, language=und]
+10-27 16:34:20.370  7800  7800 D CompositionPlayer-0: audioInputFormat [eventTime=0.05, mediaPos=0.00, window=0, period=0, id=2, mimeType=audio/mp4a-latm, container=video/mp4, bitrate=64287, codecs=mp4a.40.2, channels=1, sample_rate=44100, language=und]
+10-27 16:34:20.370  7800  7800 D CompositionPlayer-0: rendererReady [eventTime=3.21, mediaPos=0.00, window=0, period=0, rendererIndex=0, audio, true]
+10-27 16:34:20.371  7800  7800 D CompositionPlayer-0: rendererReady [eventTime=0.05, mediaPos=0.00, window=0, period=0, rendererIndex=0, audio, true]
+10-27 16:34:20.372  7800  7800 D CompositionPlayer-0: downstreamFormat [eventTime=3.21, mediaPos=0.00, window=0, period=0, id=1, mimeType=video/avc, container=video/mp4, bitrate=1139291, codecs=avc1.42C01E, res=640x360, color=NA/NA/NA/8/8, fps=24.000002, language=und]
+10-27 16:34:20.372  7800  7800 D CompositionPlayer-0: downstreamFormat [eventTime=0.05, mediaPos=0.00, window=0, period=0, id=1, mimeType=video/avc, container=video/mp4, bitrate=1139291, codecs=avc1.42C01E, res=640x360, color=NA/NA/NA/8/8, fps=24.000002, language=und]
+10-27 16:34:20.378  7800 16898 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_vulkan_queue_submit_with_commands ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_multi_configs ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0
+10-27 16:34:20.380  7800 16898 D EGL_emulation: eglCreateContext: 0x7c33de8c73d0: maj 3 min 0 rcv 3
+10-27 16:34:20.381  7800 16898 D EGL_emulation: eglMakeCurrent: 0x7c33de8c73d0: ver 3 0 (tinfo 0x7c35eea72100) (first time)
+10-27 16:34:20.382  7800 16898 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+10-27 16:34:20.382  7800 16898 E EGL_emulation: tid 16898: eglQueryContext(2122): error 0x3004 (EGL_BAD_ATTRIBUTE)
+10-27 16:34:20.383  7800 16891 I DMCodecAdapterFactory: Creating an asynchronous MediaCodec adapter for track type video
+10-27 16:34:20.384  7800 16900 D CCodec  : allocate(c2.goldfish.h264.decoder)
+10-27 16:34:20.385  7800 16900 I CCodec  : setting up 'default' as default (vendor) store
+10-27 16:34:20.385   324 16888 I GoldfishComponentStore: in init
+10-27 16:34:20.385   324 16888 I GoldfishComponentStore: loading dll of path libcodec2_goldfish_avcdec.so
+10-27 16:34:20.385   324 16888 I GoldfishComponentStore: Create()
+10-27 16:34:20.385   324 16888 I GoldfishComponentStore: created interface
+10-27 16:34:20.386   324 16888 I GoldfishComponentStore: created component
+10-27 16:34:20.386  7800 16900 I CCodec  : Created component [c2.goldfish.h264.decoder]
+10-27 16:34:20.387  7800 16900 D CCodecConfig: read media type: video/avc
+10-27 16:34:20.388  7800 16900 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.max-count.values
+10-27 16:34:20.389  7800 16900 D ReflectedParamUpdater: extent() != 1 for single value type: output.subscribed-indices.values
+10-27 16:34:20.389  7800 16900 D ReflectedParamUpdater: extent() != 1 for single value type: input.buffers.allocator-ids.values
+10-27 16:34:20.389  7800 16900 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.allocator-ids.values
+10-27 16:34:20.389  7800 16900 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.allocator-ids.values
+10-27 16:34:20.389  7800 16900 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.pool-ids.values
+10-27 16:34:20.389  7800 16900 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.pool-ids.values
+10-27 16:34:20.390  7800 16900 D ReflectedParamUpdater: ignored struct field coded.color-format.locations
+10-27 16:34:20.391  7800 16900 D CCodecConfig: ignoring local param raw.size (0xd2001800) as it is already supported
+10-27 16:34:20.391  7800 16900 D CCodecConfig: ignoring local param default.color (0x5200180b) as it is already supported
+10-27 16:34:20.391  7800 16900 D ReflectedParamUpdater: ignored struct field raw.hdr-static-info.mastering
+10-27 16:34:20.392  7800 16900 I CCodecConfig: query failed after returning 12 values (BAD_INDEX)
+10-27 16:34:20.392  7800 16900 D CCodecConfig: c2 config diff is Dict {
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 coded.pl.level = 20496
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 coded.pl.profile = 20481
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 coded.vui.color.matrix = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 coded.vui.color.primaries = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 coded.vui.color.range = 2
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 coded.vui.color.transfer = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 default.color.matrix = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 default.color.primaries = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 default.color.range = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 default.color.transfer = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 input.buffers.max-size.value = 6291456
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 input.delay.value = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   string input.media-type.value = "video/avc"
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 output.delay.value = 8
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   string output.media-type.value = "video/raw"
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.color.matrix = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.color.primaries = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.color.range = 2
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.color.transfer = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.max-size.height = 240
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.max-size.width = 320
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.pixel-format.value = 35
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::i32 raw.rotation.flip = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::i32 raw.rotation.value = 0
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.sar.height = 1
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.sar.width = 1
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.size.height = 240
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2::u32 raw.size.width = 320
+10-27 16:34:20.392  7800 16900 D CCodecConfig:   c2:
+10-27 16:34:20.393  7800 16900 W ColorUtils: expected specified color aspects (2:0:0:0)
+10-27 16:34:20.395  7800 16899 I MediaCodec: MediaCodec will operate in async mode
+10-27 16:34:20.396  7800 16899 D MediaCodec: flushMediametrics
+10-27 16:34:20.396  7800 16899 D SurfaceUtils: connecting to surface 0x7c34ce8c00a0, reason connectToSurface
+10-27 16:34:20.396  7800 16899 I MediaCodec: [c2.goldfish.h264.decoder] setting surface generation to 7987235
+10-27 16:34:20.396  7800 16899 D SurfaceUtils: disconnecting from surface 0x7c34ce8c00a0, reason connectToSurface(reconnect)
+10-27 16:34:20.396  7800 16899 D SurfaceUtils: connecting to surface 0x7c34ce8c00a0, reason connectToSurface(reconnect)
+10-27 16:34:20.396  7800 16899 D SurfaceUtils: legacy buffer drop disabled: target sdk (35)
+10-27 16:34:20.397  7800 16900 D CCodec  : [c2.goldfish.h264.decoder] buffers are bound to CCodec for this session
+10-27 16:34:20.397  7800 16900 D CCodecConfig: no c2 equivalents for log-session-id
+10-27 16:34:20.397  7800 16900 D CCodecConfig: no c2 equivalents for allow-frame-drop
+10-27 16:34:20.397  7800 16900 D CCodecConfig: no c2 equivalents for csd-1
+10-27 16:34:20.398  7800 16900 D CCodecConfig: no c2 equivalents for native-window
+10-27 16:34:20.398  7800 16900 D CCodecConfig: no c2 equivalents for flags
+10-27 16:34:20.398  7800 16900 D CCodecConfig: config failed => CORRUPTED
+10-27 16:34:20.398  7800 16900 D CCodecConfig: c2 config diff is   c2::u32 raw.max-size.height = 360
+10-27 16:34:20.398  7800 16900 D CCodecConfig:   c2::u32 raw.max-size.width = 640
+10-27 16:34:20.398  7800 16900 D CCodecConfig:   c2::u32 raw.size.height = 360
+10-27 16:34:20.398  7800 16900 D CCodecConfig:   c2::u32 raw.size.width = 640
+10-27 16:34:20.399  7800 16900 W Codec2Client: query -- param skipped: index = 1107298332.
+10-27 16:34:20.399  7800 16900 D CCodec  : client requested max input size 24477, which is smaller than what component recommended (6291456); overriding with component recommendation.
+10-27 16:34:20.399  7800 16900 W CCodec  : This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+10-27 16:34:20.399  7800 16900 D CCodec  : encoding statistics level = 0
+10-27 16:34:20.399  7800 16900 D CCodec  : setup formats input: AMessage(what = 0x00000000) = {
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t height = 360
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t level = 65536
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t max-input-size = 6291456
+10-27 16:34:20.399  7800 16900 D CCodec  :   string mime = "video/avc"
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t profile = 65536
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t width = 640
+10-27 16:34:20.399  7800 16900 D CCodec  :   Rect crop(0, 0, 639, 359)
+10-27 16:34:20.399  7800 16900 D CCodec  : }
+10-27 16:34:20.399  7800 16900 D CCodec  : setup formats output: AMessage(what = 0x00000000) = {
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t android._color-format = 2135033992
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t android._video-scaling = 1
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t rotation-degrees = 0
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t color-standard = 4
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t color-range = 2
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t color-transfer = 3
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t sar-height = 1
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t sar-width = 1
+10-27 16:34:20.399  7800 16900 D CCodec  :   Rect crop(0, 0, 639, 359)
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t width = 640
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t height = 360
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t max-height = 360
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t max-width = 640
+10-27 16:34:20.399  7800 16900 D CCodec  :   string mime = "video/raw"
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t android._dataspace = 259
+10-27 16:34:20.399  7800 16900 D CCodec  :   int32_t color-format = 2130708361
+10-27 16:34:20.399  7800 16900 D CCodec  : }
+10-27 16:34:20.400  7800 16900 I CCodecConfig: query failed after returning 12 values (BAD_INDEX)
+10-27 16:34:20.401  7800 16891 D MediaCodec: keep callback message for reclaim
+10-27 16:34:20.401   324 16901 D C2GoldfishAvcDec: calling onInit
+10-27 16:34:20.401  7800 16900 W Codec2Client: query -- param skipped: index = 1342179345.
+10-27 16:34:20.401  7800 16900 W Codec2Client: query -- param skipped: index = 2415921170.
+10-27 16:34:20.401  7800 16900 W Codec2Client: query -- param skipped: index = 1610614798.
+10-27 16:34:20.401  7800 16900 W Codec2Client: query -- param skipped: index = 2684356609.
+10-27 16:34:20.402  7800 16900 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] Created input block pool with allocatorID 16 => poolID 48 - OK (0)
+10-27 16:34:20.403  7800 16900 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] Query output surface allocator returned 0 params => BAD_INDEX (6)
+10-27 16:34:20.404  7800 16900 I CCodecBufferChannel: [c2.goldfish.h264.decoder#907] Created output block pool with allocatorID 18 => poolID 29 - OK
+10-27 16:34:20.404  7800 16900 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] Configured output block pool ids 29 => OK
+10-27 16:34:20.404  7800 16900 D Codec2-OutputBufferQueue: remote graphic buffer migration 0/0
+10-27 16:34:20.405  7800 16900 D Codec2Client: setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+10-27 16:34:20.405  7800 16900 D Codec2Client: setOutputSurface -- generation=7987235 consumer usage=0x900
+10-27 16:34:20.406   324   371 D C2BqBuffer: local generation change 7987235 , bqId: 33500744908837 migrated buffers # 0
+10-27 16:34:20.406  7800 16900 D Codec2Client: Surface configure completed
+10-27 16:34:20.408   443  3233 W ResourceManagerService: Ignoring request to add new resource entry with value <= 0
+10-27 16:34:20.408  7800  7826 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8c5ab8 : 0(0 size) total buffers - 0(0 size) used buffers - 29/36 (recycle/alloc) - 7/23 (fetch/transfer)
+10-27 16:34:20.408  7800  7826 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7c342e8c5ab8 cached: 0/0M, 0/0% in use; allocs: 36, 81% recycled; transfers: 23, 70% unfetched
+10-27 16:34:20.409  7800  7826 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8ca958 : 0(0 size) total buffers - 0(0 size) used buffers - 17/22 (recycle/alloc) - 6/18 (fetch/transfer)
+10-27 16:34:20.409  7800  7826 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7c342e8ca958 cached: 0/0M, 0/0% in use; allocs: 22, 77% recycled; transfers: 18, 67% unfetched
+10-27 16:34:20.409  7800  7826 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7c342e8c4148 cached: 0/0M, 0/0% in use; allocs: 74, 93% recycled; transfers: 65, 92% unfetched
+10-27 16:34:20.410   324 16901 D SimpleC2Component: Using output block pool with poolID 29 => got 29 - 0
+10-27 16:34:20.412   448 16895 I C2SoftAacDec: Reconfiguring decoder: 0->44100 Hz, 0->1 channels
+10-27 16:34:20.412   324 16901 E GoldfishH264Helper: failed to call decoder function for header
+10-27 16:34:20.412   324 16901 E GoldfishH264Helper: error in decodeHeader: 0x200
+10-27 16:34:20.413   324 16901 E GoldfishH264Helper: failed to call decoder function for header
+10-27 16:34:20.413   324 16901 E GoldfishH264Helper: error in decodeHeader: 0x882
+10-27 16:34:20.413   324 16901 E GoldfishH264Helper: could not decode w/h
+10-27 16:34:20.414  7800  7800 D CompositionPlayer-0: videoDecoderInitialized [eventTime=3.26, mediaPos=0.00, window=0, period=0, c2.goldfish.h264.decoder]
+10-27 16:34:20.416  7800 16894 D CCodecConfig: c2 config diff is   c2::u32 raw.channel-mask.value = 4
+10-27 16:34:20.417  7800 16894 D CCodecBuffers: [c2.android.aac.decoder#787:Output[N]] popFromStashAndRegister: at 1000000000000us, output format changed to AMessage(what = 0x00000000) = {
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-drc-album-mode = 0
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-drc-boost-level = 127
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-drc-cut-level = 127
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-drc-effect-type = 3
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-drc-output-loudness = -1
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-encoded-target-level = -1
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-max-output-channel_count = 8
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t aac-target-ref-level = 64
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t channel-count = 1
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t channel-mask = 4
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t max-output-channel-count = 8
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   string mime = "audio/raw"
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t sample-rate = 44100
+10-27 16:34:20.417  7800 16894 D CCodecBuffers:   int32_t android._config-pcm-encoding = 2
+10-27 16:34:20.417  7800 16894 D CCodecBuffers: }
+10-27 16:34:20.417  7800  7800 D CompositionPlayer-0: videoDecoderInitialized [eventTime=0.09, mediaPos=0.00, window=0, period=0, c2.goldfish.h264.decoder]
+10-27 16:34:20.420  7800  7800 D CompositionPlayer-0: videoInputFormat [eventTime=3.26, mediaPos=0.00, window=0, period=0, id=1, mimeType=video/avc, container=video/mp4, bitrate=1139291, codecs=avc1.42C01E, res=640x360, color=NA/NA/NA/8/8, fps=24.000002, language=und]
+10-27 16:34:20.420  7800  7800 D CompositionPlayer-0: videoInputFormat [eventTime=0.10, mediaPos=0.00, window=0, period=0, id=1, mimeType=video/avc, container=video/mp4, bitrate=1139291, codecs=avc1.42C01E, res=640x360, color=NA/NA/NA/8/8, fps=24.000002, language=und]
+10-27 16:34:20.427   343   471 W AudioFlinger: createTrack_l(): mismatch between requested flags (00000008) and output flags (00000002)
+10-27 16:34:20.428   343   471 D AudioFlinger: Client defaulted notificationFrames to 5512 for frameCount 11025
+10-27 16:34:20.429   343   471 D AF::TrackHandle: OpPlayAudio: track:67 usage:1 not muted
+10-27 16:34:20.487  7800 16900 D CCodecConfig: c2 config diff is   c2::u32 raw.crop.height = 360
+10-27 16:34:20.487  7800 16900 D CCodecConfig:   c2::u32 raw.crop.left = 0
+10-27 16:34:20.487  7800 16900 D CCodecConfig:   c2::u32 raw.crop.top = 0
+10-27 16:34:20.487  7800 16900 D CCodecConfig:   c2::u32 raw.crop.width = 640
+10-27 16:34:20.601  7800  7800 D CompositionPlayer-0: loading [eventTime=3.44, mediaPos=0.00, window=0, period=0, false]
+10-27 16:34:20.602  7800  7800 D CompositionPlayer-0: loading [eventTime=0.28, mediaPos=0.00, window=0, period=0, false]
+10-27 16:34:21.294  7800  7825 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8cfc98 : 0(0 size) total buffers - 0(0 size) used buffers - 27/32 (recycle/alloc) - 6/26 (fetch/transfer)
+10-27 16:34:21.294  7800  7825 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 1
+10-27 16:34:22.294  7800  7825 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8cf108 : 0(0 size) total buffers - 0(0 size) used buffers - 199/207 (recycle/alloc) - 16/186 (fetch/transfer)
+10-27 16:34:22.295  7800  7825 D BufferPoolAccessor2.0: bufferpool2 0x7c342e8ca268 : 0(0 size) total buffers - 0(0 size) used buffers - 21/26 (recycle/alloc) - 8/25 (fetch/transfer)
+10-27 16:34:22.295  7800  7825 D BufferPoolAccessor2.0: evictor expired: 2, evicted: 2
+10-27 16:34:22.297   448   799 D BufferPoolAccessor2.0: bufferpool2 0x7f1a2e0a53a8 : 0(0 size) total buffers - 0(0 size) used buffers - 176/180 (recycle/alloc) - 13/180 (fetch/transfer)
+10-27 16:34:22.297   448   799 D BufferPoolAccessor2.0: evictor expired: 2, evicted: 1
+10-27 16:34:22.492  7800  7800 D CompositionPlayer-0: rendererReady [eventTime=5.33, mediaPos=0.00, window=0, period=0, rendererIndex=1, video, true]
+10-27 16:34:22.492  7800  7800 D CompositionPlayer-0: rendererReady [eventTime=2.17, mediaPos=0.00, window=0, period=0, rendererIndex=1, video, true]
+10-27 16:34:22.492  7800  7800 D CompositionPlayer-0: state [eventTime=5.33, mediaPos=0.00, window=0, period=0, READY]
+10-27 16:34:22.493  7800  7800 D CompositionPlayer-0: state [eventTime=2.17, mediaPos=0.00, window=0, period=0, READY]
+10-27 16:34:22.656  7800  7800 I ExoPlayerImpl: Release 2b00538 [AndroidXMedia3/1.8.0] [emu64x, sdk_gphone64_x86_64, Google, 33] [media3.common, media3.transformer, media3.exoplayer, media3.decoder, media3.datasource, media3.extractor, media3.effect]
+10-27 16:34:22.658  7800 16894 D CCodecBuffers: [c2.android.aac.decoder#787:1D-Output.Impl[N]] Client returned a buffer it does not own according to our record: 0
+10-27 16:34:22.658  7800 16894 D CCodecBuffers: [c2.android.aac.decoder#787:1D-Output.Impl[N]] Client returned a buffer it does not own according to our record: 1
+10-27 16:34:22.658  7800 16891 D MediaCodec: keep callback message for reclaim
+10-27 16:34:22.658  7800 16894 I CCodecConfig: query failed after returning 20 values (BAD_INDEX)
+10-27 16:34:22.659  7800 16894 W Codec2Client: query -- param skipped: index = 1342179345.
+10-27 16:34:22.659  7800 16894 W Codec2Client: query -- param skipped: index = 2415921170.
+10-27 16:34:22.659  7800 16894 W Codec2Client: query -- param skipped: index = 1610614798.
+10-27 16:34:22.661   448   819 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7f1a2e0a53a8 cached: 0/0M, 0/0% in use; allocs: 180, 98% recycled; transfers: 180, 93% unfetched
+10-27 16:34:22.662  7800 16891 D MediaCodec: keep callback message for reclaim
+10-27 16:34:22.662  7800 16899 I CCodecConfig: query failed after returning 12 values (BAD_INDEX)
+10-27 16:34:22.662  7800 16899 W Codec2Client: query -- param skipped: index = 1342179345.
+10-27 16:34:22.662  7800 16899 W Codec2Client: query -- param skipped: index = 2415921170.
+10-27 16:34:22.663  7800 16899 W Codec2Client: query -- param skipped: index = 1610614798.
+10-27 16:34:22.667   324 16901 D SimpleC2Component: work form old generation: was 1 now 0
+10-27 16:34:22.668  7800  7826 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] Ignoring stale input buffer done callback: last flush index = 26, frameIndex = 22
+10-27 16:34:22.669  7800 16900 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] flushed work; ignored.
+10-27 16:34:22.669  7800 16900 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] Discard frames from previous generation.
+10-27 16:34:22.671  7800 16906 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_vulkan_queue_submit_with_commands ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_multi_configs ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0
+10-27 16:34:22.672  7800 16906 D EGL_emulation: eglCreateContext: 0x7c33de8c1610: maj 3 min 0 rcv 3
+10-27 16:34:22.673  7800 16906 D EGL_emulation: eglMakeCurrent: 0x7c33de8c1610: ver 3 0 (tinfo 0x7c35eea72380) (first time)
+10-27 16:34:22.674  7800 16906 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+10-27 16:34:22.675  7800 16906 E EGL_emulation: tid 16906: eglQueryContext(2122): error 0x3004 (EGL_BAD_ATTRIBUTE)
+10-27 16:34:22.675  7800 16899 D SurfaceUtils: connecting to surface 0x7c34ce8ccd00, reason connectToSurface
+10-27 16:34:22.675  7800 16899 I MediaCodec: [c2.goldfish.h264.decoder] setting surface generation to 7987236
+10-27 16:34:22.675  7800 16899 D SurfaceUtils: disconnecting from surface 0x7c34ce8ccd00, reason connectToSurface(reconnect)
+10-27 16:34:22.676  7800 16899 D SurfaceUtils: connecting to surface 0x7c34ce8ccd00, reason connectToSurface(reconnect)
+10-27 16:34:22.676  7800 16899 D SurfaceUtils: legacy buffer drop disabled: target sdk (35)
+10-27 16:34:22.677  7800 16899 D Codec2-OutputBufferQueue: remote graphic buffer migration 0/0
+10-27 16:34:22.677  7800 16899 D Codec2Client: setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+10-27 16:34:22.677  7800 16899 D Codec2Client: setOutputSurface -- generation=7987236 consumer usage=0x900
+10-27 16:34:22.680   324 16888 D C2BqBuffer: local generation change 7987236 , bqId: 33500744908838 migrated buffers # 0
+10-27 16:34:22.680  7800 16899 D Codec2Client: Surface configure completed
+10-27 16:34:22.680  7800 16899 D SurfaceUtils: disconnecting from surface 0x7c34ce8c00a0, reason disconnectFromSurface
+10-27 16:34:22.683  7800 16894 D CCodecBufferChannel: [c2.android.aac.decoder#787] MediaCodec discarded an unknown buffer
+10-27 16:34:22.683  7800 16894 D CCodecBufferChannel: [c2.android.aac.decoder#787] MediaCodec discarded an unknown buffer
+10-27 16:34:22.683  7800 16894 D CCodecBufferChannel: [c2.android.aac.decoder#787] MediaCodec discarded an unknown buffer
+10-27 16:34:22.683  7800 16894 D CCodecBufferChannel: [c2.android.aac.decoder#787] MediaCodec discarded an unknown buffer
+10-27 16:34:22.683  7800 16894 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+10-27 16:34:22.684  7800 16899 D SurfaceUtils: connecting to surface 0x7c34ce8d5540, reason connectToSurface
+10-27 16:34:22.684  7800 16899 I MediaCodec: [c2.goldfish.h264.decoder] setting surface generation to 7987237
+10-27 16:34:22.684  7800 16899 D SurfaceUtils: disconnecting from surface 0x7c34ce8d5540, reason connectToSurface(reconnect)
+10-27 16:34:22.684  7800 16899 D SurfaceUtils: connecting to surface 0x7c34ce8d5540, reason connectToSurface(reconnect)
+10-27 16:34:22.684  7800 16899 D SurfaceUtils: legacy buffer drop disabled: target sdk (35)
+10-27 16:34:22.684  7800 16899 D Codec2-OutputBufferQueue: remote graphic buffer migration 0/0
+10-27 16:34:22.684  7800 16899 D Codec2Client: setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+10-27 16:34:22.684  7800 16899 D Codec2Client: setOutputSurface -- generation=7987237 consumer usage=0x900
+10-27 16:34:22.687   448 16602 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+10-27 16:34:22.687   448 16602 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+10-27 16:34:22.688   448 16602 V C2Store : in ~ComponentModule
+10-27 16:34:22.688   448 16602 V C2Store : unloading dll
+10-27 16:34:22.689  7800 16894 D MediaCodec: flushMediametrics
+10-27 16:34:22.690   324 16888 D C2BqBuffer: local generation change 7987237 , bqId: 33500744908839 migrated buffers # 0
+10-27 16:34:22.690  7800 16899 D Codec2Client: Surface configure completed
+10-27 16:34:22.690  7800 16899 D SurfaceUtils: disconnecting from surface 0x7c34ce8ccd00, reason disconnectFromSurface
+10-27 16:34:22.691  7800 16894 D MediaCodec: flushMediametrics
+10-27 16:34:22.691  7800 16899 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] MediaCodec discarded an unknown buffer
+10-27 16:34:22.691  7800 16899 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] MediaCodec discarded an unknown buffer
+10-27 16:34:22.691  7800 16899 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] MediaCodec discarded an unknown buffer
+10-27 16:34:22.691  7800 16899 D CCodecBufferChannel: [c2.goldfish.h264.decoder#907] MediaCodec discarded an unknown buffer
+10-27 16:34:22.693   324 16888 D C2BqBuffer: configuring null producer: igbp_information(0)
+10-27 16:34:22.694   324 16888 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+10-27 16:34:22.694   324 16888 I GoldfishComponentStore: in ~ComponentModule
+10-27 16:34:22.694   324 16888 I GoldfishComponentStore: unloading dll
+10-27 16:34:22.694  7800 16900 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+10-27 16:34:22.699  7800 16899 D SurfaceUtils: disconnecting from surface 0x7c34ce8d5540, reason disconnectFromSurface
+10-27 16:34:22.703  7800 16899 D MediaCodec: flushMediametrics
+10-27 16:34:22.704  7800 16899 D MediaCodec: flushMediametrics
+10-27 16:34:22.710  7800  7815 I TestRunner: finished: aBrokenSourceShowsAnErrorInsteadOfAnEndlessBlackScreenAndRecovers(com.vanta.studio.PreviewInstrumentedTest)

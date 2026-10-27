@@ -1,0 +1,2 @@
+10-27 16:33:20.979  7800  7815 I TestRunner: started: emptyProjectFailsCleanly(com.vanta.studio.ExportInstrumentedTest)
+10-27 16:33:20.981  7800  7815 I TestRunner: finished: emptyProjectFailsCleanly(com.vanta.studio.ExportInstrumentedTest)

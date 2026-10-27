@@ -1,0 +1,2 @@
+10-27 16:33:20.974  7800  7815 I TestRunner: started: missingSourceFailsCleanly(com.vanta.studio.ExportInstrumentedTest)
+10-27 16:33:20.978  7800  7815 I TestRunner: finished: missingSourceFailsCleanly(com.vanta.studio.ExportInstrumentedTest)

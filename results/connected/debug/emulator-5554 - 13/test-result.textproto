@@ -1,0 +1,749 @@
+# proto-message: google.testing.platform.proto.api.core.TestSuiteResult
+# 2026-10-27T16:34:58.603461661Z:
+test_suite_meta_data {
+  scheduled_test_case_count: 13
+  device {
+    id: "emulator-5554"
+    friendly_name: "primary"
+  }
+}
+test_status: PASSED
+test_result {
+  test_case {
+    test_class: "AiInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "analysesARealSongFileAndSyncsFlashesToIt"
+    start_time {
+      seconds: 1793118773
+      nanos: 904000000
+    }
+    end_time {
+      seconds: 1793118786
+      nanos: 481000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.AiInstrumentedTest-analysesARealSongFileAndSyncsFlashesToIt.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "AiInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "flashesAreInTheExportAtTheRightMoments"
+    start_time {
+      seconds: 1793118786
+      nanos: 500000000
+    }
+    end_time {
+      seconds: 1793118793
+      nanos: 76000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.AiInstrumentedTest-flashesAreInTheExportAtTheRightMoments.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "ExportInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "exportsVideoSplitWithSpeedChange"
+    start_time {
+      seconds: 1793118793
+      nanos: 79000000
+    }
+    end_time {
+      seconds: 1793118801
+      nanos: 180000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.ExportInstrumentedTest-exportsVideoSplitWithSpeedChange.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "ExportInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "missingSourceFailsCleanly"
+    start_time {
+      seconds: 1793118801
+      nanos: 182000000
+    }
+    end_time {
+      seconds: 1793118801
+      nanos: 183000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.ExportInstrumentedTest-missingSourceFailsCleanly.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "ExportInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "emptyProjectFailsCleanly"
+    start_time {
+      seconds: 1793118801
+      nanos: 186000000
+    }
+    end_time {
+      seconds: 1793118801
+      nanos: 186000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.ExportInstrumentedTest-emptyProjectFailsCleanly.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "ExportInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "exportsStillWithFilterAndText"
+    start_time {
+      seconds: 1793118801
+      nanos: 189000000
+    }
+    end_time {
+      seconds: 1793118804
+      nanos: 778000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.ExportInstrumentedTest-exportsStillWithFilterAndText.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "InsightInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "theLoudMovingStretchIsFoundInALongQuietClip"
+    start_time {
+      seconds: 1793118804
+      nanos: 780000000
+    }
+    end_time {
+      seconds: 1793118819
+      nanos: 991000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.InsightInstrumentedTest-theLoudMovingStretchIsFoundInALongQuietClip.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "InsightInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "aDarkQuietVideoGetsRealSuggestionsAndTheExportIsBrighter"
+    start_time {
+      seconds: 1793118819
+      nanos: 993000000
+    }
+    end_time {
+      seconds: 1793118833
+      nanos: 39000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.InsightInstrumentedTest-aDarkQuietVideoGetsRealSuggestionsAndTheExportIsBrighter.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "PreviewInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "longVideoShowsFirstFramePlaysPausesSeeksAndSteps"
+    start_time {
+      seconds: 1793118833
+      nanos: 41000000
+    }
+    end_time {
+      seconds: 1793118840
+      nanos: 521000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.PreviewInstrumentedTest-longVideoShowsFirstFramePlaysPausesSeeksAndSteps.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "PreviewInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "reopeningTheSavedProjectStillPlaysAndTheMediaIsStillThere"
+    start_time {
+      seconds: 1793118840
+      nanos: 523000000
+    }
+    end_time {
+      seconds: 1793118846
+      nanos: 25000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.PreviewInstrumentedTest-reopeningTheSavedProjectStillPlaysAndTheMediaIsStillThere.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "PreviewInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "switchingToAVerticalClipKeepsAspectAndTheRightPicture"
+    start_time {
+      seconds: 1793118846
+      nanos: 28000000
+    }
+    end_time {
+      seconds: 1793118857
+      nanos: 165000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.PreviewInstrumentedTest-switchingToAVerticalClipKeepsAspectAndTheRightPicture.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "PreviewInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "aBrokenSourceShowsAnErrorInsteadOfAnEndlessBlackScreenAndRecovers"
+    start_time {
+      seconds: 1793118857
+      nanos: 167000000
+    }
+    end_time {
+      seconds: 1793118862
+      nanos: 918000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.PreviewInstrumentedTest-aBrokenSourceShowsAnErrorInsteadOfAnEndlessBlackScreenAndRecovers.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "SubtitlesInstrumentedTest"
+    test_package: "com.vanta.studio"
+    test_method: "spanishSpeechBecomesEditableBurntInSubtitles"
+    start_time {
+      seconds: 1793118862
+      nanos: 920000000
+    }
+    end_time {
+      seconds: 1793118897
+      nanos: 554000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/logcat-com.vanta.studio.SubtitlesInstrumentedTest-spanishSpeechBecomesEditableBurntInSubtitles.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/cpuinfo"
+    }
+  }
+}
+output_artifact {
+  label {
+    label: "test-results.log"
+    namespace: "com.google.testing.platform.runtime.android.driver.AndroidInstrumentationDriver"
+  }
+  source_path {
+    path: "/home/runner/work/edici-n-de-video-app/edici-n-de-video-app/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 13/testlog/test-results.log"
+  }
+  type: TEST_DATA
+  mime_type: "text/plain"
+}

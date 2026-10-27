@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.vanta.studio.AiInstrumentedTest" tests="13" failures="0" errors="0" skipped="0" time="124.604" timestamp="2026-10-27T16:34:58" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5554 - 13" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="analysesARealSongFileAndSyncsFlashesToIt" classname="com.vanta.studio.AiInstrumentedTest" time="12.538" />
+  <testcase name="flashesAreInTheExportAtTheRightMoments" classname="com.vanta.studio.AiInstrumentedTest" time="6.569" />
+  <testcase name="exportsVideoSplitWithSpeedChange" classname="com.vanta.studio.ExportInstrumentedTest" time="8.098" />
+  <testcase name="missingSourceFailsCleanly" classname="com.vanta.studio.ExportInstrumentedTest" time="0.005" />
+  <testcase name="emptyProjectFailsCleanly" classname="com.vanta.studio.ExportInstrumentedTest" time="0.001" />
+  <testcase name="exportsStillWithFilterAndText" classname="com.vanta.studio.ExportInstrumentedTest" time="3.588" />
+  <testcase name="theLoudMovingStretchIsFoundInALongQuietClip" classname="com.vanta.studio.InsightInstrumentedTest" time="15.212" />
+  <testcase name="aDarkQuietVideoGetsRealSuggestionsAndTheExportIsBrighter" classname="com.vanta.studio.InsightInstrumentedTest" time="13.049" />
+  <testcase name="longVideoShowsFirstFramePlaysPausesSeeksAndSteps" classname="com.vanta.studio.PreviewInstrumentedTest" time="7.483" />
+  <testcase name="reopeningTheSavedProjectStillPlaysAndTheMediaIsStillThere" classname="com.vanta.studio.PreviewInstrumentedTest" time="5.501" />
+  <testcase name="switchingToAVerticalClipKeepsAspectAndTheRightPicture" classname="com.vanta.studio.PreviewInstrumentedTest" time="11.14" />
+  <testcase name="aBrokenSourceShowsAnErrorInsteadOfAnEndlessBlackScreenAndRecovers" classname="com.vanta.studio.PreviewInstrumentedTest" time="5.752" />
+  <testcase name="spanishSpeechBecomesEditableBurntInSubtitles" classname="com.vanta.studio.SubtitlesInstrumentedTest" time="34.635" />
+</testsuite>
