@@ -26,7 +26,7 @@ object Vanta {
     val AccentDim = Color(0xFF2E2560)
     val Text = Color(0xFFF2F2F7)
     val TextDim = Color(0xFFA3A3B0)
-    val TextFaint = Color(0xFF6C6C79)
+    val TextFaint = Color(0xFF8C8C9A)
     val Danger = Color(0xFFFF5C7A)
     val Success = Color(0xFF4ADE80)
     val Warning = Color(0xFFFFB547)
@@ -91,5 +91,11 @@ val TimecodeStyle = TextStyle(fontFamily = FontFamily.Monospace, fontSize = 12.s
 
 @Composable
 fun VantaTheme(content: @Composable () -> Unit) {
-    MaterialTheme(colorScheme = scheme, typography = typography, shapes = shapes, content = content)
+    MaterialTheme(colorScheme = scheme, typography = typography, shapes = shapes) {
+        // Text outside a Surface would otherwise fall back to black on the dark background.
+        androidx.compose.runtime.CompositionLocalProvider(
+            androidx.compose.material3.LocalContentColor provides Vanta.Text,
+            content = content,
+        )
+    }
 }

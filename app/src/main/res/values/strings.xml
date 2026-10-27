@@ -572,4 +572,8 @@
     <string name="tpl_nostalgia">Nostalgia</string>
     <string name="tpl_music_clip">Music clip</string>
     <string name="tpl_interview">Interview / podcast</string>
+    <string name="preview_loading">Preparing preview…</string>
+    <string name="preview_failed_title">The preview could not be prepared</string>
+    <string name="preview_failed_text">Your video and project are untouched. You can retry; if it keeps happening, the detail below helps diagnose it.</string>
+    <string name="action_retry">Retry</string>
 </resources>

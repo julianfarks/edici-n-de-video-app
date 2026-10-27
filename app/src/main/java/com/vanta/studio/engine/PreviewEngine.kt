@@ -1,7 +1,9 @@
 package com.vanta.studio.engine
 
 import android.content.Context
+import android.view.Surface
 import android.view.SurfaceView
+import androidx.media3.common.C
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.transformer.CompositionPlayer
@@ -47,6 +49,10 @@ class PreviewEngine(
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
 
+    /** True once the player has drawn a frame of the current composition on the surface. */
+    private val _firstFrame = MutableStateFlow(false)
+    val firstFrame: StateFlow<Boolean> = _firstFrame.asStateFlow()
+
     private val _building = MutableStateFlow(false)
     val building: StateFlow<Boolean> = _building.asStateFlow()
 
@@ -59,12 +65,19 @@ class PreviewEngine(
     private var lastSeekAt = 0L
     private var hasComposition = false
     private var released = false
+    private var lastProject: Project? = null
+    private var lastShortSide = 0
+    private var buildSerial = 0
 
     init {
         player.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 _isPlaying.value = isPlaying
                 if (isPlaying) startTicker() else syncPosition()
+            }
+
+            override fun onRenderedFirstFrame() {
+                _firstFrame.value = true
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
@@ -76,6 +89,7 @@ class PreviewEngine(
 
             override fun onPlayerError(error: PlaybackException) {
                 _error.value = error.errorCodeName + (error.message?.let { ": $it" } ?: "")
+                _isPlaying.value = false
                 structuralKey = null
             }
         })
@@ -89,9 +103,25 @@ class PreviewEngine(
         if (!released) player.clearVideoSurfaceView(view)
     }
 
+    /** Plain-surface variant, used by tests that render without a visible window. */
+    fun attachSurface(surface: Surface) {
+        if (!released) player.setVideoSurface(surface)
+    }
+
+    /** Rebuilds the preview after a failure, with the latest project. */
+    fun retry() {
+        val p = lastProject ?: return
+        _error.value = null
+        structuralKey = null
+        hasComposition = false
+        update(p, lastShortSide)
+    }
+
     /** Feeds the latest project. Cheap to call after every edit. */
     fun update(project: Project, shortSide: Int) {
         if (released) return
+        lastProject = project
+        lastShortSide = shortSide
         val l = live ?: LiveProject(project).also { live = it }
         l.project = project
         durationUs = Timeline.totalDurationUs(project)
@@ -110,8 +140,10 @@ class PreviewEngine(
         if (project.clips.isEmpty()) {
             player.pause()
             hasComposition = false
+            _firstFrame.value = false
             return
         }
+        val serial = ++buildSerial
         buildJob = scope.launch {
             delay(100)
             _building.value = true
@@ -120,9 +152,11 @@ class PreviewEngine(
                 val composition = withContext(Dispatchers.Default) {
                     factory.build(project, CompositionFactory.Mode.Preview(w, h), l, sync)
                 }
+                if (serial != buildSerial) return@launch
                 val wasPlaying = player.isPlaying
-                val pos = min(_positionUs.value, durationUs)
+                val pos = min(_positionUs.value, durationUs).coerceAtLeast(0)
                 _error.value = null
+                _firstFrame.value = false
                 player.setComposition(composition)
                 player.prepare()
                 hasComposition = true
@@ -131,7 +165,8 @@ class PreviewEngine(
                 if (wasPlaying) player.play()
             } catch (e: Exception) {
                 if (e is kotlinx.coroutines.CancellationException) throw e
-                _error.value = e.message ?: e.javaClass.simpleName
+                _error.value = e.javaClass.simpleName + (e.message?.let { ": $it" } ?: "")
+                hasComposition = false
                 structuralKey = null
             } finally {
                 _building.value = false
@@ -140,7 +175,12 @@ class PreviewEngine(
     }
 
     fun togglePlay() {
-        if (released || !hasComposition) return
+        if (released) return
+        if (_error.value != null) {
+            retry()
+            return
+        }
+        if (!hasComposition) return
         if (player.isPlaying) {
             player.pause()
         } else {
@@ -158,19 +198,22 @@ class PreviewEngine(
      * coalesced so the latest position always wins.
      */
     fun seekTo(positionUs: Long, immediate: Boolean = false) {
-        val target = positionUs.coerceIn(0, durationUs)
+        val target = positionUs.coerceIn(0, maxOf(durationUs, 0))
         _positionUs.value = target
         if (released || !hasComposition) return
         val now = System.currentTimeMillis()
         if (immediate || now - lastSeekAt > SEEK_INTERVAL_MS) {
+            // A newer position replaces any older one still waiting to be applied.
+            pendingSeekUs = null
             doSeek(target)
         } else {
             pendingSeekUs = target
             if (seekJob?.isActive != true) {
                 seekJob = scope.launch {
                     delay(SEEK_INTERVAL_MS)
-                    pendingSeekUs?.let { doSeek(it) }
+                    val latest = pendingSeekUs
                     pendingSeekUs = null
+                    if (latest != null) doSeek(latest)
                 }
             }
         }
@@ -179,8 +222,10 @@ class PreviewEngine(
     private fun doSeek(us: Long) {
         if (released) return
         lastSeekAt = System.currentTimeMillis()
-        sync.mark(us)
-        player.seekTo(us / 1000)
+        // Never ask the player for a position outside the composition.
+        val safe = us.coerceIn(0, maxOf(durationUs, 0))
+        sync.mark(safe)
+        player.seekTo(safe / 1000)
     }
 
     /** Redraws the current frame so a parameter change becomes visible while paused. */
@@ -200,7 +245,10 @@ class PreviewEngine(
     }
 
     private fun syncPosition() {
-        if (!released && hasComposition) _positionUs.value = (player.currentPosition * 1000).coerceIn(0, durationUs)
+        if (released || !hasComposition) return
+        val ms = player.currentPosition
+        if (ms == C.TIME_UNSET || ms < 0) return
+        _positionUs.value = (ms * 1000).coerceIn(0, durationUs)
     }
 
     fun release() {

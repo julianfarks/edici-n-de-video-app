@@ -32,6 +32,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
@@ -158,6 +159,7 @@ private fun EditorScreen(vm: EditorViewModel, state: EditorState, container: App
     val playing by vm.engine.isPlaying.collectAsStateWithLifecycle()
     val building by vm.engine.building.collectAsStateWithLifecycle()
     val engineError by vm.engine.error.collectAsStateWithLifecycle()
+    val firstFrame by vm.engine.firstFrame.collectAsStateWithLifecycle()
     val settings by vm.settings.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -234,20 +236,10 @@ private fun EditorScreen(vm: EditorViewModel, state: EditorState, container: App
                         onPoseChange = { f -> vm.applyPose(f) },
                         onGestureEnd = vm::endGesture,
                     )
-                    engineError?.let { err ->
-                        Text(
-                            stringResource(R.string.preview_error, err),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Vanta.Danger,
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(8.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(Color(0xCC000000))
-                                .padding(8.dp),
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis,
-                        )
+                    if (engineError != null) {
+                        PreviewErrorCard(engineError.orEmpty(), onRetry = vm.engine::retry)
+                    } else if (!firstFrame) {
+                        PreviewLoading()
                     }
                 }
                 if (state.busy) {
@@ -412,19 +404,65 @@ private fun SourceRow(icon: ImageVector, title: String, hint: String, onClick: (
 
 @Composable
 private fun TipBanner(onDismiss: () -> Unit, modifier: Modifier) {
+    // A one-off hint: it goes away by itself and never comes back once seen or closed.
+    LaunchedEffect(Unit) {
+        kotlinx.coroutines.delay(8_000)
+        onDismiss()
+    }
     Row(
         modifier
             .padding(8.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xE61E1A3A))
+            .background(Color(0xF21E1A3A))
             .border(1.dp, Vanta.AccentDim, RoundedCornerShape(12.dp))
-            .clickable(onClick = onDismiss)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
+            .padding(start = 12.dp, top = 2.dp, bottom = 2.dp, end = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(Icons.Rounded.AutoAwesome, null, tint = Vanta.AccentBright, modifier = Modifier.size(16.dp))
         Spacer(Modifier.width(8.dp))
-        Text(stringResource(R.string.tip_timeline), style = MaterialTheme.typography.labelSmall, color = Vanta.Text)
+        Text(stringResource(R.string.tip_timeline), style = MaterialTheme.typography.labelSmall, color = Vanta.Text, modifier = Modifier.weight(1f, fill = false))
+        IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
+            Icon(Icons.Rounded.Close, stringResource(R.string.action_close), tint = Vanta.TextDim, modifier = Modifier.size(18.dp))
+        }
+    }
+}
+
+@Composable
+private fun PreviewLoading() {
+    Column(
+        Modifier.clip(RoundedCornerShape(14.dp)).background(Color(0xCC000000)).padding(horizontal = 18.dp, vertical = 14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        CircularProgressIndicator(color = Vanta.AccentBright, strokeWidth = 2.5.dp, modifier = Modifier.size(26.dp))
+        Spacer(Modifier.height(8.dp))
+        Text(stringResource(R.string.preview_loading), style = MaterialTheme.typography.labelMedium, color = Vanta.Text)
+    }
+}
+
+/** A readable failure state: what happened, the technical detail for diagnosis, and a way to retry. */
+@Composable
+private fun PreviewErrorCard(detail: String, onRetry: () -> Unit) {
+    Column(
+        Modifier
+            .padding(24.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(Vanta.Surface2)
+            .border(1.dp, Vanta.Danger.copy(alpha = 0.5f), RoundedCornerShape(16.dp))
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(stringResource(R.string.preview_failed_title), style = MaterialTheme.typography.titleSmall, color = Vanta.Text)
+        Spacer(Modifier.height(4.dp))
+        Text(stringResource(R.string.preview_failed_text), style = MaterialTheme.typography.bodySmall, color = Vanta.TextDim)
+        Spacer(Modifier.height(6.dp))
+        Text(
+            stringResource(R.string.preview_error, detail),
+            style = MaterialTheme.typography.labelSmall, color = Vanta.Danger, maxLines = 3, overflow = TextOverflow.Ellipsis,
+        )
+        Spacer(Modifier.height(12.dp))
+        Box(
+            Modifier.clip(RoundedCornerShape(12.dp)).background(Vanta.Accent).clickable(onClick = onRetry).padding(horizontal = 20.dp, vertical = 10.dp),
+        ) { Text(stringResource(R.string.action_retry), style = MaterialTheme.typography.labelLarge, color = Color.White) }
     }
 }
 
@@ -460,7 +498,7 @@ private fun TopBar(
     Row(Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, stringResource(R.string.action_back), tint = Vanta.Text) }
         Column(Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).clickable(onClick = onRename).padding(horizontal = 6.dp, vertical = 2.dp)) {
-            Text(name, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(name, style = MaterialTheme.typography.titleSmall, color = Vanta.Text, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 val (icon, text, color) = when (state.saveStatus) {
                     SaveStatus.SAVED -> Triple(Icons.Rounded.CloudDone, R.string.status_saved, Vanta.Success)

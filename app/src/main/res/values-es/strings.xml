@@ -574,4 +574,8 @@
     <string name="tpl_nostalgia">Nostalgia</string>
     <string name="tpl_music_clip">Clip musical</string>
     <string name="tpl_interview">Entrevista / podcast</string>
+    <string name="preview_loading">Preparando vista previa…</string>
+    <string name="preview_failed_title">No se pudo preparar la vista previa</string>
+    <string name="preview_failed_text">Tu vídeo y tu proyecto siguen intactos. Puedes reintentar; si se repite, el detalle de abajo ayuda a diagnosticarlo.</string>
+    <string name="action_retry">Reintentar</string>
 </resources>

@@ -72,7 +72,7 @@ class CompositionFactory(private val context: Context) {
             buildClipItem(project, clip, starts[i], transitions[i], mode, includeAudio, live, sync)
         }
         val sequences = mutableListOf(EditedMediaItemSequence(videoItems))
-        if (includeAudio) sequences += buildAudioLanes(project, total, live, sync)
+        if (includeAudio) sequences += buildAudioLanes(project, total, live, sync, withDurations = mode is Mode.Preview)
 
         return Composition.Builder(sequences)
             .experimentalSetForceAudioTrack(includeAudio)
@@ -166,6 +166,12 @@ class CompositionFactory(private val context: Context) {
                 if (clip.isStill) {
                     setDurationUs(durationUs)
                     setFrameRate(if (mode is Mode.Export) mode.fps else project.canvas.fps)
+                } else if (mode is Mode.Preview) {
+                    // CompositionPlayer (unlike the exporter) needs the full length of every source to
+                    // work out the length of the composition. Without it each item's presentation
+                    // duration is C.TIME_UNSET and the player fails with IllegalStateException
+                    // "-9223372036854775807" while preparing.
+                    setDurationUs(sourceDurationFor(clip))
                 }
             }
             .build()
@@ -192,7 +198,7 @@ class CompositionFactory(private val context: Context) {
     }
 
     /** One audio-only sequence per lane, with silent spacers between clips. */
-    private fun buildAudioLanes(project: Project, totalUs: Long, live: LiveProject, sync: PlaybackSync): List<EditedMediaItemSequence> {
+    private fun buildAudioLanes(project: Project, totalUs: Long, live: LiveProject, sync: PlaybackSync, withDurations: Boolean): List<EditedMediaItemSequence> {
         if (project.audio.isEmpty()) return emptyList()
         Silence.trim(silenceDir)
         return project.audio.groupBy { it.lane }.toSortedMap().values.mapNotNull { laneClips ->
@@ -203,20 +209,20 @@ class CompositionFactory(private val context: Context) {
                 val start = maxOf(a.startUs, cursor)
                 val visibleDur = min(a.endUs, totalUs) - start
                 if (visibleDur < MIN_SEGMENT_US) continue
-                if (start - cursor >= MIN_SEGMENT_US) items += silenceItem(start - cursor)
-                items += audioItem(a, start, visibleDur, live, sync)
+                if (start - cursor >= MIN_SEGMENT_US) items += silenceItem(start - cursor, withDurations)
+                items += audioItem(a, start, visibleDur, live, sync, withDurations)
                 cursor = start + visibleDur
             }
             if (items.isEmpty()) {
                 null
             } else {
-                if (totalUs - cursor >= MIN_SEGMENT_US) items += silenceItem(totalUs - cursor)
+                if (totalUs - cursor >= MIN_SEGMENT_US) items += silenceItem(totalUs - cursor, withDurations)
                 EditedMediaItemSequence(items)
             }
         }
     }
 
-    private fun audioItem(a: AudioClip, timelineStartUs: Long, durationUs: Long, live: LiveProject, sync: PlaybackSync): EditedMediaItem {
+    private fun audioItem(a: AudioClip, timelineStartUs: Long, durationUs: Long, live: LiveProject, sync: PlaybackSync, withDuration: Boolean): EditedMediaItem {
         // When an earlier clip on the lane overlaps, skip the hidden head of this one.
         val skippedUs = timelineStartUs - a.startUs
         val trimStart = a.trimStartUs + skippedUs
@@ -237,12 +243,15 @@ class CompositionFactory(private val context: Context) {
         return EditedMediaItem.Builder(mediaItem)
             .setRemoveVideo(true)
             .setEffects(Effects(listOf<AudioProcessor>(gain), emptyList()))
+            .apply { if (withDuration) setDurationUs(maxOf(a.sourceDurationUs, trimStart + durationUs)) }
             .build()
     }
 
-    private fun silenceItem(durationUs: Long): EditedMediaItem {
+    private fun silenceItem(durationUs: Long, withDuration: Boolean): EditedMediaItem {
         val f = Silence.file(silenceDir, durationUs)
-        return EditedMediaItem.Builder(MediaItem.fromUri(Uri.fromFile(f))).build()
+        return EditedMediaItem.Builder(MediaItem.fromUri(Uri.fromFile(f)))
+            .apply { if (withDuration) setDurationUs(((durationUs / 1000).coerceAtLeast(1)) * 1000) }
+            .build()
     }
 
     private class ConstantSpeed(private val speed: Float) : SpeedProvider {
@@ -252,5 +261,16 @@ class CompositionFactory(private val context: Context) {
 
     companion object {
         private const val MIN_SEGMENT_US = 20_000L
+
+        /**
+         * Length of the whole source file as the player needs it. Never smaller than the part used,
+         * and never an unset or absurd value (a corrupt import must not reach Media3 as one).
+         */
+        fun sourceDurationFor(clip: Clip): Long {
+            val src = clip.sourceDurationUs
+            val used = clip.trimEndUs
+            val full = if (src <= 0 || src == Clip.UNBOUNDED || src == C.TIME_UNSET) used else src
+            return maxOf(full, used, 1L)
+        }
     }
 }

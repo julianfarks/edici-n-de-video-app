@@ -254,7 +254,11 @@ class EditorViewModel(private val c: AppContainer, private val projectId: String
 
     fun messageShown(id: Long) = _state.update { if (it.message?.id == id) it.copy(message = null) else it }
 
-    fun dismissTip() = _state.update { it.copy(showTip = false) }
+    /** Closes the hint for good (it can be turned back on in Settings). */
+    fun dismissTip() {
+        _state.update { it.copy(showTip = false) }
+        c.settings.update { it.copy(showTips = false) }
+    }
 
     // ------------------------------------------------------------------ playback
 
